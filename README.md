@@ -1,11 +1,11 @@
 yapdnsui
 ========
 
-*Yet Another PowerDNS UI ThatDoesntSuck™ (well, hopefully)*
+*Yet Another PowerDNS web interface*
 
 The ultimate goal is to produce a slick web interface to PowerDNS that
 will let you do add/remove/update domains and records in your PowerDNs
-instance via API.
+instance via PowerDNs API.
 You can also see the live configuration and live statistics for demonstration purporse.
 
 ![yapdnsui_livestats]
@@ -20,10 +20,29 @@ You can also see the live configuration and live statistics for demonstration pu
 ![yapdnsui_records]
 (https://github.com/leucos/pdnsui/raw/master/misc/screenshot_records.png)
 
-Prereqs
--------
+yapdnsui Prereqs
+----------------
 
-You need NodeJS for this to work.
+You need [NodeJS](http://nodejs.org) v0.10.x+ for this application to work.
+
+PowerDNs Prereqs
+----------------
+
+You need to enable the [PowerDNS API](https://github.com/PowerDNS/pdnsapi) on your PowerDNs instances.
+
+Configure as follows:
+```
+webserver=yes
+webserver-address=127.0.0.1
+webserver-port=8081
+webserver-password=changeme
+experimental-json-interface=yes
+```
+
+* Restart
+
+* Test
+
 
 Installing
 ----------
@@ -41,6 +60,9 @@ cd yapdnsui
 npm install
 ```
 
+* Configure the application
+
+
 * Start the application 
 
 ```bash
@@ -51,7 +73,39 @@ PORT=8080 DEBUG=yapdnsui node bin/www
 * Enjoy
 
 _Note_ : you don't need to have powerdns on the machine to try this out.
-However, you need to specify the password and hostname.
+
+Installing using Docker
+-----------------------
+
+* Install Docker
+[Install documentation of Docker](https://docs.docker.com/installation/)
+
+* Build the images
+```bash
+docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui
+or
+docker build --rm=true --no-cache=true -t https://github.com/xbgmsharp/yapdnsui
+```
+
+* Run the container
+```bash
+docker run -i --rm -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
+```
+
+Then from the shell start the application
+
+Secure yapdnsui
+---------------
+
+For security reasons, you may want to run a webserver (like Apache or nginx) in front as a reverse proxy using SSL.
+
+You can read this [HOWTO](http://blog.nachtarbeiter.net/2010/02/16/monitoring-powerdns-via-the-internal-web-server/) to see how.
+
+For security reasons, you probably want to use the same webserver for authentication.
+
+You can read this [mod_auth_ldap - Apache HTTP Server](httpd.apache.org/docs/2.0/mod/mod_auth_ldap.html)
+
+E.g. you might want use a SSL connection and authenticate your co-workers using the internal LDAP or database server of your company intranet.
 
 Contributing to yapdnsui
 ----------------------
@@ -67,8 +121,9 @@ Contributing to yapdnsui
 License
 -------
 
-This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-This is released [GPLv3](http://www.gnu.org/licenses/gpl.html), and comes without any warranty.
+This program is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl.html) as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program comes without any warranty.
 
 Credits
 -------
