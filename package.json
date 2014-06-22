@@ -2,8 +2,11 @@
   "name": "yapdnsui",
   "description": "Yet Another PowerDNS web interface",
   "author": "Francois Lacroix <xbgmsharp@gmail.com>",
-  "repository" : {"type": "git", "url": "git://github.com/xbgmsharp/yapdnsui.git"},
-  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/xbgmsharp/yapdnsui.git"
+  },
+  "version": "0.0.2",
   "license": "GPL-3.0+",
   "private": true,
   "scripts": {
