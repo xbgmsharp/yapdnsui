@@ -80,11 +80,18 @@ Installing using Docker
 * Install Docker
 [Install documentation of Docker](https://docs.docker.com/installation/)
 
-* Build the images
 ```bash
-docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui
+# cat > /etc/apt/sources.list.d/docker.list
+deb http://get.docker.io/ubuntu docker main
+```
+
+* Build the images
+It might take some time on the build while it download the origin image.
+
+```bash
+docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
 or
-docker build --rm=true --no-cache=true -t https://github.com/xbgmsharp/yapdnsui
+docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui
 ```
 
 * Run the container
@@ -130,8 +137,14 @@ Credits
 
 - yaPDNSui is built with the awesome [NodeJS](http://nodejs.org) and [Express](http://expressjs.com).
 
+- Graph [http://www.highcharts.com/] (http://www.highcharts.com/)
+
 - Layout & CSS: [http://twitter.github.com/bootstrap/] (http://twitter.github.com/bootstrap/)
 
 - Favicon from: [http://glyphicons.com/] (http://glyphicons.com/)
 
 - Apple touch icon from: [http://findicons.com/search/leaf] (http://findicons.com/search/leaf)
+
+- PowerDNS [http://www.powerdns.com/] (http://www.powerdns.com/)
+
+- Thansk to PDNSui [https://github.com/leucos/pdnsui/] (https://github.com/leucos/pdnsui/)
