@@ -99,7 +99,21 @@ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui
 
 * Run the container
 ```bash
+docker run -d -p 8080:8080 -t xbgmsharp/yapdnsui
+or
 docker run -i --rm -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
+```
+
+* check the IP
+```bash
+docker ps -a
+docker inspect CONTAINER_ID | grep IPA
+```
+
+* Login
+password is admin
+```bash
+$ ssh root@172.17.0.x
 ```
 
 Then from the shell start the application

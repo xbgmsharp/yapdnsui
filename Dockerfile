@@ -72,8 +72,7 @@ ENV PORT 8080
 WORKDIR /app/yapdnsui
 
 # Define default command.
-CMD ["DEBUG=yapdnsui node", "/app/yapdnsui/bin/www"]
-# Start ssh services.
+# Start ssh and other services.
 CMD ["/bin/bash", "/app/startup.sh"]
 
 # Expose ports.
