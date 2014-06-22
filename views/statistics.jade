@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  div.container
+    div.content
+      fieldset
+        legend Graph
+        div.graph_tcp(id="graph_cachehitrate")
+
+  include inc/footer
+
+  // Highcharts Libraries
+  script(src='/Highcharts/js/highcharts.js')
+  script(src='/Highcharts/js/modules/data.js')
+  script(src='/Highcharts/js/modules/exporting.js')
+  // My Library
+  script(src='/javascripts/ui_graph.js')

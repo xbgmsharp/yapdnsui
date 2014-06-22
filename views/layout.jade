@@ -1,0 +1,61 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='Yet Another PowerDNS web interface')
+    meta(name='title', content='Yet Another PDNS UI')
+    meta(name='author', content='Francois Lacroix')
+    meta(name='copyright', content='Copyright (c) 2014, Francois Lacroix')
+    title= settings.title
+       | &nbsp; - &nbsp;
+       = navmenu
+    // Bootstrap core CSS
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/stylesheets/gh-fork-ribbon.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    .navbar.navbar-default.navbar-fixed-top.navbar-inverse(role='navigation')
+        .container-fluid
+            .navbar-header
+                button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand(href='/') Yet Another PDNS UI
+            .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
+                ul.nav.navbar-nav
+                   - var obj = {'/configuration':'Configuration', '/domains':'Domains', '/statistics':'Statistics', '/about':'About' }
+                    - each val, key in obj
+                      - if (serverselected && serverselected.name && "/"+navmenu == key)
+                         li.active
+                           a(href='#{key}?server=#{serverselected.name}') #{val}
+                      - else if ("/"+navmenu == key)
+                         li.active
+                           a(href='#{key}') #{val}
+                      - else if (serverselected && serverselected.name)
+                         li
+                           a(href='#{key}?server=#{serverselected.name}') #{val}
+                      - else
+                         li
+                           a(href='#{key}') #{val}
+                ul.nav.navbar-nav.navbar-right
+                   li.dropdown
+                      a.dropdown-toggle(href="#", class="dropdown-toggle", data-toggle="dropdown") PDNS servers
+                        b.caret
+                      ul.dropdown-menu(role="menu")
+                         li
+                            a(href="/server") Manage servers
+                         li.divider
+                         - if (serverlist)
+                          each item in serverlist
+                            - if (serverselected && serverselected.name == item.name)
+                               li.active
+                                 a.active(href="?server=#{item.name}"):= item.name
+                                   span.glyphicon.glyphicon-ok
+                            - else
+                               li
+                                 a(href="?server=#{item.name}"):= item.name
+    block content

@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  div.container
+     // Page header
+    .page-header
+        h2
+          | Servers
+    div
+     form.form-inline#formAddServer(name="addserver", method="post", action="/server/add", role="form")
+       div.form-group
+         label.sr-only(for="url") PDNS WEBSERVER URL
+         input.form-control#inputUserName(type="text", placeholder="http://localhost:8053", name="url")
+       div.form-group
+         label.sr-only(for="passowrd") PDNS WEBSERVER PASSWORD
+         input.form-control#inputUserEmail(type="text", placeholder="changeme", name="password")
+       button.btn.btn-default#btnSubmit(type="submit") submit
+    p
+    div.list-group
+      - if (serverlist)
+       each item in serverlist
+          - if (serverselected && serverselected.name == item.name)
+            a.list-group-item.active(href="?server=#{item.name}")= item.name
+              h4.list-group-item-text= item.url
+                 span.glyphicon.glyphicon-ok
+          - else            
+            a.list-group-item(href="?server=#{item.name}")= item.name
+              h4.list-group-item-heading= item.url
+  include inc/footer

@@ -1,0 +1,120 @@
+extends layout
+
+block content
+  div.container
+       // Page header 
+      .page-header
+        h2
+          | Domains 
+          small= data.length
+            | &nbsp;domains in backend
+        .btn-toolbar(style='margin-bottom: 10px;')
+          .btn-group
+            button.btn.btn-default(data-toggle="modal",data-target="#add-domain")
+              span.glyphicon.glyphicon-plus
+              | Add domain
+          .btn-group.pull-right
+            button.btn.btn-default(href='#')
+              span.glyphicon.glyphicon-refresh
+              | Notify slaves
+      .modal.fade(id="add-domain", tabindex="-1", role="dialog", aria-labelledby="add-domain-label", aria-hidden="true")
+       .modal-dialog
+        .modal-content
+         .modal-header
+          button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
+          h4(class="modal-title", id="add-domain-label") Add a domain
+         .modal-body
+          form.modal-form.form-horizontal(method='POST', action='/domains/save')
+           fieldset
+              // Domain Name
+              .control-group
+                label.control-label(for='name') Domain Name
+                .controls
+                  .input-append
+                    input#mod-edit-name(name='name', size='16', type='text', placeholder='example.com')
+              // Zone/Repliction Type 
+              .control-group
+                label.control-label(for='type') Zone Type
+                .controls
+                  .input-append.mod-edit-type
+                    label
+                      input#mod-edit-type-master(type='radio', name='type', value='MASTER')
+                      strong Master
+                      span.help-block Send out notifications about zone changes to slaves.
+                    label
+                      input#mod-edit-type-slave(type='radio', name='type', value='SLAVE')
+                      strong Slave
+                      span.help-block Retrive records from master, store in database.
+                    label
+                      input#mod-edit-type-native(type='radio', name='type', value='NATIVE')
+                      strong Native
+                      span.help-block Rely on database replication, don't replicate via DNS.
+              // Zone master (if needed)
+              #mod-edit-master-box.control-group.hide
+                label.control-label(for='mod-edit-master') Zone master
+                .controls
+                  .input-append
+                    input#mod-edit-master(name='master', size='16', type='text', placeholder='1.2.3.4')
+                  span.help-inline Ip Address of the master host, which PDNS should replicate with.
+            // modal body
+          .modal-footer
+           a.btn.btn-primary(href='#', data-dismiss='modal') Cancel
+           a#mod-add-submit.btn.btn-success(href='#') Add domain
+
+      .modal.fade(id="del-domain", tabindex="-1", role="dialog", aria-labelledby="del-domain-label", aria-hidden="true")
+       .modal-dialog
+        .modal-content
+         .modal-header
+          button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
+          h4(class="modal-title", id="del-domain-label") Delete a domain
+         .modal-body
+          .alert.alert-warning
+            p
+              strong Warning!
+            | This operation will delete the domain and all associated records for
+            strong#mod-delete-text-name
+            | Are you fucking sure you want to do this ?
+         .modal-footer
+          a.btn.btn-primary(href='#', data-dismiss='modal') Cancel
+          a#mod-delete-submit.btn.btn-danger(href='#') Delete domain
+      //
+         end of modal 
+      div
+        table.table.table-striped.table-condensed
+          //
+             table headers 
+          thead
+            tr
+              th
+                a(href='/domains/index?sortby=name&order=desc') Name 
+              th
+                a(href='/domains/index?sortby=type&order=desc') Type 
+              th
+                a(href='/domains/index?sortby=master&order=desc') Master 
+              th
+          //
+             end of table headers 
+          tbody
+           each item in data
+            tr
+              td(style='vertical-align: middle;')
+                a(href='/domains/records/3093')= item.name
+              td(style='vertical-align: middle;')= item.kind
+              td(style='vertical-align: middle;')= item.masters
+              td(style='vertical-align: middle; text-align: right;')
+                // row button group to spin up modal or delete domain 
+                .btn-group
+                  button.btn.btn-default.btn-xs(data-toggle="modal",data-target="#add-domain")
+                    span.glyphicon.glyphicon-edit
+                    | Settings
+                  button.btn.btn-danger.btn-xs(data-toggle="modal",data-target="#del-domain")
+                    span.glyphicon.glyphicon-remove
+                // row button end 
+        ul.pager
+          span.first.grey <<
+          span.previous.grey <
+          a.current(href='/domains/?page=1') 1
+          span.next.grey >
+          span.last.grey >>
+
+  include inc/footer

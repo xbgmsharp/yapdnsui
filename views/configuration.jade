@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  div.container
+     // Page header
+     .page-header
+        h2
+          | Configuration
+          small= data.length
+            | &nbsp;config items
+     div
+      table.table.table-striped.table-condensed
+        thead
+          tr
+            th Name
+            th Value
+        tbody
+         each item in data
+           tr
+             td= item.name
+             td= item.value
+
+  include inc/footer
