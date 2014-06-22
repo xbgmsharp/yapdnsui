@@ -4,12 +4,14 @@ yapdnsui
 *Yet Another PowerDNS web interface*
 
 The ultimate goal is to produce a slick web interface to PowerDNS that
-will let you do add/remove/update domains and records as well as graph 
-statistic and list/update configuration items *live* in your PowerDNS instance via PowerDNS API.
+will let you fully operate your PowerDNS instance via the official PowerDNS API.
 
-It is not just another PowerDNS UI, it is the first to use the PowerDNS API.
+The applicaiton should let you do add/delete/update domains and records as well as graph
+statistics and list/update configuration items *live* from one or multiple PowerDNS instance via the PowerDNS API.
 
-Currently, you can only see the live configuration and live statistics and list domains for demonstration purpose.
+It is not just another PowerDNS UI, it is the first to use the PowerDNS API therefor to be backend-agnostic.
+
+Currently, you can only list configuration and see live statistics in a graph and list all the domains for demonstration purpose.
 
 You are welcome to contribute.
 
@@ -29,6 +31,7 @@ yapdnsui Prereqs
 ----------------
 
 You need [NodeJS](http://nodejs.org) v0.10.x+ for this application to work.
+It might work with lower requirements but I didn't test.
 
 PowerDNS Prereqs
 ----------------
