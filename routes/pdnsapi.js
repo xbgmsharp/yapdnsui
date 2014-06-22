@@ -18,14 +18,16 @@ exports.config = function(req, res){
 		},
 		function (error, response, body) {
 		        // Do more stuff with 'body' here
-			console.log(error);
-		        var json = JSON.parse(body);
-		        //console.log(json);
-			db.list(req, res, json, function(req, res, json, rows) {
-				var obj = {};
-				obj.name = req.query.server; // Avoid doing a nsecond DB query
-				res.render('configuration', { 'data': json, 'serverlist': rows, 'navmenu': 'configuration', 'serverselected': obj});
-			});
+			if (!body) { console.log(error); res.redirect('/'); }
+			else {
+			        var json = JSON.parse(body);
+		        	//console.log(json);
+				db.list(req, res, json, function(req, res, json, rows) {
+					var obj = {};
+					obj.name = req.query.server; // Avoid doing a nsecond DB query
+					res.render('configuration', { 'data': json, 'serverlist': rows, 'navmenu': 'configuration', 'serverselected': obj});
+				});
+			}
 		});
 		}
 	});
@@ -47,14 +49,17 @@ exports.zones = function(req, res){
 			headers: { "Authorization" : "Basic " + new Buffer("a:" + row.password).toString("base64") }
 		},
 		function (error, response, body) {
-        		// Do more stuff with 'body' here
-	        	var json = JSON.parse(body);
-			console.log(json);
-			db.list(req, res, json, function(req, res, json, rows) {
+        		// Do morce stuff with 'body' here
+			if (!body) { console.log(error); res.redirect('/'); }
+			else {
+			       	var json = JSON.parse(body);
+				console.log(json);
+				db.list(req, res, json, function(req, res, json, rows) {
 				var obj = {};
-				obj.name = req.query.server; // Avoid doing a nsecond DB query
-			        res.render('domains', { 'data': json, 'serverlist': rows, 'navmenu': 'domains', 'serverselected': obj});
-			});
+					obj.name = req.query.server; // Avoid doing a nsecond DB query
+				        res.render('domains', { 'data': json, 'serverlist': rows, 'navmenu': 'domains', 'serverselected': obj});
+				});
+			}
 		});
 		}
 	});
@@ -75,6 +80,8 @@ exports.statistics = function(req, res){
 			headers: { "Authorization" : "Basic " + new Buffer("a:" + row.password).toString("base64") }
 		},
 		function (error, response, body) {
+			if (!body) { console.log(error); res.send(myJsonString, {'Content-type': 'text/json'}, 200); }
+			else {
 			// Do more stuff with 'body' here
 			//console.log(req);
 			//console.log(body);
@@ -91,6 +98,7 @@ exports.statistics = function(req, res){
 			var myJsonString = JSON.stringify(arr);
 			console.log(myJsonString);
 		        res.send(myJsonString, {'Content-type': 'text/json'}, 200);
+			}
 		});
 		}
 	});
