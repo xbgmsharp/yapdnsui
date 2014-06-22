@@ -5,11 +5,11 @@ yapdnsui
 
 The ultimate goal is to produce a slick web interface to PowerDNS that
 will let you do add/remove/update domains and records as well as graph 
-statistic and list/update configuration items *live* in your PowerDNs instance via PowerDNS API.
+statistic and list/update configuration items *live* in your PowerDNS instance via PowerDNS API.
 
 It is not just another PowerDNS UI, it is the first to use the PowerDNS API.
 
-Currentely, you can also see the live configuration and live statistics and list domains for demonstration purporse.
+Currently, you can only see the live configuration and live statistics and list domains for demonstration purpose.
 
 You are welcome to contribute.
 
@@ -30,7 +30,7 @@ yapdnsui Prereqs
 
 You need [NodeJS](http://nodejs.org) v0.10.x+ for this application to work.
 
-PowerDNs Prereqs
+PowerDNS Prereqs
 ----------------
 Yes, you need a PowerDNS server or recursor to try this application out.
 
@@ -80,7 +80,10 @@ PORT=8080 DEBUG=yapdnsui node bin/www
 * Point your browser to: [http://localhost:8080/] (http://localhost:8080/)
 * Enjoy!
 
-_Note_ : you don't need to configure anything. yaPDNSui directly talk to the PowerDNS. You need a PowerDNS server try this out.
+_Note_ : yaPDNSui use a sqlite memory database to store PowerDNS instances details.
+As an advantage, you don't need to configure anything outside of the webgui.
+However you need to add a PowerDNS instances to the configuration after each application start.
+You can access the PowerDNS server manage interface using the menu on the right or by poinyour browser to '/server'.
 
 Test using Docker
 -----------------
@@ -144,7 +147,7 @@ From a SSH shell, you can restart the application.
 Secure yapdnsui
 ---------------
 
-For security reasons, you may want to run a webserver (like Apache or nginx) in front as a reverse proxy using SSL.
+For security reasons, you may want to run a webserver (like Apache or nginx) in front of your PowerDNS webserver as a reverse proxy using SSL.
 
 You can read this [HOWTO](http://blog.nachtarbeiter.net/2010/02/16/monitoring-powerdns-via-the-internal-web-server/) to see how.
 
@@ -163,7 +166,7 @@ Contributing to yapdnsui
 * Use a specific branch for your changes (one bonus point if it's prefixed with 'feature/') 
 * _write tests_, doc, commit and push until you are happy with your contribution
 * Send a pull request
-* Please try not to mess with the Rakefile, version, or history
+* Please try not to mess with the package, version, or history
 
 License
 -------
@@ -175,16 +178,16 @@ This program comes without any warranty.
 Credits
 -------
 
-- yaPDNSui is built with the awesome [NodeJS](http://nodejs.org) and [Express](http://expressjs.com).
+* yaPDNSui is built with the awesome [NodeJS](http://nodejs.org) and [Express](http://expressjs.com).
 
-- Graph [http://www.highcharts.com/] (http://www.highcharts.com/)
+* Charts: [http://www.highcharts.com/] (http://www.highcharts.com/)
 
-- Layout & CSS: [http://twitter.github.com/bootstrap/] (http://twitter.github.com/bootstrap/)
+* Layout & CSS: [http://twitter.github.com/bootstrap/] (http://twitter.github.com/bootstrap/)
 
-- Favicon from: [http://glyphicons.com/] (http://glyphicons.com/)
+* Favicon from: [http://glyphicons.com/] (http://glyphicons.com/)
 
-- Apple touch icon from: [http://findicons.com/search/leaf] (http://findicons.com/search/leaf)
+* Apple touch icon from: [http://findicons.com/search/leaf] (http://findicons.com/search/leaf)
 
-- PowerDNS [http://www.powerdns.com/] (http://www.powerdns.com/)
+* PowerDNS [http://www.powerdns.com/] (http://www.powerdns.com/)
 
-- Thansk to PDNSui [https://github.com/leucos/pdnsui/] (https://github.com/leucos/pdnsui/)
+* Thanks to PDNSui [https://github.com/leucos/pdnsui/] (https://github.com/leucos/pdnsui/)
