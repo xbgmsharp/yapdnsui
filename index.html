@@ -28,45 +28,188 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h3>
-<a name="welcome-to-yapdnsui-pages" class="anchor" href="#welcome-to-yapdnsui-pages"><span class="octicon octicon-link"></span></a>Welcome to yaPDNSui Pages.</h3>
+          <h1>
+<a name="yapdnsui" class="anchor" href="#yapdnsui"><span class="octicon octicon-link"></span></a>yapdnsui</h1>
+
+<p><em>Yet Another PowerDNS web interface</em></p>
 
 <p>The ultimate goal is to produce a slick web interface to PowerDNS that
-will let you do add/remove/update domains and records as well as graph
-statistic and list/update configuration items <em>live</em> in your PowerDNS instance via PowerDNS API.</p>
+will let you do add/remove/update domains and records as well as graph 
+statistic and list/update configuration items <em>live</em> in your PowerDNs instance via PowerDNS API.</p>
 
 <p>It is not just another PowerDNS UI, it is the first to use the PowerDNS API.</p>
 
-<p>Currently, you can only see the live configuration and live statistics and list domains for demonstration purpose.</p>
+<p>Currentely, you can also see the live configuration and live statistics and list domains for demonstration purporse.</p>
 
 <p>You are welcome to contribute.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p><img src="https://raw.githubusercontent.com/xbgmsharp/yapdnsui/master/misc/screenshot_livestats.png" alt="yapdnsui_livestats"></p>
+
+<p><img src="https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_config.png" alt="yapdnsui_config"></p>
+
+<p><img src="https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_domains.png" alt="yapdnsui_domains"></p>
+
+<p><img src="https://github.com/leucos/pdnsui/raw/master/misc/screenshot_records.png" alt="yapdnsui_records"></p>
+
+<h2>
+<a name="yapdnsui-prereqs" class="anchor" href="#yapdnsui-prereqs"><span class="octicon octicon-link"></span></a>yapdnsui Prereqs</h2>
+
+<p>You need <a href="http://nodejs.org">NodeJS</a> v0.10.x+ for this application to work.</p>
+
+<h2>
+<a name="powerdns-prereqs" class="anchor" href="#powerdns-prereqs"><span class="octicon octicon-link"></span></a>PowerDNs Prereqs</h2>
+
+<p>Yes, you need a PowerDNS server or recursor to try this application out.</p>
+
+<p>You need to enable the <a href="https://github.com/PowerDNS/pdnsapi">PowerDNS API</a> on your PowerDNS instances.</p>
+
+<p>Configure as follows:</p>
+
+<pre><code>webserver=yes
+webserver-address=127.0.0.1
+webserver-port=8081
+webserver-password=changeme
+experimental-json-interface=yes
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<ul>
+<li>Restart</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>/etc/init.d/pdns restart
+</pre></div>
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<ul>
+<li>Test</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>curl -v http://a:changeme@localhost:8081/
+</pre></div>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<h2>
+<a name="installing" class="anchor" href="#installing"><span class="octicon octicon-link"></span></a>Installing</h2>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<ul>
+<li>Clone the repository</li>
+</ul><div class="highlight highlight-bash"><pre>git clone https://leucos@github.com/xbgmsharp/yapdnsui.git
+<span class="nb">cd </span>yapdnsui
+</pre></div>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<ul>
+<li>Install dependencies</li>
+</ul><div class="highlight highlight-bash"><pre>npm install
+</pre></div>
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<ul>
+<li>Start the application </li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">PORT</span><span class="o">=</span><span class="m">8080</span> <span class="nv">DEBUG</span><span class="o">=</span>yapdnsui node bin/www
+</pre></div>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<ul>
+<li>Point your browser to: <a href="http://localhost:8080/">http://localhost:8080/</a>
+</li>
+<li>Enjoy!</li>
+</ul><p><em>Note</em> : you don't need to configure anything. yaPDNSui directly talk to the PowerDNS. You need a PowerDNS server try this out.</p>
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<h2>
+<a name="test-using-docker" class="anchor" href="#test-using-docker"><span class="octicon octicon-link"></span></a>Test using Docker</h2>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<ul>
+<li>Install Docker
+<a href="https://docs.docker.com/installation/">Install documentation of Docker</a>
+</li>
+</ul><p>The deb package are valid for Ubuntu and Debian.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>cat &gt; /etc/apt/sources.list.d/docker.list
+deb http://get.docker.io/ubuntu docker main
+<span class="nv">$ </span>apt-get update <span class="o">&amp;&amp;</span> apt-get install lxc-docker
+</pre></div>
+
+<ul>
+<li>Build the images
+The build process might take some time while it download the origin nodejs image.</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker build --rm<span class="o">=</span><span class="nb">true</span> --no-cache<span class="o">=</span><span class="nb">true</span> -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
+or
+<span class="nv">$ </span>docker build --rm<span class="o">=</span><span class="nb">true</span> --no-cache<span class="o">=</span><span class="nb">true</span> -t xbgmsharp/yapdnsui
+</pre></div>
+
+<ul>
+<li>Run the container</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker run -d -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui
+or
+<span class="nv">$ </span>docker run -i --rm -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
+</pre></div>
+
+<ul>
+<li>check the IP</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker ps -a
+<span class="nv">$ </span>docker inspect CONTAINER_ID <span class="p">|</span> grep IPA
+or
+<span class="nv">$ </span>docker ps -a <span class="p">|</span> grep yapdnsui  <span class="p">|</span> awk <span class="s1">'{print $1}'</span> <span class="p">|</span> xargs docker inspect <span class="p">|</span> grep IPAddress
+or
+<span class="nv">$ </span>ssh <span class="k">$(</span>docker ps -a <span class="p">|</span> grep yapdnsui  <span class="p">|</span> awk <span class="s1">'{print $1}'</span> <span class="p">|</span> xargs docker inspect <span class="p">|</span> grep IPAddress <span class="p">|</span> awk <span class="s1">'{print $2}'</span> <span class="p">|</span> tr -d <span class="s1">'"'</span> <span class="p">|</span> tr -d <span class="s1">','</span> <span class="k">)</span>
+</pre></div>
+
+<ul>
+<li>Login in the container via SSH
+user is root and password is admin</li>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>ssh root@172.17.0.x
+</pre></div>
+
+<ul>
+<li>Review logs</li>
+</ul><div class="highlight highlight-bash"><pre><span class="c"># docker logs CONTAINER_ID</span>
+  yapdnsui Express server listening on port <span class="m">8080</span> +0ms
+</pre></div>
+
+<ul>
+<li>Point your browser to: <a href="http://172.17.0.x:8080/">http://172.17.0.x:8080/</a>
+</li>
+<li>Enjoy!</li>
+</ul><p>If the application crash. The container exit.
+You can fillup an issue and add the backtrace or you fix it.
+From a SSH shell, you can restart the application.</p>
+
+<h2>
+<a name="secure-yapdnsui" class="anchor" href="#secure-yapdnsui"><span class="octicon octicon-link"></span></a>Secure yapdnsui</h2>
+
+<p>For security reasons, you may want to run a webserver (like Apache or nginx) in front as a reverse proxy using SSL.</p>
+
+<p>You can read this <a href="http://blog.nachtarbeiter.net/2010/02/16/monitoring-powerdns-via-the-internal-web-server/">HOWTO</a> to see how.</p>
+
+<p>For security reasons, you probably want to use the same webserver for authentication.</p>
+
+<p>You can read this <a href="httpd.apache.org/docs/2.0/mod/mod_auth_ldap.html">mod_auth_ldap - Apache HTTP Server</a></p>
+
+<p>E.g. you might want use a SSL connection and authenticate your co-workers using the internal LDAP or database server of your company intranet.</p>
+
+<h2>
+<a name="contributing-to-yapdnsui" class="anchor" href="#contributing-to-yapdnsui"><span class="octicon octicon-link"></span></a>Contributing to yapdnsui</h2>
+
+<ul>
+<li>Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet</li>
+<li>Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it</li>
+<li>Fork the project</li>
+<li>Use a specific branch for your changes (one bonus point if it's prefixed with 'feature/') </li>
+<li>
+<em>write tests</em>, doc, commit and push until you are happy with your contribution</li>
+<li>Send a pull request</li>
+<li>Please try not to mess with the Rakefile, version, or history</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>This program is free software; you can redistribute it and/or modify it under the terms of the <a href="http://www.gnu.org/licenses/gpl.html">GNU General Public License</a> as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+
+<p>This program comes without any warranty.</p>
+
+<h2>
+<a name="credits" class="anchor" href="#credits"><span class="octicon octicon-link"></span></a>Credits</h2>
+
+<ul>
+<li><p>yaPDNSui is built with the awesome <a href="http://nodejs.org">NodeJS</a> and <a href="http://expressjs.com">Express</a>.</p></li>
+<li><p>Graph <a href="http://www.highcharts.com/">http://www.highcharts.com/</a></p></li>
+<li><p>Layout &amp; CSS: <a href="http://twitter.github.com/bootstrap/">http://twitter.github.com/bootstrap/</a></p></li>
+<li><p>Favicon from: <a href="http://glyphicons.com/">http://glyphicons.com/</a></p></li>
+<li><p>Apple touch icon from: <a href="http://findicons.com/search/leaf">http://findicons.com/search/leaf</a></p></li>
+<li><p>PowerDNS <a href="http://www.powerdns.com/">http://www.powerdns.com/</a></p></li>
+<li><p>Thansk to PDNSui <a href="https://github.com/leucos/pdnsui/">https://github.com/leucos/pdnsui/</a></p></li>
+</ul>
         </section>
 
         <aside id="sidebar">
