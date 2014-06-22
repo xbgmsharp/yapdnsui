@@ -3,31 +3,34 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
     <title>yaPDNSui by xbgmsharp</title>
   </head>
 
   <body>
-    <header>
+    <div id="container">
       <div class="inner">
-        <h1>yaPDNSui</h1>
-        <h2>Yet Another PowerDNS web interface</h2>
-        <a href="https://github.com/xbgmsharp/yapdnsui" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
+        <header>
+          <h1>yaPDNSui</h1>
+          <h2>Yet Another PowerDNS web interface</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/xbgmsharp/yapdnsui/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/xbgmsharp/yapdnsui/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/xbgmsharp/yapdnsui" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
           <h1>
 <a name="yapdnsui" class="anchor" href="#yapdnsui"><span class="octicon octicon-link"></span></a>yapdnsui</h1>
 
@@ -35,11 +38,11 @@
 
 <p>The ultimate goal is to produce a slick web interface to PowerDNS that
 will let you do add/remove/update domains and records as well as graph 
-statistic and list/update configuration items <em>live</em> in your PowerDNs instance via PowerDNS API.</p>
+statistic and list/update configuration items <em>live</em> in your PowerDNS instance via PowerDNS API.</p>
 
 <p>It is not just another PowerDNS UI, it is the first to use the PowerDNS API.</p>
 
-<p>Currentely, you can also see the live configuration and live statistics and list domains for demonstration purporse.</p>
+<p>Currently, you can only see the live configuration and live statistics and list domains for demonstration purpose.</p>
 
 <p>You are welcome to contribute.</p>
 
@@ -57,7 +60,7 @@ statistic and list/update configuration items <em>live</em> in your PowerDNs ins
 <p>You need <a href="http://nodejs.org">NodeJS</a> v0.10.x+ for this application to work.</p>
 
 <h2>
-<a name="powerdns-prereqs" class="anchor" href="#powerdns-prereqs"><span class="octicon octicon-link"></span></a>PowerDNs Prereqs</h2>
+<a name="powerdns-prereqs" class="anchor" href="#powerdns-prereqs"><span class="octicon octicon-link"></span></a>PowerDNS Prereqs</h2>
 
 <p>Yes, you need a PowerDNS server or recursor to try this application out.</p>
 
@@ -105,7 +108,10 @@ experimental-json-interface=yes
 <li>Point your browser to: <a href="http://localhost:8080/">http://localhost:8080/</a>
 </li>
 <li>Enjoy!</li>
-</ul><p><em>Note</em> : you don't need to configure anything. yaPDNSui directly talk to the PowerDNS. You need a PowerDNS server try this out.</p>
+</ul><p><em>Note</em> : yaPDNSui use a sqlite memory database to store PowerDNS instances details.
+As an advantage, you don't need to configure anything outside of the webgui.
+However you need to add a PowerDNS instances to the configuration after each application start.
+You can access the PowerDNS server manage interface using the menu on the right or by poinyour browser to '/server'.</p>
 
 <h2>
 <a name="test-using-docker" class="anchor" href="#test-using-docker"><span class="octicon octicon-link"></span></a>Test using Docker</h2>
@@ -169,7 +175,7 @@ From a SSH shell, you can restart the application.</p>
 <h2>
 <a name="secure-yapdnsui" class="anchor" href="#secure-yapdnsui"><span class="octicon octicon-link"></span></a>Secure yapdnsui</h2>
 
-<p>For security reasons, you may want to run a webserver (like Apache or nginx) in front as a reverse proxy using SSL.</p>
+<p>For security reasons, you may want to run a webserver (like Apache or nginx) in front of your PowerDNS webserver as a reverse proxy using SSL.</p>
 
 <p>You can read this <a href="http://blog.nachtarbeiter.net/2010/02/16/monitoring-powerdns-via-the-internal-web-server/">HOWTO</a> to see how.</p>
 
@@ -190,7 +196,7 @@ From a SSH shell, you can restart the application.</p>
 <li>
 <em>write tests</em>, doc, commit and push until you are happy with your contribution</li>
 <li>Send a pull request</li>
-<li>Please try not to mess with the Rakefile, version, or history</li>
+<li>Please try not to mess with the package, version, or history</li>
 </ul><h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
@@ -203,32 +209,22 @@ From a SSH shell, you can restart the application.</p>
 
 <ul>
 <li><p>yaPDNSui is built with the awesome <a href="http://nodejs.org">NodeJS</a> and <a href="http://expressjs.com">Express</a>.</p></li>
-<li><p>Graph <a href="http://www.highcharts.com/">http://www.highcharts.com/</a></p></li>
+<li><p>Charts: <a href="http://www.highcharts.com/">http://www.highcharts.com/</a></p></li>
 <li><p>Layout &amp; CSS: <a href="http://twitter.github.com/bootstrap/">http://twitter.github.com/bootstrap/</a></p></li>
 <li><p>Favicon from: <a href="http://glyphicons.com/">http://glyphicons.com/</a></p></li>
 <li><p>Apple touch icon from: <a href="http://findicons.com/search/leaf">http://findicons.com/search/leaf</a></p></li>
 <li><p>PowerDNS <a href="http://www.powerdns.com/">http://www.powerdns.com/</a></p></li>
-<li><p>Thansk to PDNSui <a href="https://github.com/leucos/pdnsui/">https://github.com/leucos/pdnsui/</a></p></li>
+<li><p>Thanks to PDNSui <a href="https://github.com/leucos/pdnsui/">https://github.com/leucos/pdnsui/</a></p></li>
 </ul>
         </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/xbgmsharp/yapdnsui/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/xbgmsharp/yapdnsui/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+        <footer>
+          yaPDNSui is maintained by <a href="https://github.com/xbgmsharp">xbgmsharp</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
 
-          <p class="repo-owner"><a href="https://github.com/xbgmsharp/yapdnsui"></a> is maintained by <a href="https://github.com/xbgmsharp">xbgmsharp</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
+        
       </div>
     </div>
-
-  
   </body>
 </html>
