@@ -40,9 +40,12 @@ experimental-json-interface=yes
 ```
 
 * Restart
+```bash
+```
 
 * Test
-
+```bash
+```
 
 Installing
 ----------
@@ -60,9 +63,6 @@ cd yapdnsui
 npm install
 ```
 
-* Configure the application
-
-
 * Start the application 
 
 ```bash
@@ -70,12 +70,12 @@ PORT=8080 DEBUG=yapdnsui node bin/www
 ```
 
 * Point your browser to: [http://localhost:8080/] (http://localhost:8080/)
-* Enjoy
+* Enjoy!
 
-_Note_ : you don't need to have powerdns on the machine to try this out.
+_Note_ : you don't need to configure anything. yaPDNSui directly talk to the PowerDNS. You need a PowerDNS server try this out.
 
-Installing using Docker
------------------------
+Test using Docker
+-----------------
 
 * Install Docker
 [Install documentation of Docker](https://docs.docker.com/installation/)
@@ -89,7 +89,7 @@ $ apt-get update && apt-get install lxc-docker
 ```
 
 * Build the images
-It might take some time on the build while it download the origin image.
+The build process might take some time while it download the origin nodejs image.
 
 ```bash
 docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
@@ -110,13 +110,24 @@ docker ps -a
 docker inspect CONTAINER_ID | grep IPA
 ```
 
-* Login
-password is admin
+* Login in the container via SSH
+user is root and password is admin
 ```bash
 $ ssh root@172.17.0.x
 ```
 
-Then from the shell start the application
+* Review logs
+```bash
+# docker logs CONTAINER_ID
+  yapdnsui Express server listening on port 8080 +0ms
+```
+
+* Point your browser to: [http://172.17.0.x:8080/] (http://172.17.0.x:8080/)
+* Enjoy!
+
+If the application crash. The container exit.
+You can fillup an issue and add the backtrace or you fix it.
+From a SSH shell, you can restart the application.
 
 Secure yapdnsui
 ---------------
