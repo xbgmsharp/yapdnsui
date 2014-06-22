@@ -14,13 +14,13 @@ Currentely, you can also see the live configuration and live statistics and list
 You are welcome to contribute.
 
 ![yapdnsui_livestats]
-(https://github.com/leucos/pdnsui/raw/master/misc/screenshot_livestats.png)
+(https://raw.githubusercontent.com/xbgmsharp/yapdnsui/master/misc/screenshot_livestats.png)
 
 ![yapdnsui_config]
-(https://github.com/leucos/pdnsui/raw/master/misc/screenshot_config.png)
+(https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_config.png)
 
 ![yapdnsui_domains]
-(https://github.com/leucos/pdnsui/raw/master/misc/screenshot_domains.png)
+(https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_domains.png)
 
 ![yapdnsui_records]
 (https://github.com/leucos/pdnsui/raw/master/misc/screenshot_records.png)
@@ -100,22 +100,26 @@ $ apt-get update && apt-get install lxc-docker
 The build process might take some time while it download the origin nodejs image.
 
 ```bash
-docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
+$ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
 or
-docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui
+$ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui
 ```
 
 * Run the container
 ```bash
-docker run -d -p 8080:8080 -t xbgmsharp/yapdnsui
+$ docker run -d -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui
 or
-docker run -i --rm -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
+$ docker run -i --rm -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
 ```
 
 * check the IP
 ```bash
-docker ps -a
-docker inspect CONTAINER_ID | grep IPA
+$ docker ps -a
+$ docker inspect CONTAINER_ID | grep IPA
+or
+$ docker ps -a | grep yapdnsui  | awk '{print $1}' | xargs docker inspect | grep IPAddress
+or
+$ ssh $(docker ps -a | grep yapdnsui  | awk '{print $1}' | xargs docker inspect | grep IPAddress | awk '{print $2}' | tr -d '"' | tr -d ',' )
 ```
 
 * Login in the container via SSH
