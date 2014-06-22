@@ -80,9 +80,12 @@ Installing using Docker
 * Install Docker
 [Install documentation of Docker](https://docs.docker.com/installation/)
 
+The deb package are valid for Ubuntu and Debian.
+
 ```bash
-# cat > /etc/apt/sources.list.d/docker.list
+$ cat > /etc/apt/sources.list.d/docker.list
 deb http://get.docker.io/ubuntu docker main
+$ apt-get update && apt-get install lxc-docker
 ```
 
 * Build the images

@@ -33,10 +33,10 @@ RUN apt-get update && apt-get -y upgrade
 # Install nodejs dependencies
 RUN npm install -g bower grunt-cli
 # Install my application dependencies
-RUN npm install -g express express-generator jade moment request
+RUN npm install -g express express-generator jade request sqlite3
 
 # Install my dependencies
-RUN apt-get -y install nano curl wget vim
+RUN apt-get -y install nano curl wget vim libsqlite3-0
 # Install Git
 RUN apt-get -y install git
 
@@ -65,10 +65,11 @@ RUN \
 
 # Define environment variables
 #ENV NODE_ENV production
-ENV PORT 3000
+ENV DEBUG yapdnsui
+ENV PORT 8080
 
 # Define working directory.
-WORKDIR /appy/apdnsui
+WORKDIR /app/yapdnsui
 
 # Define default command.
 CMD ["DEBUG=yapdnsui node", "/app/yapdnsui/bin/www"]
@@ -76,7 +77,7 @@ CMD ["DEBUG=yapdnsui node", "/app/yapdnsui/bin/www"]
 CMD ["/bin/bash", "/app/startup.sh"]
 
 # Expose ports.
-EXPOSE 22 3000
+EXPOSE 22 8080
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
