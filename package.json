@@ -6,7 +6,7 @@
     "type": "git",
     "url": "git://github.com/xbgmsharp/yapdnsui.git"
   },
-  "version": "0.0.2",
+  "version": "0.0.2-f240e06",
   "license": "GPL-3.0+",
   "private": true,
   "scripts": {
