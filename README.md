@@ -4,9 +4,14 @@ yapdnsui
 *Yet Another PowerDNS web interface*
 
 The ultimate goal is to produce a slick web interface to PowerDNS that
-will let you do add/remove/update domains and records in your PowerDNs
-instance via PowerDNs API.
-You can also see the live configuration and live statistics for demonstration purporse.
+will let you do add/remove/update domains and records as well as graph 
+statistic and list/update configuration items *live* in your PowerDNs instance via PowerDNS API.
+
+It is not just another PowerDNS UI, it is the first to use the PowerDNS API.
+
+Currentely, you can also see the live configuration and live statistics and list domains for demonstration purporse.
+
+You are welcome to contribute.
 
 ![yapdnsui_livestats]
 (https://github.com/leucos/pdnsui/raw/master/misc/screenshot_livestats.png)
@@ -27,8 +32,9 @@ You need [NodeJS](http://nodejs.org) v0.10.x+ for this application to work.
 
 PowerDNs Prereqs
 ----------------
+Yes, you need a PowerDNS server or recursor to try this application out.
 
-You need to enable the [PowerDNS API](https://github.com/PowerDNS/pdnsapi) on your PowerDNs instances.
+You need to enable the [PowerDNS API](https://github.com/PowerDNS/pdnsapi) on your PowerDNS instances.
 
 Configure as follows:
 ```
@@ -41,10 +47,12 @@ experimental-json-interface=yes
 
 * Restart
 ```bash
+$ /etc/init.d/pdns restart
 ```
 
 * Test
 ```bash
+$ curl -v http://a:changeme@localhost:8081/
 ```
 
 Installing
@@ -143,7 +151,7 @@ You can read this [mod_auth_ldap - Apache HTTP Server](httpd.apache.org/docs/2.0
 E.g. you might want use a SSL connection and authenticate your co-workers using the internal LDAP or database server of your company intranet.
 
 Contributing to yapdnsui
-----------------------
+------------------------
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
