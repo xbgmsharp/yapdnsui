@@ -12,6 +12,7 @@ exports.create = function(){
 			console.log("init db.js "+ row.id + " : " + row.name + " : " + row.url + " : " + row.password);
 		});
 	});
+	return db;
 };
 
 exports.list = function(req, res, json, callback){

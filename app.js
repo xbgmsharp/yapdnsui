@@ -6,33 +6,23 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// Load our routes
+// TODO can be improve when undestand
 var routes = require('./routes/index');
 var about = require('./routes/about');
+var configuration = require('./routes/configuration');
+var domains = require('./routes/domains');
+var records = require('./routes/records');
 var statistics = require('./routes/statistics');
 var servers = require('./routes/server');
-var pdnsapi = require('./routes/pdnsapi');
+
+// Load our library
+var pdnsapi = require('./libs/pdnsapi');
+var database = require('./libs/db');
+// Initiliaze the db
+var db = database.create();
 
 var app = express();
-// sets port 8080 to default or unless otherwise specified in the environment
-app.set('port', process.env.PORT || 8080);
-
-// Allow self sign SSL Certs
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
-
-// Create internal DB for the server list in memory
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(':memory:');
-
-// Initiliaze the db
-db.serialize(function() {
-  db.run("CREATE TABLE server (id integer primary key asc, name TEXT, url TEXT, password TEXT)");
-  if (app.get('env') === 'development') {
-	db.run("INSERT INTO server VALUES (?,?,?,?)", [null, 'localhost', 'http://localhost:8053', 'changeme']);
-	db.each("SELECT * FROM server", function(err, row) {
-	      console.log("first run "+ row.id + " : " + row.name + " : " + row.url + " : " + row.password);
-	});
-  }
-});
 
 // Make our db is accessible to our router
 app.use(function(req,res,next){
@@ -57,12 +47,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/about', about);
-app.use('/configuration', pdnsapi.config);
-app.use('/domains', pdnsapi.zones);
+app.use('/configuration', configuration);
+app.use('/domains', domains);
+app.use('/records', records);
 app.use('/statistics', statistics);
-app.use('/pdnsapi/statistics', pdnsapi.statistics);
 app.use('/server', servers);
+// Hidden call
 app.use('/server/:action', servers);
+//app.use('/pdnsapi/:action', pdnsapi);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
