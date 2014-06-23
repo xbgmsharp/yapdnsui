@@ -3,66 +3,68 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
     <title>yaPDNSui by xbgmsharp</title>
   </head>
 
   <body>
-    <div id="container">
+    <header>
       <div class="inner">
+        <h1>yaPDNSui</h1>
+        <h2>Yet Another PowerDNS web interface</h2>
+        <a href="https://github.com/xbgmsharp/yapdnsui" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-        <header>
-          <h1>yaPDNSui</h1>
-          <h2>Yet Another PowerDNS web interface</h2>
-        </header>
-
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/xbgmsharp/yapdnsui/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/xbgmsharp/yapdnsui/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/xbgmsharp/yapdnsui" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
           <h1>
 <a name="yapdnsui" class="anchor" href="#yapdnsui"><span class="octicon octicon-link"></span></a>yapdnsui</h1>
 
 <p><em>Yet Another PowerDNS web interface</em></p>
 
-<p>The ultimate goal is to produce a slick web interface to PowerDNS that
-will let you do add/remove/update domains and records as well as graph 
-statistic and list/update configuration items <em>live</em> in your PowerDNS instance via PowerDNS API.</p>
+<p>The ultimate goal is to produce a slick web interface to <a href="http://www.powerdns.com/">PowerDNS</a> that
+will let you fully operate your PowerDNS instance via the official <a href="https://github.com/PowerDNS/pdnsapi">PowerDNS API</a>.</p>
 
-<p>It is not just another PowerDNS UI, it is the first to use the PowerDNS API.</p>
+<p>The application should let you do add/delete/update domains and records as well as graph
+statistics and list/update configuration items <em>live</em> from one or multiple PowerDNS instance via the PowerDNS API.</p>
 
-<p>Currently, you can only see the live configuration and live statistics and list domains for demonstration purpose.</p>
+<p>In addition, the application should let you manage DNSSEC zones and zone metadata.</p>
+
+<p>It is not just another PowerDNS UI, it is the first to use the PowerDNS API, therefor to be backend-agnostic and DNSSEC aware.</p>
+
+<p>Currently, you can only list configuration and see live statistics in a graph and list all the domains for demonstration purpose.</p>
 
 <p>You are welcome to contribute.</p>
 
-<p><img src="https://raw.githubusercontent.com/xbgmsharp/yapdnsui/master/misc/screenshot_livestats.png" alt="yapdnsui_livestats"></p>
+<p><img src="https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_livestats.png" alt="yapdnsui_livestats"></p>
 
 <p><img src="https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_config.png" alt="yapdnsui_config"></p>
 
 <p><img src="https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_domains.png" alt="yapdnsui_domains"></p>
 
-<p><img src="https://github.com/leucos/pdnsui/raw/master/misc/screenshot_records.png" alt="yapdnsui_records"></p>
+<p><img src="https://github.com/xbgmsharp/pdnsui/raw/master/misc/screenshot_records.png" alt="yapdnsui_records"></p>
 
 <h2>
 <a name="yapdnsui-prereqs" class="anchor" href="#yapdnsui-prereqs"><span class="octicon octicon-link"></span></a>yapdnsui Prereqs</h2>
 
-<p>You need <a href="http://nodejs.org">NodeJS</a> v0.10.x+ for this application to work.</p>
+<p>You need <a href="http://nodejs.org">NodeJS</a> v0.10.x+ for this application to work.
+It might work with lower requirements but I didn't test.</p>
 
 <h2>
 <a name="powerdns-prereqs" class="anchor" href="#powerdns-prereqs"><span class="octicon octicon-link"></span></a>PowerDNS Prereqs</h2>
 
-<p>Yes, you need a PowerDNS server or recursor to try this application out.</p>
+<p>Yes, you need a <a href="http://www.powerdns.com/">PowerDNS</a> or recursor to try this application out.</p>
 
 <p>You need to enable the <a href="https://github.com/PowerDNS/pdnsapi">PowerDNS API</a> on your PowerDNS instances.</p>
 
@@ -175,11 +177,12 @@ From a SSH shell, you can restart the application.</p>
 <h2>
 <a name="secure-yapdnsui" class="anchor" href="#secure-yapdnsui"><span class="octicon octicon-link"></span></a>Secure yapdnsui</h2>
 
-<p>For security reasons, you may want to run a webserver (like Apache or nginx) in front of your PowerDNS webserver as a reverse proxy using SSL.</p>
+<p>For security reasons, you may want to run a webserver (like Apache or nginx) in front of your PowerDNS webserver as a reverse proxy using SSL.
+As a best pratice, it is recommended to apply use SSL for the traffic between the end-user and the application.</p>
 
 <p>You can read this <a href="http://blog.nachtarbeiter.net/2010/02/16/monitoring-powerdns-via-the-internal-web-server/">HOWTO</a> to see how.</p>
 
-<p>For security reasons, you probably want to use the same webserver for authentication.</p>
+<p>For security reasons, you probably want to use the same webserver for authentication purpose.</p>
 
 <p>You can read this <a href="httpd.apache.org/docs/2.0/mod/mod_auth_ldap.html">mod_auth_ldap - Apache HTTP Server</a></p>
 
@@ -218,13 +221,23 @@ From a SSH shell, you can restart the application.</p>
 </ul>
         </section>
 
-        <footer>
-          yaPDNSui is maintained by <a href="https://github.com/xbgmsharp">xbgmsharp</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+        <aside id="sidebar">
+          <a href="https://github.com/xbgmsharp/yapdnsui/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/xbgmsharp/yapdnsui/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
 
-        
+          <p class="repo-owner"><a href="https://github.com/xbgmsharp/yapdnsui"></a> is maintained by <a href="https://github.com/xbgmsharp">xbgmsharp</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
       </div>
     </div>
+
+  
   </body>
 </html>
