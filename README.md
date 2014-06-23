@@ -3,20 +3,22 @@ yapdnsui
 
 *Yet Another PowerDNS web interface*
 
-The ultimate goal is to produce a slick web interface to PowerDNS that
-will let you fully operate your PowerDNS instance via the official PowerDNS API.
+The ultimate goal is to produce a slick web interface to [PowerDNS](http://www.powerdns.com/) that
+will let you fully operate your PowerDNS instance via the official [PowerDNS API](https://github.com/PowerDNS/pdnsapi).
 
-The applicaiton should let you do add/delete/update domains and records as well as graph
+The application should let you do add/delete/update domains and records as well as graph
 statistics and list/update configuration items *live* from one or multiple PowerDNS instance via the PowerDNS API.
 
-It is not just another PowerDNS UI, it is the first to use the PowerDNS API therefor to be backend-agnostic.
+In addition, the application should let you manage DNSSEC zones and zone metadata.
+
+It is not just another PowerDNS UI, it is the first to use the PowerDNS API, therefor to be backend-agnostic and DNSSEC aware.
 
 Currently, you can only list configuration and see live statistics in a graph and list all the domains for demonstration purpose.
 
 You are welcome to contribute.
 
 ![yapdnsui_livestats]
-(https://raw.githubusercontent.com/xbgmsharp/yapdnsui/master/misc/screenshot_livestats.png)
+(https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_livestats.png)
 
 ![yapdnsui_config]
 (https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_config.png)
@@ -25,7 +27,7 @@ You are welcome to contribute.
 (https://github.com/xbgmsharp/yapdnsui/raw/master/misc/screenshot_domains.png)
 
 ![yapdnsui_records]
-(https://github.com/leucos/pdnsui/raw/master/misc/screenshot_records.png)
+(https://github.com/xbgmsharp/pdnsui/raw/master/misc/screenshot_records.png)
 
 yapdnsui Prereqs
 ----------------
@@ -35,7 +37,7 @@ It might work with lower requirements but I didn't test.
 
 PowerDNS Prereqs
 ----------------
-Yes, you need a PowerDNS server or recursor to try this application out.
+Yes, you need a [PowerDNS](http://www.powerdns.com/) or recursor to try this application out.
 
 You need to enable the [PowerDNS API](https://github.com/PowerDNS/pdnsapi) on your PowerDNS instances.
 
@@ -151,10 +153,11 @@ Secure yapdnsui
 ---------------
 
 For security reasons, you may want to run a webserver (like Apache or nginx) in front of your PowerDNS webserver as a reverse proxy using SSL.
+As a best pratice, it is recommended to apply use SSL for the traffic between the end-user and the application.
 
 You can read this [HOWTO](http://blog.nachtarbeiter.net/2010/02/16/monitoring-powerdns-via-the-internal-web-server/) to see how.
 
-For security reasons, you probably want to use the same webserver for authentication.
+For security reasons, you probably want to use the same webserver for authentication purpose.
 
 You can read this [mod_auth_ldap - Apache HTTP Server](httpd.apache.org/docs/2.0/mod/mod_auth_ldap.html)
 
@@ -183,14 +186,14 @@ Credits
 
 * yaPDNSui is built with the awesome [NodeJS](http://nodejs.org) and [Express](http://expressjs.com).
 
-* Charts: [http://www.highcharts.com/] (http://www.highcharts.com/)
+* Charts: [http://www.highcharts.com/](http://www.highcharts.com/)
 
-* Layout & CSS: [http://twitter.github.com/bootstrap/] (http://twitter.github.com/bootstrap/)
+* Layout & CSS: [http://twitter.github.com/bootstrap/](http://twitter.github.com/bootstrap/)
 
-* Favicon from: [http://glyphicons.com/] (http://glyphicons.com/)
+* Favicon from: [http://glyphicons.com/](http://glyphicons.com/)
 
-* Apple touch icon from: [http://findicons.com/search/leaf] (http://findicons.com/search/leaf)
+* Apple touch icon from: [http://findicons.com/search/leaf](http://findicons.com/search/leaf)
 
-* PowerDNS [http://www.powerdns.com/] (http://www.powerdns.com/)
+* PowerDNS [http://www.powerdns.com/](http://www.powerdns.com/)
 
-* Thanks to PDNSui [https://github.com/leucos/pdnsui/] (https://github.com/leucos/pdnsui/)
+* Thanks to PDNSui [https://github.com/leucos/pdnsui/](https://github.com/leucos/pdnsui/)
