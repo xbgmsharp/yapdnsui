@@ -28,10 +28,11 @@ exports.list = function(req, res, json, callback){
 exports.add = function(req, res, callback){
 	if (req.db && req.body.url && req.body.password) {
 		var obj = url.parse(req.body.url);
-	        req.db.get("INSERT INTO server VALUES (?,?,?,?,?,?,?,?,?,?,?)", [null, obj.host, req.body.url, req.body.password, null,null,null,null,null,null,null],
+	        //req.db.get("INSERT INTO server VALUES (?,?,?,?,?,?,?,?,?,?,?)", [null, obj.host, req.body.url, req.body.password, null,null,null,null,null,null,null],
+	        req.db.get("INSERT INTO server VALUES (?,?,?,?)", [null, obj.host, req.body.url, req.body.password],
         	function (err, row) {
 			console.log("db.add");
-			callback(err, row);
+			callback(req, res, err);
         	});
 	}
 };
