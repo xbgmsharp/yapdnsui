@@ -7,7 +7,7 @@ block content
         h2
           | Servers
     div
-     form.form-inline#formAddServer(name="addserver", method="post", action="/server/add", role="form")
+     form.form-inline#formAddServer(name="addserver", method="post", action="/servers/add", role="form")
        div.form-group
          label.sr-only(for="url") PDNS WEBSERVER URL
          input.form-control#inputUserName(type="text", placeholder="http://localhost:8053", name="url")
@@ -20,10 +20,10 @@ block content
       - if (serverlist)
        each item in serverlist
           - if (serverselected && serverselected.name == item.name)
-            a.list-group-item.active(href="?server=#{item.name}")= item.name
+            a.list-group-item.active(href="/servers/#{item.id}")= item.name
               h4.list-group-item-text= item.url
                  span.glyphicon.glyphicon-ok
           - else            
-            a.list-group-item(href="?server=#{item.name}")= item.name
+            a.list-group-item(href="/servers/#{item.id}")= item.name
               h4.list-group-item-heading= item.url
   include inc/footer

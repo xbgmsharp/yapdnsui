@@ -27,35 +27,47 @@ html(lang='en')
                 a.navbar-brand(href='/') Yet Another PDNS UI
             .collapse.navbar-collapse(id="bs-example-navbar-collapse-1")
                 ul.nav.navbar-nav
-                   - var obj = {'/configuration':'Configuration', '/domains':'Domains', '/statistics':'Statistics', '/about':'About' }
+                  - if (serverselected)
+                   - var obj = {'/configuration':'Configuration', '/domains':'Domains', '/statistics':'Statistics' }
                     - each val, key in obj
-                      - if (serverselected && serverselected.name && "/"+navmenu == key)
-                         li.active
-                           a(href='#{key}?server=#{serverselected.name}') #{val}
-                      - else if ("/"+navmenu == key)
-                         li.active
-                           a(href='#{key}') #{val}
-                      - else if (serverselected && serverselected.name)
-                         li
-                           a(href='#{key}?server=#{serverselected.name}') #{val}
-                      - else
-                         li
-                           a(href='#{key}') #{val}
+                            - if ("/"+navmenu == key)
+                               li.active
+                                 a.active(href="/servers/#{serverselected.id}#{key}"):= val
+                            - else
+                               li
+                                 a(href="/servers/#{serverselected.id}#{key}"):= val
+
+                  - if ("/"+navmenu == 'about')
+                      li.active
+                        a(href='/about') About
+                  - else
+                      li
+                        a(href='/about') About
                 ul.nav.navbar-nav.navbar-right
                    li.dropdown
-                      a.dropdown-toggle(href="#", class="dropdown-toggle", data-toggle="dropdown") PDNS servers
+                      a.dropdown-toggle(href="/servers", class="dropdown-toggle", data-toggle="dropdown") PDNS servers
                         b.caret
                       ul.dropdown-menu(role="menu")
                          li
-                            a(href="/server") Manage servers
+                            a(href="/servers") Manage servers
                          li.divider
                          - if (serverlist)
                           each item in serverlist
-                            - if (serverselected && serverselected.name == item.name)
+                            - if (serverselected && serverselected.id == item.id)
                                li.active
-                                 a.active(href="?server=#{item.name}"):= item.name
+                                 a.active(href="/servers/#{item.id}"):= item.name
                                    span.glyphicon.glyphicon-ok
                             - else
                                li
-                                 a(href="?server=#{item.name}"):= item.name
+                                 a(href="/servers/#{item.id}"):= item.name
+
+    - if (msg)
+        div.alert(class="#{msg.class}")
+         a.close(href="#", data-dismiss="alert" aria-hidden="true")
+           | &times;
+         strong
+           = msg.title
+         | &nbsp; - &nbsp;
+         = msg.msg
+
     block content

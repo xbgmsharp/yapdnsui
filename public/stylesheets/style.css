@@ -52,3 +52,180 @@ background-color: #f0f7fd;
 border-color: #d0e3f0;
 }
 
+/* Layout thanks to pdnsui
+-------------------------------------------------- */
+
+.table-condensed td {
+  padding:0 !important;
+}
+
+.page-header a {
+  color:#333 !important;
+}
+
+.navbar a {
+  color:#999;
+}
+
+#messenger {
+  padding:4px 35px 4px 14px;
+  position:absolute;
+  width:900px;
+  margin-top:-20px;
+  height:20px;
+}
+
+/* Domains/Index
+ * ------------------------- */
+
+.page-header {
+  margin:10px 0 15px !important;
+}
+
+.table th a {
+  color:#333 !important;
+}
+
+.mod-edit-type .help-block {
+  margin-left:19px !important;
+}
+
+.mod-edit-type input {
+  margin-top:-2px !important;
+  margin-right:3px !important;
+}
+
+/* Domains/Records
+ * ------------------------- */
+
+.records-form td {
+  border-bottom:1px solid #999 !important;
+  border-top:0 !important;
+}
+
+.records-form button,
+.records-form input,
+.records-form select {
+  margin:4px !important;
+}
+
+.records-form button {
+  min-width:110px !important;
+}
+
+td.records-value-name,
+td.records-value-type,
+td.records-value-prio,
+td.records-value-content,
+td.records-value-ttl,
+td.records-value-action {
+  vertical-align:middle !important;
+}
+
+td.records-input-ttl input,
+td.records-input-prio input,
+td.records-input-action,
+td.records-value-ttl,
+td.records-value-prio,
+td.records-value-action {
+  text-align:right !important;
+}
+
+td.records-value-action {
+  margin-left:10px !important;
+}
+
+td.records-value-prio {
+  padding-right:8px !important;
+}
+
+th.records-head-ttl,
+th.records-head-prio {
+  padding-right:15px !important;
+  text-align:right !important;
+}
+
+#mod-edit-recordreset,
+#mod-edit-recordsubmit {
+  min-width:60px !important;
+  padding:4px !important;
+  margin:4px 0 !important;
+}
+
+
+/* Name */
+th.records-head-name,
+td.records-input-name,
+td.records-input-name input,
+td.records-value-name {
+  width:250px !important;
+}
+
+.records-input-name input {
+  margin-left:0px !important;
+}
+
+
+/* Type */
+th.records-head-type,
+td.records-input-type,
+td.records-input-type select,
+td.records-value-type {
+  width:85px !important;
+}
+
+td.records-value-type {
+  padding-left:10px !important;
+}
+
+
+/* Priority */
+th.records-head-prio,
+td.records-input-prio,
+td.records-input-prio input,
+td.records-value-prio {
+  width:40px !important;
+}
+
+/* Content */
+td.records-value-content {
+  padding-left:10px !important;
+}
+    
+@media (min-width: 1200px) {
+    th.records-head-content,
+    td.records-input-content,
+    td.records-input-content input,
+    td.records-value-content {
+      width:480px !important;
+    }
+}
+
+@media (min-width: 940px) and (max-width: 1199px) {
+    th.records-head-content,
+    td.records-input-content,
+    td.records-input-content input,
+    td.records-value-content {
+      max-width:350px !important;
+      min-width:200px !important;
+    }
+}
+
+
+td.records-value-content-soa {
+  padding-bottom:4px !important;
+}
+
+
+/* TTL */
+th.records-head-ttl,
+td.records-input-ttl,
+td.records-input-ttl input,
+td.records-value-ttl {
+  width:60px;
+}
+
+td.records-value-ttl {
+  padding-right:10px;
+}
+

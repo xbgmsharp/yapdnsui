@@ -14,7 +14,7 @@ block content
               span.glyphicon.glyphicon-plus
               | Add domain
           .btn-group.pull-right
-            button.btn.btn-default(href='#')
+            button.btn.btn-default.disable(href='#')
               span.glyphicon.glyphicon-refresh
               | Notify slaves
       .modal.fade(id="add-domain", tabindex="-1", role="dialog", aria-labelledby="add-domain-label", aria-hidden="true")
@@ -86,11 +86,11 @@ block content
           thead
             tr
               th
-                a(href='/domains/index?sortby=name&order=desc') Name 
+                Name 
               th
-                a(href='/domains/index?sortby=type&order=desc') Type 
+                Type 
               th
-                a(href='/domains/index?sortby=master&order=desc') Master 
+                Master 
               th
           //
              end of table headers 
@@ -98,7 +98,7 @@ block content
            each item in data
             tr
               td(style='vertical-align: middle;')
-                a(href='/domains/records/3093')= item.name
+                a(href='/servers/#{serverselected.id}/domains/#{item.id}')= item.name
               td(style='vertical-align: middle;')= item.kind
               td(style='vertical-align: middle;')= item.masters
               td(style='vertical-align: middle; text-align: right;')

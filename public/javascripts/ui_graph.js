@@ -7,7 +7,7 @@
  */
 
 function getURLParameter(name) {
-  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+  return window.location.pathname.split('/')[2];
 }
 
 var graph_cachehitrate;
@@ -33,7 +33,7 @@ function update_cachehitrate(point) {
 function requestData() {
     var server = getURLParameter('server');
     $.ajax({
-        url: '/pdnsapi/statistics?server='+server,
+        url: '/servers/'+server+'/statistics/dump',
         success: function(point) {
             console.log(point);
             update_cachehitrate(point);

@@ -1,10 +1,13 @@
 var express = require('express');
+var database = require('../libs/db');
 var router = express.Router();
-var request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('', {});
+  if (!req.db) { res.render('', {}); }
+  database.list(req, res, null, function(req, res, json, rows) {
+           res.render('', { 'serverlist': rows, 'navmenu': '' });
+     });
 });
 
 module.exports = router;

@@ -7,30 +7,25 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // Load our routes
-// TODO can be improve when undestand
-var routes = require('./routes/index');
+var index = require('./routes/index');
 var about = require('./routes/about');
-var configuration = require('./routes/configuration');
-var domains = require('./routes/domains');
-var records = require('./routes/records');
-var statistics = require('./routes/statistics');
-var servers = require('./routes/server');
+var pdns = require('./routes/pdns');
 
-// Load our library
-var pdnsapi = require('./libs/pdnsapi');
+// Load our DB library
 var database = require('./libs/db');
 // Initiliaze the db
 var db = database.create();
-
+// Initiliaze the app
 var app = express();
 
 // Make our db is accessible to our router
+// Will be execute for all events
 app.use(function(req,res,next){
     req.db = db;
     next();
 });
 
-// Set global package.json details
+// Set global package.json details for use in the webgui
 app.set('package', package);
 app.set('title', 'Yet Another PDNS UI');
 
@@ -45,16 +40,10 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+// Route the page
+app.use('/', index);
 app.use('/about', about);
-app.use('/configuration', configuration);
-app.use('/domains', domains);
-app.use('/records', records);
-app.use('/statistics', statistics);
-app.use('/server', servers);
-// Hidden call
-app.use('/server/:action', servers);
-//app.use('/pdnsapi/:action', pdnsapi);
+app.use('/servers', pdns);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
