@@ -45,22 +45,29 @@ html(lang='en')
                         a(href='/about') About
                 ul.nav.navbar-nav.navbar-right
                    li.dropdown
-                      a.dropdown-toggle(href="/servers", class="dropdown-toggle", data-toggle="dropdown") PDNS servers
-                        b.caret
-                      ul.dropdown-menu(role="menu")
-                         li
-                            a(href="/servers") Manage servers
-                         li.divider
-                         - if (serverlist)
-                          each item in serverlist
+                     - if (serverselected)
+                        a.dropdown-toggle(href="/servers/#{serverselected.id}", class="dropdown-toggle", data-toggle="dropdown") PDNS servers
+                          b.caret
+                     - else
+                        a.dropdown-toggle(href="/servers", class="dropdown-toggle", data-toggle="dropdown") PDNS servers
+                          b.caret
+                     ul.dropdown-menu(role="menu")
+                       li
+                        - if (serverselected)
+                            a(href="/servers/#{serverselected.id}") Manage servers
+                        - else
+                           a(href="/servers") Manage servers
+                        li.divider
+                          - if (serverlist)
+                           each item in serverlist
                             - if (serverselected && serverselected.id == item.id)
                                li.active
                                  a.active(href="/servers/#{item.id}"):= item.name
+                                   | &nbsp;
                                    span.glyphicon.glyphicon-ok
                             - else
                                li
                                  a(href="/servers/#{item.id}"):= item.name
-
     - if (msg)
         div.alert(class="#{msg.class}")
          a.close(href="#", data-dismiss="alert" aria-hidden="true")

@@ -46,7 +46,7 @@ router.post('/add', function(req, res) {
 
 /* GET pdns page. */
 router.get('/:id', function(req, res) {
-	if (!req.db && !req.serveri) { res.redirect('/'); }
+	if (!req.db && !req.server) { res.redirect('/'); }
 	pdnsapi.servers(req, res, req.server, function (error, response, body) {
                               // If any error redirect to index
                               if (!body) {				 
@@ -95,7 +95,7 @@ router.get('/:id/del', function(req, res) {
 router.get('/:id/configuration', function(req, res) {
         console.log(req.db);
         // Redirect to index if missing value
-        if (!req.db || !req.server) { res.redirect('/'); } // TODO warm user if missing a DB or a valid server
+        if (!req.db && !req.server) { res.redirect('/'); } // TODO warm user if missing a DB or a valid server
                         pdnsapi.config(req, res, req.server, function (error, response, body) {
 				// If any error redirect to index
                                 if (!body) { console.log(error); res.redirect('/'); }
@@ -116,7 +116,7 @@ router.get('/:id/configuration', function(req, res) {
 router.get('/:id/domains', function(req, res) {
         console.log(req.db);
         // If missing value redirect to index or to an error page!!!
-        if (!req.db || !req.server) { res.redirect('/'); }
+        if (!req.db && !req.server) { res.redirect('/'); }
                         pdnsapi.zones(req, res, req.server, function (error, response, server, body) {
 				// If any error redirect to index
                                 if (!body) { console.log(error); res.redirect('/'); }
@@ -139,7 +139,7 @@ router.get('/:id/domains/:zone_id', function(req, res) {
         console.log(req.params);
         console.log(req.params.zone_id);
         // If missing value redirect to index or to an error page!!!
-        if (!req.db || !req.server) { res.redirect('/'); }
+        if (!req.db && !req.server) { res.redirect('/'); }
                         pdnsapi.records(req, res, req.server, function (error, response, server, body) {
 				// If any error redirect to index
                                 if (!body) { console.log(error); res.redirect('/'); }
@@ -158,8 +158,10 @@ router.get('/:id/domains/:zone_id', function(req, res) {
 
 /* GET stats page. */
 router.get('/:id/statistics', function(req, res) {
-  if (!req.db || !req.server) { res.redirect('/'); }
-  else { res.render('statistics', { 'navmenu': 'statistics' }); }
+  if (!req.db && !req.server) { res.render('', {}); }
+  database.list(req, res, null, function(req, res, json, rows) {
+           res.render('statistics', { 'serverlist': rows, 'navmenu': 'statistics', 'serverselected': req.server });
+     });
 });
 
 /* GET the statistics dump for graph */
@@ -168,7 +170,7 @@ router.get('/:id/statistics/dump', function(req, res) {
         console.log(req.params);
         console.log(req.params.zone_id);
         // If missing value redirect to index or to an error page!!!
-        if (!req.db || !req.server) { res.redirect('/'); }
+        if (!req.db && !req.server) { res.redirect('/'); }
         pdnsapi.statistics(req, res, req.server, function (error, response, server, body) {
 	       	if (!body) { console.log(error); res.send(myJsonString, {'Content-type': 'text/json'}, 200); }
                 else {
