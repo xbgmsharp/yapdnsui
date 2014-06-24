@@ -7,7 +7,7 @@ exports.create = function(){
 	// Initiliaze the db
 	db.serialize(function() {
 		db.run("CREATE TABLE server (id integer primary key asc, name TEXT, url TEXT, password TEXT)");
-		//db.run("INSERT INTO server VALUES (?,?,?,?)", [null, 'localhost', 'https://localhost', 'changeme']);
+		//db.run("INSERT INTO server VALUES (?,?,?,?)", [null, 'localhost', 'https://localhost:8053', 'changeme']);
 		db.each("SELECT * FROM server", function(err, row) {
 			console.log("init db.js "+ row.id + " : " + row.name + " : " + row.url + " : " + row.password);
 		});

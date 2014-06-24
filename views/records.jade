@@ -24,32 +24,48 @@ block content
             th.records-head-content Content
             th.records-head-ttl TTL
             th.records-head-ttl Disabled
+            th.records-head-action
         tbody
           tr.records-form
-            form(method='POST', action="/records/save")
-             td.records-input-name
-               input(name="name", id="mod-edit-recordname", type="text", placeholder="eg. www or leave empty")
-             td.records-input-type
-               select(id="mod-edit-recordtype" name="type")
-                 option(value="") A
-             td.records-input-prio
-                 input(name="prio", id="mod-edit-recordprio", type="text", placeholder="-", disabled="disabled")
-             td.records-input-content
-                 input(name="content", id="mod-edit-recordcontent", type="text", placeholder="eg. 192.0.43.10, web01.example.com")
-             td.records-input-ttl
-                 input(name="ttl", id="mod-edit-recordttl", type="text", value="360")
-             td.records-input-action
-                 button(type="reset", id="mod-edit-recordreset", class="btn") 
-                 button type="submit", id="mod-edit-recordsubmit", class="btn btn-success")
-             td.records-input-disabled
-                 input(type="hidden", id="mod-edit-recordid", name="disabled", value="")
-         each item in data.records
-           tr
+            form.form.form-horizontal(method='POST', action="/records/save")
+               td.records-input-name
+                 input.form-control(name="name", id="mod-edit-recordname", type="text", placeholder="eg. www or leave empty")
+               td.records-input-type
+                 select.form-control(id="mod-edit-recordtype" name="type")
+                   option(value="") A
+                   option(value="") AAAA
+               td.records-input-prio
+                 input.form-control(name="prio", id="mod-edit-recordprio", type="text", placeholder="-", disabled="disabled")
+               td.records-input-content
+                 input.form-control(name="content", id="mod-edit-recordcontent", type="text", placeholder="eg. 192.0.43.10, web01.example.com")
+               td.records-input-ttl
+                 input.form-control(name="ttl", id="mod-edit-recordttl", type="text", value="360")
+               td.records-input-disabled
+                 div.checkbox-inline
+                   label
+                     input.form-control(name="disabled", id="mod-edit-recorddisabled", type="checkbox")
+               td.records-input-action
+                 div.btn-toolbar
+                   div.btn-group
+                     button(type="reset", id="mod-edit-recordreset", class="btn btn-xs btn-reset") Clear
+                     button(type="submit", id="mod-edit-recordsubmit", class="btn btn-xs btn-success") Save
+          each item in data.records
+            tr
              td.records-value-name= item.name
              td.records-value-type= item.type
              td.records-value-prio= item.priority
              td.records-value-content= item.content
              td.records-value-ttl= item.ttl
              td.records-value-disabled= item.disabled
+             td.records-value-action
+                div.btn-toolbar
+                   div.btn-group
+                       button.btn.btn-default.btn-xs(data-toggle="modal",data-target="#add-domain")
+                         span.glyphicon.glyphicon-edit
+                         | Edit
+                       | &nbsp;
+                       button.btn.btn-danger.btn-xs(data-toggle="modal",data-target="#del-domain")
+                         span.glyphicon.glyphicon-remove
+                         | Delete
 
   include inc/footer

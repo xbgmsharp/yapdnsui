@@ -10,10 +10,10 @@ block content
      form.form-inline#formAddServer(name="addserver", method="post", action="/servers/add", role="form")
        div.form-group
          label.sr-only(for="url") PDNS WEBSERVER URL
-         input.form-control#inputUserName(type="text", placeholder="http://localhost:8053", name="url")
+         input.form-control#inputUserName(type="url", placeholder="http://localhost:8053", name="url")
        div.form-group
          label.sr-only(for="passowrd") PDNS WEBSERVER PASSWORD
-         input.form-control#inputUserEmail(type="text", placeholder="changeme", name="password")
+         input.form-control#inputUserEmail(type="password", placeholder="changeme", name="password")
        button.btn.btn-default#btnSubmit(type="submit") submit
     p
     div.list-group
