@@ -11,9 +11,10 @@ statistics and list/update configuration items *live* from one or multiple Power
 
 In addition, the application should let you manage DNSSEC zones and zone metadata.
 
-It is not just another PowerDNS UI, it is the first to use the PowerDNS API, therefor to be backend-agnostic and DNSSEC aware.
+It is not just another PowerDNS UI, it is the first to use the [PowerDNS API](https://github.com/PowerDNS/pdnsapi), therefor to be backend-agnostic and DNSSEC aware.
 
-Currently, you can only list configuration and see live statistics in a graph and list all the domains for demonstration purpose.
+Currently, you can list the configuration and see live statistics in a graph and list all the domains and records for demonstration purpose.
+
 You can chekcout the web interface using the [live demo](http://yapdnsui-xbgmsharp.rhcloud.com/) running on OpenShift cloud.
 
 You are welcome to contribute.
