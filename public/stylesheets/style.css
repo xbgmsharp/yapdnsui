@@ -1,8 +1,6 @@
 body {
+  margin-top:70px;
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  padding-top: 70px;
-  padding-bottom: 40px;
 }
 
 a {
@@ -10,12 +8,12 @@ a {
 }
 
 .noscript {
-	font-size: 25px;
-	background-color: red;
-	text-align: center;
-	position: fixed;
-	left: 0px;
-	bottom: 50%;
+  font-size: 25px;
+  background-color: red;
+  text-align: center;
+  position: fixed;
+  left: 0px;
+  bottom: 50%;
 }
 
 /* Side notes for calling out things
@@ -23,33 +21,33 @@ a {
  
 /* Base styles (regardless of theme) */
 .bs-callout {
-margin: 20px 0;
-padding: 15px 30px 15px 15px;
-border-left: 5px solid #eee;
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #eee;
 }
 .bs-callout h4 {
-margin-top: 0;
+  margin-top: 0;
 }
 .bs-callout p:last-child {
-margin-bottom: 0;
+  margin-bottom: 0;
 }
 .bs-callout code,
 .bs-callout .highlight {
-background-color: #fff;
+  background-color: #fff;
 }
  
 /* Themes for different contexts */
 .bs-callout-danger {
-background-color: #fcf2f2;
-border-color: #dFb5b4;
+  background-color: #fcf2f2;
+  border-color: #dFb5b4;
 }
 .bs-callout-warning {
-background-color: #fefbed;
-border-color: #f1e7bc;
+  background-color: #fefbed;
+  border-color: #f1e7bc;
 }
 .bs-callout-info {
-background-color: #f0f7fd;
-border-color: #d0e3f0;
+  background-color: #f0f7fd;
+  border-color: #d0e3f0;
 }
 
 /* Layout thanks to pdnsui
@@ -57,6 +55,7 @@ border-color: #d0e3f0;
 
 .table-condensed td {
   padding:0 !important;
+  font-size: 20px !important;
 }
 
 .page-header a {
@@ -118,6 +117,7 @@ td.records-value-type,
 td.records-value-prio,
 td.records-value-content,
 td.records-value-ttl,
+td.records-value-disabled,
 td.records-value-action {
   vertical-align:middle !important;
 }
@@ -127,6 +127,7 @@ td.records-input-prio input,
 td.records-input-action,
 td.records-value-ttl,
 td.records-value-prio,
+td.records-value-disabled,
 td.records-value-action {
   text-align:right !important;
 }
@@ -140,6 +141,7 @@ td.records-value-prio {
 }
 
 th.records-head-ttl,
+th.records-head-disabled,
 th.records-head-prio {
   padding-right:15px !important;
   text-align:right !important;
@@ -158,7 +160,7 @@ th.records-head-name,
 td.records-input-name,
 td.records-input-name input,
 td.records-value-name {
-  width:250px !important;
+  width:260px !important;
 }
 
 .records-input-name input {
@@ -171,7 +173,7 @@ th.records-head-type,
 td.records-input-type,
 td.records-input-type select,
 td.records-value-type {
-  width:85px !important;
+  width:100px !important;
 }
 
 td.records-value-type {
@@ -191,13 +193,13 @@ td.records-value-prio {
 td.records-value-content {
   padding-left:10px !important;
 }
-    
+
 @media (min-width: 1200px) {
     th.records-head-content,
     td.records-input-content,
     td.records-input-content input,
     td.records-value-content {
-      width:480px !important;
+      width:520px !important;
     }
 }
 
@@ -206,7 +208,7 @@ td.records-value-content {
     td.records-input-content,
     td.records-input-content input,
     td.records-value-content {
-      max-width:350px !important;
+      max-width:370px !important;
       min-width:200px !important;
     }
 }
@@ -226,6 +228,19 @@ td.records-value-ttl {
 }
 
 td.records-value-ttl {
+  padding-right:10px;
+}
+
+
+/* Disable */
+th.records-head-disabled
+td.records-input-disabled,
+td.records-input-disabled input,
+td.records-value-disabled {
+  width:60px;
+}
+
+td.records-value-disabled {
   padding-right:10px;
 }
 

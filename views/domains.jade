@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div.container
+  div.container-fluid
        // Page header 
       .page-header
         h2
@@ -17,6 +17,7 @@ block content
             button.btn.btn-default.disable(href='#')
               span.glyphicon.glyphicon-refresh
               | Notify slaves
+
       .modal.fade.in(id="add-domain-modal", tabindex="-1", role="dialog", aria-labelledby="add-domain-label", aria-hidden="true")
        .modal-dialog
         .modal-content
@@ -84,12 +85,10 @@ block content
         table.table.table-striped.table-condensed
           thead
             tr
-              th
-                Name 
-              th
-                Type 
-              th
-                Master 
+              th Name
+              th Type
+              th Master
+              th DNSSEC
               th
           tbody
            each item in data
@@ -98,21 +97,16 @@ block content
                 a(href='/servers/#{serverselected.id}/domains/#{item.id}')= item.name
               td(style='vertical-align: middle;')= item.kind
               td(style='vertical-align: middle;')= item.masters
+              td(style='vertical-align: middle;')= item.dnssec
               td(style='vertical-align: middle; text-align: right;')
                 // row button group to spin up modal or delete domain 
                 .btn-group
-                  a.btn.btn-default.btn-xs.edit-domain(data-toggle="modal", href="#add-domain-modal", data-id="#{item.id}", data-name="#{item.name}", data-kind="#{item.kind}")
+                  btn.btn.btn-default.btn-xs.edit-domain(data-toggle="modal", href="#add-domain-modal", data-id="#{item.id}", data-name="#{item.name}", data-kind="#{item.kind}", rel="tooltip", title="Edit domain")
                     span.glyphicon.glyphicon-edit
                     | Settings
-                  a.btn.btn-danger.btn-xs.del-domain(data-toggle="modal", href="#del-domain-modal", data-id="#{item.id}", data-name="#{item.name}")
+                  btn.btn.btn-danger.btn-xs.del-domain(data-toggle="modal", href="#del-domain-modal", data-id="#{item.id}", data-name="#{item.name}", rel="tooltip", title="Delete domain")
                     span.glyphicon.glyphicon-remove
                 // row button end 
-        ul.pager
-          span.first.grey <<
-          span.previous.grey <
-          a.current(href='/domains/?page=1') 1
-          span.next.grey >
-          span.last.grey >>
 
   include inc/footer
 
