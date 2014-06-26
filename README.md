@@ -39,7 +39,9 @@ It might work with lower requirements but I didn't test.
 
 PowerDNS Prereqs
 ----------------
-Yes, you need a [PowerDNS](http://www.powerdns.com/) or recursor to try this application out.
+Yes, you need a [PowerDNS](http://www.powerdns.com/) server.
+
+It can be either a [Authoritative](http://doc.powerdns.com/html/powerdns.html) or [Recursor](http://doc.powerdns.com/html/recursion.html) to try this application out.
 
 You need to enable the [PowerDNS API](https://github.com/PowerDNS/pdnsapi) on your PowerDNS instances.
 
@@ -84,13 +86,13 @@ npm install
 PORT=8080 DEBUG=yapdnsui node bin/www
 ```
 
-* Point your browser to: [http://localhost:8080/] (http://localhost:8080/)
+* Point your browser to: [http://localhost:8080/](http://localhost:8080/)
 * Enjoy!
 
 _Note_ : yaPDNSui use a sqlite memory database to store PowerDNS instances details.
 As an advantage, you don't need to configure anything outside of the webgui.
 However you need to add a PowerDNS instances to the configuration after each application start.
-You can access the PowerDNS server manage interface using the menu on the right or by poinyour browser to '/server'.
+You can access the PowerDNS server manage interface using the menu on the right.
 
 Test using Docker
 -----------------
@@ -98,7 +100,7 @@ Test using Docker
 * Install Docker
 [Install documentation of Docker](https://docs.docker.com/installation/)
 
-The deb package are valid for Ubuntu and Debian.
+The Docker deb package are valid for Ubuntu and Debian.
 
 ```bash
 $ cat > /etc/apt/sources.list.d/docker.list
@@ -107,22 +109,30 @@ $ apt-get update && apt-get install lxc-docker
 ```
 
 * Build the images
-The build process might take some time while it download the origin nodejs image.
 
+The following command build the build directly from the github repository.
+The build process might take some time a while as it download the origin nodejs docker image.
 ```bash
 $ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
-or
-$ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui
+```
+
+Alternatively, you can after cloning the repository build the image.
+```bash
+$ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui .
 ```
 
 * Run the container
+
+Run as a detach container
 ```bash
 $ docker run -d -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui
-or
+
+Or attach a shell to the container
+```
 $ docker run -i --rm -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
 ```
 
-* check the IP
+* Check the IP
 ```bash
 $ docker ps -a
 $ docker inspect CONTAINER_ID | grep IPA
@@ -144,12 +154,12 @@ $ ssh root@172.17.0.x
   yapdnsui Express server listening on port 8080 +0ms
 ```
 
-* Point your browser to: [http://172.17.0.x:8080/] (http://172.17.0.x:8080/)
+* Point your browser to: [http://172.17.0.x:8080/](http://172.17.0.x:8080/)
 * Enjoy!
 
 If the application crash. The container exit.
-You can fillup an issue and add the backtrace or you fix it.
 From a SSH shell, you can restart the application.
+You can fillup an issue and add the backtrace or you fix it.
 
 Secure yapdnsui
 ---------------
