@@ -10,21 +10,22 @@ block content
             | &nbsp;domains in backend
         .btn-toolbar(style='margin-bottom: 10px;')
           .btn-group
-            button.btn.btn-default(data-toggle="modal",data-target="#add-domain")
+            button.btn.btn-default.add-domain(data-toggle="modal",data-target="#add-domain-modal")
               span.glyphicon.glyphicon-plus
               | Add domain
           .btn-group.pull-right
             button.btn.btn-default.disable(href='#')
               span.glyphicon.glyphicon-refresh
               | Notify slaves
-      .modal.fade(id="add-domain", tabindex="-1", role="dialog", aria-labelledby="add-domain-label", aria-hidden="true")
+      .modal.fade.in(id="add-domain-modal", tabindex="-1", role="dialog", aria-labelledby="add-domain-label", aria-hidden="true")
        .modal-dialog
         .modal-content
          .modal-header
           button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
-          h4(class="modal-title", id="add-domain-label") Add a domain
+          h4(class="modal-title", id="add-domain-label")
+            #mod-edit-operation
          .modal-body
-          form.modal-form.form-horizontal(method='POST', action='/domains/save')
+          form.form.form-horizontal.modal-form(method='POST', action='/domains/save')
            fieldset
               // Domain Name
               .control-group
@@ -58,31 +59,29 @@ block content
                   span.help-inline Ip Address of the master host, which PDNS should replicate with.
             // modal body
           .modal-footer
-           a.btn.btn-primary(href='#', data-dismiss='modal') Cancel
+           a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
            a#mod-add-submit.btn.btn-success(href='#') Add domain
 
-      .modal.fade(id="del-domain", tabindex="-1", role="dialog", aria-labelledby="del-domain-label", aria-hidden="true")
+      .modal.fade.in(id="del-domain-modal", tabindex="-1", role="dialog", aria-labelledby="del-domain-label", aria-hidden="true")
        .modal-dialog
         .modal-content
          .modal-header
           button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
-          h4(class="modal-title", id="del-domain-label") Delete a domain
+          h4(class="modal-title", id="del-domain-label")
+            #mod-delete-operation
          .modal-body
           .alert.alert-warning
             p
               strong Warning!
-            | This operation will delete the domain and all associated records for
+            | This operation will delete the domain and all associated records for 
             strong#mod-delete-text-name
-            | Are you fucking sure you want to do this ?
+            | <br>Are you sure you want to do this ?
          .modal-footer
-          a.btn.btn-primary(href='#', data-dismiss='modal') Cancel
-          a#mod-delete-submit.btn.btn-danger(href='#') Delete domain
-      //
-         end of modal 
+          a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
+          a.btn.btn-danger#mod-delete-submit(href='') Delete domain
+
       div
         table.table.table-striped.table-condensed
-          //
-             table headers 
           thead
             tr
               th
@@ -92,8 +91,6 @@ block content
               th
                 Master 
               th
-          //
-             end of table headers 
           tbody
            each item in data
             tr
@@ -104,10 +101,10 @@ block content
               td(style='vertical-align: middle; text-align: right;')
                 // row button group to spin up modal or delete domain 
                 .btn-group
-                  button.btn.btn-default.btn-xs(data-toggle="modal",data-target="#add-domain")
+                  a.btn.btn-default.btn-xs.edit-domain(data-toggle="modal", href="#add-domain-modal", data-id="#{item.id}", data-name="#{item.name}", data-kind="#{item.kind}")
                     span.glyphicon.glyphicon-edit
                     | Settings
-                  button.btn.btn-danger.btn-xs(data-toggle="modal",data-target="#del-domain")
+                  a.btn.btn-danger.btn-xs.del-domain(data-toggle="modal", href="#del-domain-modal", data-id="#{item.id}", data-name="#{item.name}")
                     span.glyphicon.glyphicon-remove
                 // row button end 
         ul.pager
@@ -118,3 +115,32 @@ block content
           span.last.grey >>
 
   include inc/footer
+
+  | <script type="text/javascript">
+  |  $(document).on("click", ".add-domain", function () {
+  |      $('#mod-edit-operation').html("Add a domain");
+  |      $("#mod-edit-name").val("");
+  |      $('#mod-edit-text-name').html("");
+  |      $('#mod-add-submit').attr("href", "/domains/add");
+  |      $('#add-domain-modal').modal('show');
+  |  });
+  |  $(document).on("click", ".edit-domain", function () {
+  |      var DomainId = $(this).data('id');
+  |      var DomainName = $(this).data('name');
+  |      var DomainKind = $(this).data('kind');
+  |      $('#mod-edit-operation').html("Edit "+DomainName);
+  |      $("#mod-edit-name").val( DomainName );
+  |      $('#mod-edit-text-name').html(DomainName);
+  |      $("input:radio[value='MASTER']").attr("checked", true);
+  |      $('#mod-add-submit').attr("href", "/domains/edit/"+DomainId);
+  |      $('#add-domain-modal').modal('show');
+  |  });
+  |  $(document).on("click", ".del-domain", function () {
+  |      var DomainId = $(this).data('id');
+  |      var DomainName = $(this).data('name');
+  |      $('#mod-delete-operation').html("Delete "+DomainName);
+  |      $('#mod-delete-text-name').html(DomainName);
+  |      $('#mod-delete-submit').attr("href", "/domains/del/"+DomainId);
+  |      $('#del-domain-modal').modal('show');
+  |  });
+  | </script>
