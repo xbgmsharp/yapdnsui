@@ -26,7 +26,7 @@ block content
           h4(class="modal-title", id="add-domain-label")
             #mod-edit-operation
          .modal-body
-          form.form.form-horizontal.modal-form(method='POST', action='/domains/save')
+          form.form.form-horizontal.modal-form(method='POST', action='/servers/#{serverselected.id}/domains/save')
            fieldset
               // Domain Name
               .control-group
@@ -115,7 +115,7 @@ block content
   |      $('#mod-edit-operation').html("Add a domain");
   |      $("#mod-edit-name").val("");
   |      $('#mod-edit-text-name').html("");
-  |      $('#mod-add-submit').attr("href", "/domains/add");
+  |      $('#mod-add-submit').attr("href", "/servers/#{serverselected.id}/domains/add");
   |      $('#add-domain-modal').modal('show');
   |  });
   |  $(document).on("click", ".edit-domain", function () {
@@ -126,7 +126,7 @@ block content
   |      $("#mod-edit-name").val( DomainName );
   |      $('#mod-edit-text-name').html(DomainName);
   |      $("input:radio[value='MASTER']").attr("checked", true);
-  |      $('#mod-add-submit').attr("href", "/domains/edit/"+DomainId);
+  |      $('#mod-add-submit').attr("href", "/servers/#{serverselected.id}/domains/edit/"+DomainId);
   |      $('#add-domain-modal').modal('show');
   |  });
   |  $(document).on("click", ".del-domain", function () {
@@ -134,7 +134,7 @@ block content
   |      var DomainName = $(this).data('name');
   |      $('#mod-delete-operation').html("Delete "+DomainName);
   |      $('#mod-delete-text-name').html(DomainName);
-  |      $('#mod-delete-submit').attr("href", "/domains/del/"+DomainId);
+  |      $('#mod-delete-submit').attr("href", "/servers/#{serverselected.id}/domains/del/"+DomainId);
   |      $('#del-domain-modal').modal('show');
   |  });
   | </script>
