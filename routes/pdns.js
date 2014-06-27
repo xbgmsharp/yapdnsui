@@ -96,7 +96,7 @@ router.get('/:id/configuration', function(req, res) {
         console.log(req.db);
         // Redirect to index if missing value
         if (!req.db && !req.server) { res.redirect('/'); } // TODO warm user if missing a DB or a valid server
-                        pdnsapi.config(req, res, req.server, function (error, response, body) {
+                        pdnsapi.config(req, res, function (error, response, body) {
 				// If any error redirect to index
                                 if (!body) { console.log(error); res.redirect('/'); }
                                 else {
@@ -117,7 +117,7 @@ router.get('/:id/domains', function(req, res) {
         console.log(req.db);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-                        pdnsapi.zones(req, res, req.server, function (error, response, server, body) {
+                        pdnsapi.zoneslist(req, res, function (error, response, body) {
 				// If any error redirect to index
                                 if (!body) { console.log(error); res.redirect('/'); }
                                 else {
@@ -133,14 +133,57 @@ router.get('/:id/domains', function(req, res) {
                         });
 });
 
-/* GET records page from a domain page */
-router.get('/:id/domains/:zone_id', function(req, res) {
+/* Delete a domain */
+router.get('/:id/domains/del/:zone_id', function(req, res) {
         console.log(req.db);
-        console.log(req.params);
+        console.log(req.params.id);
         console.log(req.params.zone_id);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-                        pdnsapi.records(req, res, req.server, function (error, response, server, body) {
+                        pdnsapi.zonesdelete(req, res, function (error, response, body) {
+				// If any error redirect to index
+                                if (error && response.statusCode != 204) { console.log(error); res.redirect('/servers'); }
+                                else {
+                                        res.redirect('/servers/'+req.server.id+'/domains');
+                                }
+                        });
+});
+
+
+/* Get records of a domain */
+router.get('/:id/domains/:zone_id', function(req, res) {
+        console.log(req.db);
+        console.log(req.params.id);
+        console.log(req.params.zone_id);
+        // If missing value redirect to index or to an error page!!!
+        if (!req.db && !req.server) { res.redirect('/'); }
+                        pdnsapi.recordslist(req, res, function (error, response, body) {
+				console.log(error);
+				console.log(body);
+				// If any error redirect to index
+                                if (error && response.statusCode != 200) { console.log(error); res.redirect('/servers'); }
+                                else {
+					console.log(body);
+                                        var json = JSON.parse(body);
+                                        console.log(json);
+                                        database.list(req, res, json, function(req, res, json, rows) {
+                                                res.render('records', { 'data': json, 
+									'serverlist': rows, 
+									'navmenu': 'domains',
+									'serverselected': req.server});
+                                        });
+                                }
+                        });
+});
+
+/* Delete a record */
+router.get('/:id/records/del/:record_id', function(req, res) {
+        console.log(req.db);
+        console.log(req.params);
+        console.log(req.params.id);
+        // If missing value redirect to index or to an error page!!!
+        if (!req.db && !req.server) { res.redirect('/'); }
+                        pdnsapi.recordsdelete(req, res, record, function (error, response, server, body) {
 				// If any error redirect to index
                                 if (!body) { console.log(error); res.redirect('/'); }
                                 else {
@@ -168,7 +211,7 @@ router.get('/:id/statistics', function(req, res) {
 router.get('/:id/statistics/dump', function(req, res) {
         console.log(req.db);
         console.log(req.params);
-        console.log(req.params.zone_id);
+        console.log(req.params.id);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
         pdnsapi.statistics(req, res, req.server, function (error, response, server, body) {
