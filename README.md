@@ -7,7 +7,7 @@ The ultimate goal is to produce a slick web interface to [PowerDNS](http://www.p
 will let you fully operate your PowerDNS instance via the official [PowerDNS API](https://github.com/PowerDNS/pdnsapi).
 
 The application should let you do add/delete/update domains and records as well as graph
-statistics and list/update configuration items *live* from one or multiple PowerDNS instance via the PowerDNS API.
+statistics and list/update configuration items **LIVE** from one or multiple PowerDNS instance via the PowerDNS API.
 
 In addition, the application should let you manage DNSSEC zones and zone metadata.
 
@@ -35,17 +35,18 @@ yapdnsui Prereqs
 ----------------
 
 You need [NodeJS](http://nodejs.org) v0.10.x+ for this application to work.
+
 It might work with lower requirements but I didn't test.
 
 PowerDNS Prereqs
 ----------------
 Yes, you need a [PowerDNS](http://www.powerdns.com/) server.
 
-It can be either a [Authoritative](http://doc.powerdns.com/html/powerdns.html) or [Recursor](http://doc.powerdns.com/html/recursion.html) to try this application out.
+It can be either an [Authoritative](http://doc.powerdns.com/html/powerdns.html) or a [Recursor](http://doc.powerdns.com/html/recursion.html) to try this application out.
 
 You need to enable the [PowerDNS API](https://github.com/PowerDNS/pdnsapi) on your PowerDNS instances.
 
-Configure as follows:
+For an Authoritative, configure as follows:
 ```
 webserver=yes
 webserver-address=127.0.0.1
@@ -77,13 +78,17 @@ cd yapdnsui
 * Install dependencies
 
 ```bash
-npm install
+$ npm install
 ```
 
 * Start the application 
 
 ```bash
-PORT=8080 DEBUG=yapdnsui node bin/www
+$ npm install
+```
+or manually
+```bash
+$ PORT=8080 DEBUG=yapdnsui node bin/www
 ```
 
 * Point your browser to: [http://localhost:8080/](http://localhost:8080/)
@@ -111,6 +116,7 @@ $ apt-get update && apt-get install lxc-docker
 * Build the images
 
 The following command build the build directly from the github repository.
+
 The build process might take some time a while as it download the origin nodejs docker image.
 ```bash
 $ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
@@ -126,6 +132,7 @@ $ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui .
 Run as a detach container
 ```bash
 $ docker run -d -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui
+```
 
 Or attach a shell to the container
 ```
@@ -133,10 +140,13 @@ $ docker run -i --rm -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
 ```
 
 * Check the IP
+
 ```bash
 $ docker ps -a
 $ docker inspect CONTAINER_ID | grep IPA
-or
+
+Or all in one
+```
 $ docker ps -a | grep yapdnsui  | awk '{print $1}' | xargs docker inspect | grep IPAddress
 or
 $ ssh $(docker ps -a | grep yapdnsui  | awk '{print $1}' | xargs docker inspect | grep IPAddress | awk '{print $2}' | tr -d '"' | tr -d ',' )
