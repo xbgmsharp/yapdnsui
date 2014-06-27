@@ -94,6 +94,8 @@ router.get('/:id/del', function(req, res) {
 /* GET configuration page. */
 router.get('/:id/configuration', function(req, res) {
         console.log(req.db);
+        console.log(req.params.id);
+        console.log(req.server);
         // Redirect to index if missing value
         if (!req.db && !req.server) { res.redirect('/'); } // TODO warm user if missing a DB or a valid server
                         pdnsapi.config(req, res, function (error, response, body) {
@@ -214,7 +216,7 @@ router.get('/:id/statistics/dump', function(req, res) {
         console.log(req.params.id);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-        pdnsapi.statistics(req, res, req.server, function (error, response, server, body) {
+        pdnsapi.statistics(req, res, function (error, response, body) {
 	       	if (!body) { console.log(error); res.send(myJsonString, {'Content-type': 'text/json'}, 200); }
                 else {
 	                // Do more stuff with 'body' here

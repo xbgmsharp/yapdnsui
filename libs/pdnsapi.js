@@ -3,7 +3,7 @@ var db = require('./db.js');
 
 // Handle servers description
 exports.servers = function(req, res, server, callback) {
-        if (server.url && server.password) {
+        if (req.server.url && req.server.password) {
                 request(
                 {
                         dataType: 'json',
@@ -19,7 +19,7 @@ exports.servers = function(req, res, server, callback) {
 
 // Handle confuguration listing
 exports.config = function(req, res, callback){
-        if (req.server.url && req.sever.password) {
+        if (req.server.url && req.server.password) {
                 request(
                 {
                         dataType: 'json',
