@@ -1,10 +1,12 @@
 extends layout
 
 block content
-  div.container
-    div.content
-      fieldset
-        legend Graph
+  div.container-fluid
+  // Page header
+  .page-header
+        h2
+          | Graph
+  div.content
         div.graph_tcp(id="graph_cachehitrate")
 
   include inc/footer
