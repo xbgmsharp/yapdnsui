@@ -55,7 +55,7 @@ a {
 
 .table-condensed td {
   padding:0 !important;
-  font-size: 20px !important;
+  /*font-size: 20px !important;*/
 }
 
 .page-header a {
@@ -109,7 +109,7 @@ a {
 }
 
 .records-form button {
-  min-width:110px !important;
+  min-width:40px !important;
 }
 
 td.records-value-name,
@@ -160,7 +160,7 @@ th.records-head-name,
 td.records-input-name,
 td.records-input-name input,
 td.records-value-name {
-  width:260px !important;
+  width:250px !important;
 }
 
 .records-input-name input {
@@ -173,7 +173,7 @@ th.records-head-type,
 td.records-input-type,
 td.records-input-type select,
 td.records-value-type {
-  width:100px !important;
+  width:85px !important;
 }
 
 td.records-value-type {
@@ -199,7 +199,7 @@ td.records-value-content {
     td.records-input-content,
     td.records-input-content input,
     td.records-value-content {
-      width:520px !important;
+      width:500px !important;
     }
 }
 
@@ -238,9 +238,5 @@ td.records-input-disabled,
 td.records-input-disabled input,
 td.records-value-disabled {
   width:60px;
+  text-align:center !important;
 }
-
-td.records-value-disabled {
-  padding-right:10px;
-}
-

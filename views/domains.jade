@@ -9,14 +9,14 @@ block content
           small= data.length
             | &nbsp;domains in backend
         .btn-toolbar(style='margin-bottom: 10px;')
-          .btn-group
+          .btn-group.pull-right
             button.btn.btn-default.add-domain(data-toggle="modal",data-target="#add-domain-modal")
               span.glyphicon.glyphicon-plus
-              | Add domain
-          .btn-group.pull-right
-            button.btn.btn-default.disable(href='#')
-              span.glyphicon.glyphicon-refresh
-              | Notify slaves
+              | &nbsp;Add domain
+          //.btn-group.pull-right
+          //  button.btn.btn-default.disable(href='#')
+          //    span.glyphicon.glyphicon-refresh
+          //    | Notify slaves
 
       .modal.fade.in(id="add-domain-modal", tabindex="-1", role="dialog", aria-labelledby="add-domain-label", aria-hidden="true")
        .modal-dialog
@@ -26,8 +26,8 @@ block content
           h4(class="modal-title", id="add-domain-label")
             #mod-edit-operation
          .modal-body
-          form.form.form-horizontal.modal-form(method='POST', action='/servers/#{serverselected.id}/domains/save')
-           fieldset
+          form.form.form-horizontal.modal-form(method='POST', action='/servers/#{serverselected.id}/domains/add')
+            fieldset
               // Domain Name
               .control-group
                 label.control-label(for='name') Domain Name
@@ -59,9 +59,9 @@ block content
                     input#mod-edit-master(name='master', size='16', type='text', placeholder='1.2.3.4')
                   span.help-inline Ip Address of the master host, which PDNS should replicate with.
             // modal body
-          .modal-footer
-           a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
-           a#mod-add-submit.btn.btn-success(href='#') Add domain
+            .modal-footer
+              a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
+              button.btn.btn-success(href='', type="submit", id="mod-add-submit") Add domain
 
       .modal.fade.in(id="del-domain-modal", tabindex="-1", role="dialog", aria-labelledby="del-domain-label", aria-hidden="true")
        .modal-dialog
