@@ -46,7 +46,7 @@ It can be either an [Authoritative](http://doc.powerdns.com/html/powerdns.html) 
 
 You need to enable the [PowerDNS API](https://github.com/PowerDNS/pdnsapi) on your PowerDNS instances.
 
-For an Authoritative, configure as follows:
+For an Authoritative instance, configure as follows:
 ```
 webserver=yes
 webserver-address=127.0.0.1
@@ -134,7 +134,7 @@ Run as a detach container
 $ docker run -d -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui
 ```
 
-Or attach a shell to the container
+Or run the container with an attach shell
 ```
 $ docker run -i --rm -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
 ```
@@ -144,23 +144,29 @@ $ docker run -i --rm -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
 ```bash
 $ docker ps -a
 $ docker inspect CONTAINER_ID | grep IPA
-
-Or all in one
 ```
+
+Or both command in one
+```bash
 $ docker ps -a | grep yapdnsui  | awk '{print $1}' | xargs docker inspect | grep IPAddress
-or
+```
+
+Or all in one with the ssh connection
+```bash
 $ ssh $(docker ps -a | grep yapdnsui  | awk '{print $1}' | xargs docker inspect | grep IPAddress | awk '{print $2}' | tr -d '"' | tr -d ',' )
 ```
 
 * Login in the container via SSH
-user is root and password is admin
+
+User is root and password is admin.
+
 ```bash
 $ ssh root@172.17.0.x
 ```
 
 * Review logs
 ```bash
-# docker logs CONTAINER_ID
+$ docker logs CONTAINER_ID
   yapdnsui Express server listening on port 8080 +0ms
 ```
 
