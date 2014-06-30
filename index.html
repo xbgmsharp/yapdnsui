@@ -37,7 +37,7 @@
 will let you fully operate your PowerDNS instance via the official <a href="https://github.com/PowerDNS/pdnsapi">PowerDNS API</a>.</p>
 
 <p>The application should let you do add/delete/update domains and records as well as graph
-statistics and list/update configuration items <em>live</em> from one or multiple PowerDNS instance via the PowerDNS API.</p>
+statistics and list/update configuration items <strong>LIVE</strong> from one or multiple PowerDNS instance via the PowerDNS API.</p>
 
 <p>In addition, the application should let you manage DNSSEC zones and zone metadata.</p>
 
@@ -60,17 +60,20 @@ statistics and list/update configuration items <em>live</em> from one or multipl
 <h2>
 <a name="yapdnsui-prereqs" class="anchor" href="#yapdnsui-prereqs"><span class="octicon octicon-link"></span></a>yapdnsui Prereqs</h2>
 
-<p>You need <a href="http://nodejs.org">NodeJS</a> v0.10.x+ for this application to work.
-It might work with lower requirements but I didn't test.</p>
+<p>You need <a href="http://nodejs.org">NodeJS</a> v0.10.x+ for this application to work.</p>
+
+<p>It might work with lower requirements but I didn't test.</p>
 
 <h2>
 <a name="powerdns-prereqs" class="anchor" href="#powerdns-prereqs"><span class="octicon octicon-link"></span></a>PowerDNS Prereqs</h2>
 
-<p>Yes, you need a <a href="http://www.powerdns.com/">PowerDNS</a> or recursor to try this application out.</p>
+<p>Yes, you need a <a href="http://www.powerdns.com/">PowerDNS</a> server.</p>
+
+<p>It can be either an <a href="http://doc.powerdns.com/html/powerdns.html">Authoritative</a> or a <a href="http://doc.powerdns.com/html/recursion.html">Recursor</a> to try this application out.</p>
 
 <p>You need to enable the <a href="https://github.com/PowerDNS/pdnsapi">PowerDNS API</a> on your PowerDNS instances.</p>
 
-<p>Configure as follows:</p>
+<p>For an Authoritative instance, configure as follows:</p>
 
 <pre><code>webserver=yes
 webserver-address=127.0.0.1
@@ -100,12 +103,17 @@ experimental-json-interface=yes
 
 <ul>
 <li>Install dependencies</li>
-</ul><div class="highlight highlight-bash"><pre>npm install
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>npm install
 </pre></div>
 
 <ul>
 <li>Start the application </li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">PORT</span><span class="o">=</span><span class="m">8080</span> <span class="nv">DEBUG</span><span class="o">=</span>yapdnsui node bin/www
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>npm install
+</pre></div>
+
+<p>or manually</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ PORT</span><span class="o">=</span><span class="m">8080</span> <span class="nv">DEBUG</span><span class="o">=</span>yapdnsui node bin/www
 </pre></div>
 
 <ul>
@@ -115,7 +123,7 @@ experimental-json-interface=yes
 </ul><p><em>Note</em> : yaPDNSui use a sqlite memory database to store PowerDNS instances details.
 As an advantage, you don't need to configure anything outside of the webgui.
 However you need to add a PowerDNS instances to the configuration after each application start.
-You can access the PowerDNS server manage interface using the menu on the right or by poinyour browser to '/server'.</p>
+You can access the PowerDNS server manage interface using the menu on the right.</p>
 
 <h2>
 <a name="test-using-docker" class="anchor" href="#test-using-docker"><span class="octicon octicon-link"></span></a>Test using Docker</h2>
@@ -124,7 +132,7 @@ You can access the PowerDNS server manage interface using the menu on the right 
 <li>Install Docker
 <a href="https://docs.docker.com/installation/">Install documentation of Docker</a>
 </li>
-</ul><p>The deb package are valid for Ubuntu and Debian.</p>
+</ul><p>The Docker deb package are valid for Ubuntu and Debian.</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>cat &gt; /etc/apt/sources.list.d/docker.list
 deb http://get.docker.io/ubuntu docker main
@@ -132,39 +140,57 @@ deb http://get.docker.io/ubuntu docker main
 </pre></div>
 
 <ul>
-<li>Build the images
-The build process might take some time while it download the origin nodejs image.</li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker build --rm<span class="o">=</span><span class="nb">true</span> --no-cache<span class="o">=</span><span class="nb">true</span> -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
-or
-<span class="nv">$ </span>docker build --rm<span class="o">=</span><span class="nb">true</span> --no-cache<span class="o">=</span><span class="nb">true</span> -t xbgmsharp/yapdnsui
+<li>Build the images</li>
+</ul><p>The following command build the build directly from the github repository.</p>
+
+<p>The build process might take some time a while as it download the origin nodejs docker image.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker build --rm<span class="o">=</span><span class="nb">true</span> --no-cache<span class="o">=</span><span class="nb">true</span> -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
+</pre></div>
+
+<p>Alternatively, you can after cloning the repository build the image.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker build --rm<span class="o">=</span><span class="nb">true</span> --no-cache<span class="o">=</span><span class="nb">true</span> -t xbgmsharp/yapdnsui .
 </pre></div>
 
 <ul>
 <li>Run the container</li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker run -d -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui
-or
-<span class="nv">$ </span>docker run -i --rm -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
+</ul><p>Run as a detach container</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker run -d -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui
 </pre></div>
 
+<p>Or run the container with an attach shell</p>
+
+<pre><code>$ docker run -i --rm -p 22:22 -p 8080:8080 -t xbgmsharp/yapdnsui /bin/bash
+</code></pre>
+
 <ul>
-<li>check the IP</li>
+<li>Check the IP</li>
 </ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker ps -a
 <span class="nv">$ </span>docker inspect CONTAINER_ID <span class="p">|</span> grep IPA
-or
-<span class="nv">$ </span>docker ps -a <span class="p">|</span> grep yapdnsui  <span class="p">|</span> awk <span class="s1">'{print $1}'</span> <span class="p">|</span> xargs docker inspect <span class="p">|</span> grep IPAddress
-or
-<span class="nv">$ </span>ssh <span class="k">$(</span>docker ps -a <span class="p">|</span> grep yapdnsui  <span class="p">|</span> awk <span class="s1">'{print $1}'</span> <span class="p">|</span> xargs docker inspect <span class="p">|</span> grep IPAddress <span class="p">|</span> awk <span class="s1">'{print $2}'</span> <span class="p">|</span> tr -d <span class="s1">'"'</span> <span class="p">|</span> tr -d <span class="s1">','</span> <span class="k">)</span>
+</pre></div>
+
+<p>Or both command in one</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker ps -a <span class="p">|</span> grep yapdnsui  <span class="p">|</span> awk <span class="s1">'{print $1}'</span> <span class="p">|</span> xargs docker inspect <span class="p">|</span> grep IPAddress
+</pre></div>
+
+<p>Or all in one with the ssh connection</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ssh <span class="k">$(</span>docker ps -a <span class="p">|</span> grep yapdnsui  <span class="p">|</span> awk <span class="s1">'{print $1}'</span> <span class="p">|</span> xargs docker inspect <span class="p">|</span> grep IPAddress <span class="p">|</span> awk <span class="s1">'{print $2}'</span> <span class="p">|</span> tr -d <span class="s1">'"'</span> <span class="p">|</span> tr -d <span class="s1">','</span> <span class="k">)</span>
 </pre></div>
 
 <ul>
-<li>Login in the container via SSH
-user is root and password is admin</li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>ssh root@172.17.0.x
+<li>Login in the container via SSH</li>
+</ul><p>User is root and password is admin.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>ssh root@172.17.0.x
 </pre></div>
 
 <ul>
 <li>Review logs</li>
-</ul><div class="highlight highlight-bash"><pre><span class="c"># docker logs CONTAINER_ID</span>
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker logs CONTAINER_ID
   yapdnsui Express server listening on port <span class="m">8080</span> +0ms
 </pre></div>
 
@@ -173,8 +199,8 @@ user is root and password is admin</li>
 </li>
 <li>Enjoy!</li>
 </ul><p>If the application crash. The container exit.
-You can fillup an issue and add the backtrace or you fix it.
-From a SSH shell, you can restart the application.</p>
+From a SSH shell, you can restart the application.
+You can fillup an issue and add the backtrace or you fix it.</p>
 
 <h2>
 <a name="secure-yapdnsui" class="anchor" href="#secure-yapdnsui"><span class="octicon octicon-link"></span></a>Secure yapdnsui</h2>
