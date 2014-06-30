@@ -71,7 +71,7 @@ Installing
 * Clone the repository
 
 ```bash
-git clone https://leucos@github.com/xbgmsharp/yapdnsui.git
+git clone https://github.com/xbgmsharp/yapdnsui
 cd yapdnsui
 ```
 
