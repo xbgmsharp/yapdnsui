@@ -119,9 +119,12 @@ block content
   // Bootstrap plugin form validator
   link(rel='stylesheet', href='/bootstrapvalidator-dist-0.5.0/css/bootstrapValidator.min.css')
   script(src='/bootstrapvalidator-dist-0.5.0/js/bootstrapValidator.min.js')
+  // records UI
+  script(src='/javascripts/ui_records.js')
 
   | <script type="text/javascript">
   | $(document).ready(function() {
+  | // When click on edit record
   |  $(document).on("click", ".edit-record", function () {
   |      $('#mod-edit-recordname').val( $(this).data('name') );
   |      //$('#mod-edit-recordtype').val( $(this).data('type') );
@@ -134,6 +137,7 @@ block content
   |      //$('#mod-edit-recorddisabled').checkbox()[0].checked;
   |      $('#mod-edit-recordsubmit').attr("href", "/servers/#{serverselected.id}/records/save/#{data.id}");
   |  });
+  |  // When click on delete record
   |  $(document).on("click", ".del-record", function () {
   |      var RecordName = $(this).data('name');
   |      var RecordContent = $(this).data('content');
@@ -143,40 +147,5 @@ block content
   |      $('#mod-delete-submit').attr("href", "/servers/#{serverselected.id}/records/del/#{data.id}/"+RecordName+"/"+RecordType);
   |      $('#del-record-modal').modal('show');
   |  });
-  |  $('#mod-edit-recordtype').selectpicker();
-  |  $('#mod-edit-recorddisabled').checkbox({
-  |      buttonStyle: 'btn-danger',
-  |      buttonStyleChecked: 'btn-success',
-  |      checkedClass: 'glyphicon glyphicon-check',        
-  |      uncheckedClass: 'glyphicon glyphicon-unchecked'
-  |  });
-  |  $('#form-add-record').bootstrapValidator({
-  |      message: 'This value is not valid',
-  |      feedbackIcons: {
-  |          valid: 'glyphicon glyphicon-ok',
-  |          invalid: 'glyphicon glyphicon-remove',
-  |          validating: 'glyphicon glyphicon-refresh'
-  |      },
-  |      fields: {
-  |          content: {
-  |              message: 'The content is not valid',
-  |              validators: {
-  |                  notEmpty: {
-  |                      message: 'The content is required and cannot be empty'
-  |                  },
-  |                  regexp: {
-  |                      regexp: /^[a-zA-Z0-9_\.-]+$/,
-  |                      message: 'The content can only consist of alphabetical, number and underscore and dot'
-  |                  }
-  |              }
-  |          }
-  |      }
-  |      })
-  |      .on('error.field.bv', function(e, data) {
-  |          console.log(data.field, data.element, '-->error');
-  |      })
-  |      .on('success.field.bv', function(e, data) {
-  |          console.log(data.field, data.element, '-->success');
-  |      });
   | });
   | </script>
