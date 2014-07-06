@@ -84,11 +84,11 @@ $ npm install
 * Start the application 
 
 ```bash
-$ npm install
+$ npm start
 ```
-or manually
+Or manually, you can define an IP and the PORT by using environment variables.
 ```bash
-$ PORT=8080 DEBUG=yapdnsui node bin/www
+$ HOST=127.0.0.1 PORT=8080 DEBUG=yapdnsui node bin/www
 ```
 
 * Point your browser to: [http://localhost:8080/](http://localhost:8080/)
@@ -108,9 +108,13 @@ Test using Docker
 The Docker deb package are valid for Ubuntu and Debian.
 
 ```bash
-$ cat > /etc/apt/sources.list.d/docker.list
-deb http://get.docker.io/ubuntu docker main
-$ apt-get update && apt-get install lxc-docker
+$ wget http://get.docker.io/ -O - | sh
+```
+Or
+```bash
+echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+apt-get update && apt-get install -y lxc-docker
 ```
 
 * Build the images
@@ -122,7 +126,7 @@ The build process might take some time a while as it download the origin nodejs 
 $ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
 ```
 
-Alternatively, you can after cloning the repository build the image.
+Alternatively, you can build the image localy after cloning the repository.
 ```bash
 $ docker build --rm=true --no-cache=true -t xbgmsharp/yapdnsui .
 ```
