@@ -97,7 +97,7 @@ experimental-json-interface=yes
 
 <ul>
 <li>Clone the repository</li>
-</ul><div class="highlight highlight-bash"><pre>git clone https://leucos@github.com/xbgmsharp/yapdnsui.git
+</ul><div class="highlight highlight-bash"><pre>git clone https://github.com/xbgmsharp/yapdnsui
 <span class="nb">cd </span>yapdnsui
 </pre></div>
 
@@ -108,12 +108,12 @@ experimental-json-interface=yes
 
 <ul>
 <li>Start the application </li>
-</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>npm install
+</ul><div class="highlight highlight-bash"><pre><span class="nv">$ </span>npm start
 </pre></div>
 
-<p>or manually</p>
+<p>Or manually, you can define an IP and the PORT by using environment variables.</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ PORT</span><span class="o">=</span><span class="m">8080</span> <span class="nv">DEBUG</span><span class="o">=</span>yapdnsui node bin/www
+<div class="highlight highlight-bash"><pre><span class="nv">$ HOST</span><span class="o">=</span>127.0.0.1 <span class="nv">PORT</span><span class="o">=</span><span class="m">8080</span> <span class="nv">DEBUG</span><span class="o">=</span>yapdnsui node bin/www
 </pre></div>
 
 <ul>
@@ -134,9 +134,14 @@ You can access the PowerDNS server manage interface using the menu on the right.
 </li>
 </ul><p>The Docker deb package are valid for Ubuntu and Debian.</p>
 
-<div class="highlight highlight-bash"><pre><span class="nv">$ </span>cat &gt; /etc/apt/sources.list.d/docker.list
-deb http://get.docker.io/ubuntu docker main
-<span class="nv">$ </span>apt-get update <span class="o">&amp;&amp;</span> apt-get install lxc-docker
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>wget http://get.docker.io/ -O - <span class="p">|</span> sh
+</pre></div>
+
+<p>Or</p>
+
+<div class="highlight highlight-bash"><pre><span class="nb">echo </span>deb https://get.docker.io/ubuntu docker main &gt; /etc/apt/sources.list.d/docker.list
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+apt-get update <span class="o">&amp;&amp;</span> apt-get install -y lxc-docker
 </pre></div>
 
 <ul>
@@ -148,7 +153,7 @@ deb http://get.docker.io/ubuntu docker main
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker build --rm<span class="o">=</span><span class="nb">true</span> --no-cache<span class="o">=</span><span class="nb">true</span> -t xbgmsharp/yapdnsui github.com/xbgmsharp/yapdnsui.git
 </pre></div>
 
-<p>Alternatively, you can after cloning the repository build the image.</p>
+<p>Alternatively, you can build the image localy after cloning the repository.</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>docker build --rm<span class="o">=</span><span class="nb">true</span> --no-cache<span class="o">=</span><span class="nb">true</span> -t xbgmsharp/yapdnsui .
 </pre></div>
