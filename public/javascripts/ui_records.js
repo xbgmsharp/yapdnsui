@@ -23,8 +23,8 @@ $(document).ready(function () {
                     },
                     regexp: {
                         enabled: true,
-                        regexp: /^[a-zA-Z0-9_\.-]+$/,
-                        message: 'The content can only consist of alphabetical numbers and _ - .'
+                        regexp: /^[a-zA-Z0-9 _\.-]+$/,
+                        message: 'The content can only consist of alphabetical, numbers, underscore, dash, dot or space'
                     },
                     // Here are the validators need to be enabled/disabled dynamically
                     digits: {
