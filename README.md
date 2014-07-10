@@ -94,9 +94,7 @@ $ HOST=127.0.0.1 PORT=8080 DEBUG=yapdnsui node bin/www
 * Point your browser to: [http://localhost:8080/](http://localhost:8080/)
 * Enjoy!
 
-_Note_ : yaPDNSui use a sqlite memory database to store PowerDNS instances details.
-As an advantage, you don't need to configure anything outside of the webgui.
-However you need to add a PowerDNS instances to the configuration after each application start.
+_Note_ : yaPDNSui use a sqlite database to store PowerDNS instances details.
 You can access the PowerDNS server manage interface using the menu on the right.
 
 Test using Docker
