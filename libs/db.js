@@ -1,16 +1,27 @@
+var fs = require('fs');
+var file = 'yapdnsui.sqlite3';
+var exists = fs.existsSync(file);
+
 var sqlite3 = require('sqlite3').verbose();
 var url = require('url');
 
+if (!exists){
+	console.log("Creating DB File");
+	fs.openSync(file, "w");
+}
+
 // Create internal DB for the server list in memory
 exports.create = function(){
-	var db = new sqlite3.Database(':memory:');
+	var db = new sqlite3.Database(file);
 	// Initiliaze the db
 	db.serialize(function() {
-		db.run("CREATE TABLE server (id integer primary key asc, name TEXT, url TEXT, password TEXT)");
-		//db.run("INSERT INTO server VALUES (?,?,?,?)", [null, 'localhost', 'https://localhost:8053', 'changeme']);
-		db.each("SELECT * FROM server", function(err, row) {
-			console.log("init db.js "+ row.id + " : " + row.name + " : " + row.url + " : " + row.password);
-		});
+		if (!exists) {
+			db.run("CREATE TABLE server (id integer primary key asc, name TEXT, url TEXT, password TEXT)");
+			//db.run("INSERT INTO server VALUES (?,?,?,?)", [null, 'localhost', 'https://localhost:8053', 'changeme']);
+			db.each("SELECT * FROM server", function(err, row) {
+				console.log("init db.js "+ row.id + " : " + row.name + " : " + row.url + " : " + row.password);
+			});
+		}
 	});
 	return db;
 };
