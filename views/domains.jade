@@ -87,8 +87,10 @@ block content
             tr
               th Name
               th Type
-              th Master
+              th Masters
               th DNSSEC
+              th Serial
+              th Notified Serial
               th
           tbody
            each item in data
@@ -98,6 +100,8 @@ block content
               td(style='vertical-align: middle;')= item.kind
               td(style='vertical-align: middle;')= item.masters
               td(style='vertical-align: middle;')= item.dnssec
+              td(style='vertical-align: middle;')= item.serial
+              td(style='vertical-align: middle;')= item.notified_serial
               td(style='vertical-align: middle; text-align: right;')
                 // row button group to spin up modal or delete domain 
                 .btn-group
