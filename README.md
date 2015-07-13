@@ -227,7 +227,3 @@ Credits
 * PowerDNS [http://www.powerdns.com/](http://www.powerdns.com/)
 
 * Thanks to PDNSui [https://github.com/leucos/pdnsui/](https://github.com/leucos/pdnsui/)
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/xbgmsharp/yapdnsui/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
