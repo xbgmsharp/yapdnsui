@@ -9,7 +9,7 @@ exports.servers = function(req, res, callback) {
                         dataType: 'json',
                         method: 'GET',
                         url: req.server.url+"/servers",
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64") }
+			headers: { "X-API-Key" : req.server.password }
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -25,7 +25,7 @@ exports.config = function(req, res, callback){
                         dataType: 'json',
                         method: 'GET',
                         url: req.server.url+"/servers/localhost/config",
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64") }
+			headers: { "X-API-Key" : req.server.password }
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -43,7 +43,7 @@ exports.zoneslist= function(req, res, callback){
                         dataType: 'json',
                         method: 'GET',
                         url: req.server.url+"/servers/localhost/zones",
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64") }
+			headers: { "X-API-Key" : req.server.password }
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -60,7 +60,7 @@ exports.zonesdelete = function(req, res, callback){
                         method: 'DELETE',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id,
                         json: { "rrsets": [ { "name": req.params.zone_id, "changetype": "delete" , "changetype": "delete", "records": [] , "comments": [] } ] },
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64") }
+			headers: { "X-API-Key" : req.server.password }
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -77,7 +77,7 @@ exports.zonesadd = function(req, res, callback){
                         method: 'POST',
                         url: req.server.url+"/servers/localhost/zones",
                         json: { "kind": req.body.type, "name": req.body.name, "masters": [], "nameservers": [], "records": []},
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64") }
+			headers: { "X-API-Key" : req.server.password }
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -96,7 +96,7 @@ exports.recordslist = function(req, res, callback){
                         dataType: 'json',
                         method: 'GET',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id,
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64") }
+			headers: { "X-API-Key" : req.server.password }
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -113,7 +113,7 @@ exports.recordsdelete = function(req, res, record, callback){
                         method: 'PATCH',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id,
                         json: { "rrsets": [ { "name": record.name, "type": record.type, "changetype": "delete", "records": [ ] } ] },
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64"),
+			headers: { "X-API-Key" : req.server.password, 
 				   "Content-Type": "application/json" }
                 },
                 function (error, response, body) {
@@ -131,7 +131,7 @@ exports.recordsupdate = function(req, res, record, callback){
                         method: 'PATCH',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id,
                         json: { "rrsets": [ { "name": record.name, "type": record.type, "changetype": "replace", "records": [ record ] } ] },
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64"), 
+			headers: { "X-API-Key" : req.server.password, 
 				   "Content-Type": "application/json" }
                 },
                 function (error, response, body) {
@@ -149,7 +149,7 @@ exports.statistics = function(req, res, callback){
 	                dataType: 'json',
 	                method: 'GET',
 	                url: req.server.url+"/servers/localhost/statistics",
-                        headers: { "Authorization" : "Basic " + new Buffer("a:" + req.server.password).toString("base64") }
+			headers: { "X-API-Key" : req.server.password }
 	        },
                 function (error, response, body) {
 			callback(error, response, body);
