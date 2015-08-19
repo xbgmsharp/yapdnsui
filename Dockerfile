@@ -10,7 +10,7 @@
 # VERSION 0.0.1
 
 # Pull base image.
-FROM dockerfile/nodejs
+FROM ubuntu:latest
 MAINTAINER Francois Lacroix <xbgmsharp@gmail.com>
 
 # Setup system and install tools
@@ -27,8 +27,17 @@ ENV LC_ALL en_US.UTF-8
 ENV HOME /root
 ENV DEBIAN_FRONTEND noninteractive
 
-# Make sure the package repository is up to date
+# Update and Upgrade system
 RUN apt-get update && apt-get -y upgrade
+
+# Install deb dependencies for nodesource.com
+RUN apt-get -y install curl
+
+# Note the new setup script name for Node.js v0.12
+RUN curl -sL https://deb.nodesource.com/setup_0.12 | bash -
+
+# Install nodejs 
+RUN apt-get -y install nodejs
 
 # Install nodejs dependencies
 RUN npm install -g bower grunt-cli
@@ -53,15 +62,16 @@ RUN echo 'root:admin' | chpasswd
 ADD startup.sh /app/startup.sh
 #ADD . /app
 
-# Install `mybank` from git
-RUN cd /app && \
+# Install `yapdnsui` from git
+RUN mkdir -p /app && cd /app && \
   git clone https://github.com/xbgmsharp/yapdnsui
 
 RUN \
   cd /app/yapdnsui && \
   npm prune --production && \
   npm install --production --unsafe-perm && \
-  npm rebuild
+  npm rebuild && \
+  bower --allow-root install
 
 # Define environment variables
 #ENV NODE_ENV production
