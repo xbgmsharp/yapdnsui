@@ -1,0 +1,28 @@
+{
+  "name": "yapdnsui",
+  "version": "0.0.4-9ca2a02",
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "jquery": "~1.11.3",
+    "jqueryui": "~1.11.4",
+    "highcharts-release": "~4.1.7",
+    "bootstrapvalidator": "~0.5.3"
+  },
+  "homepage": "https://github.com/xbgmsharp/yapdnsui",
+  "description": "Yet Another PowerDNS web interface",
+  "main": "app.js",
+  "keywords": [
+    "pdns"
+  ],
+  "authors": [
+    "Francois Lacroix <xbgmsharp@gmail.com>"
+  ],
+  "license": "GPL",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
