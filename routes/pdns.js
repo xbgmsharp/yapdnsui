@@ -80,7 +80,7 @@ router.get('/:id', function(req, res) {
 
 router.get('/:id/del', function(req, res) {
   console.log(req.params);
-  console.log(req.param('id'));
+  console.log(req.params.id);
   console.log(req.server);
   console.log(req.db);
 /*	else if (req.params.action == "del") {
@@ -191,7 +191,7 @@ router.get('/:id/domains/:zone_id', function(req, res) {
                         pdnsapi.recordslist(req, res, function (error, response, body) {
 				if (error) { console.log("Error:"+ error); }
 				console.log(body);
-				// If any error redirect to index
+				// If any http error redirect to index
                                 if (error && response.statusCode != 200) { console.log(error); res.redirect('/servers'); }
                                 else {
 					console.log(body);
@@ -219,19 +219,12 @@ router.get('/:id/records/del/:zone_id/:record_name/:record_type', function(req, 
         if (!req.db && !req.server) { res.redirect('/'); }
                         var record = { 'name': req.params.record_name, 'type': req.params.record_type };
                         pdnsapi.recordsdelete(req, res, record, function (error, response, body) {
-				// If any error redirect to index
+				// If any http error redirect to index
                                 if (error && response.statusCode != 200) { console.log(error); res.redirect('/'); }
                                 else {
+					// If app error see body.error
+					console.log("Error" + body.error);
 					res.redirect('/servers/'+ req.params.id +'/domains/'+ req.params.zone_id);
-/*
-                                        console.log(body);
-                                        database.list(req, res, body, function(req, res, json, rows) {
-                                                res.render('records', { 'data': json, 
-									'serverlist': rows, 
-									'navmenu': 'domains',
-									'serverselected': req.server});
-                                        });
-*/
                                 }
                         });
 });
@@ -242,27 +235,17 @@ router.post('/:id/records/save/:zone_id', function(req, res) {
         console.log(req.params.id);
         console.log(req.params.zone_id);
         console.log(req.body);
-        console.log(req.param('name'));
-        console.log(req.param('type'));
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-                        var record = { 'name': req.param('name'), 'type': req.param('type'),  'priority': 0, 'content': req.param('content'), 'ttl': req.param('ttl'), 'disabled': false };
+                        var record = { 'name': req.body['name'], 'type': req.body['type'],  'priority': 0, 'content': req.body['content'], 'ttl': req.body['ttl'], 'disabled': false };
 			console.log(record);
                         pdnsapi.recordsupdate(req, res, record, function (error, response, body) {
-				// If any error redirect to index
+				// If any http error redirect to index
                                 if (error && response.statusCode != 200) { console.log(error); res.redirect('/'); }
                                 else {
+					// If app error see body.error
+					console.log("Error" + body.error);
 					res.redirect('/servers/'+ req.params.id +'/domains/'+ req.params.zone_id);
-/*
-                                        console.log(body);
-                                        database.list(req, res, body, function(req, res, json, rows) {
-                                                res.render('records', { 'data': json, 
-									'serverlist': rows, 
-									'navmenu': 'domains',
-									'serverselected': req.server});
-                                        });
-*/
-
                                 }
                         });
 });

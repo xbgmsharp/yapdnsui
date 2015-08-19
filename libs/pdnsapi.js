@@ -17,7 +17,7 @@ exports.servers = function(req, res, callback) {
         }
 };
 
-// Handle confuguration listing
+// Handle configuration listing
 exports.config = function(req, res, callback){
         if (req.server.url && req.server.password) {
                 request(
@@ -112,7 +112,7 @@ exports.recordsdelete = function(req, res, record, callback){
                         dataType: 'json',
                         method: 'PATCH',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id,
-                        json: { "rrsets": [ { "name": record.name, "type": record.type, "changetype": "delete", "records": [ ] } ] },
+                        json: { "rrsets": [ { "name": record.name, "type": record.type, "changetype": "DELETE", "records": [ ] } ] },
 			headers: { "X-API-Key" : req.server.password, 
 				   "Content-Type": "application/json" }
                 },
@@ -130,7 +130,7 @@ exports.recordsupdate = function(req, res, record, callback){
                         dataType: 'json',
                         method: 'PATCH',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id,
-                        json: { "rrsets": [ { "name": record.name, "type": record.type, "changetype": "replace", "records": [ record ] } ] },
+                        json: { "rrsets": [ { "name": record.name, "type": record.type, "changetype": "REPLACE", "records": [ record ] } ] },
 			headers: { "X-API-Key" : req.server.password, 
 				   "Content-Type": "application/json" }
                 },

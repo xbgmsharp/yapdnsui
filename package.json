@@ -19,7 +19,7 @@
   },
   "main": "bin/www",
   "engines": {
-    "node": ">= 0.10.0 < 0.12.0"
+    "node": ">= 0.10.0"
   },
   "dependencies": {
     "express": "~4.13.3",
@@ -31,6 +31,5 @@
     "jade": "~1.11.x",
     "request": "2.60.x",
     "sqlite3": "3.0.x"
-    "bower": "3.0.x"
   }
 }
