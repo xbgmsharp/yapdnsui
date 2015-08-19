@@ -1,7 +1,7 @@
 var package = require('./package.json');
 var express = require('express');
 var path = require('path');
-var favicon = require('static-favicon');
+var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -33,12 +33,15 @@ app.set('title', 'Yet Another PDNS UI');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon());
+//app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+// Add my own public content
 app.use(express.static(path.join(__dirname, 'public')));
+// Add vendor content from bower
+app.use(express.static(path.join(__dirname, 'bower_components')));
 
 // Route the page
 app.use('/', index);
