@@ -9,8 +9,8 @@ block content
           | &nbsp;
           small= data.records.length
             | &nbsp; records
-        btn-group.pull-right(style='margin-bottom: 10px;')
-            button.btn.btn-default.dropdown-toggle(href="#", data-toggle="dropdown")
+        .btn-group.pull-right(style='margin-bottom: 10px;')
+            button.btn.btn-default.dropdown-toggle(href="#", data-toggle="dropdown", id="dropdownActions", aria-haspopup="true", aria-expanded="true")
                 | Actions
                 span.caret
             ul.dropdown-menu(role="menu")
@@ -118,8 +118,8 @@ block content
   link(rel='stylesheet', href='/bootstrap-checkbox-master/css/bootstrap-checkbox.css')
   script(src='/bootstrap-checkbox-master/js/bootstrap-checkbox.js')
   // Bootstrap plugin form validator
-  link(rel='stylesheet', href='/bootstrapvalidator-dist-0.5.0/css/bootstrapValidator.min.css')
-  script(src='/bootstrapvalidator-dist-0.5.0/js/bootstrapValidator.min.js')
+  link(rel='stylesheet', href='/bootstrapvalidator/dist/css/bootstrapValidator.min.css')
+  script(src='/bootstrapvalidator/dist/js/bootstrapValidator.min.js')
   // records UI
   script(src='/javascripts/ui_records.js')
 

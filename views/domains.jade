@@ -5,7 +5,8 @@ block content
        // Page header 
       .page-header
         h2
-          | Domains 
+          | Domains
+          | &nbsp;
           small= data.length
             | &nbsp;domains in backend
         .btn-toolbar(style='margin-bottom: 10px;')
@@ -46,7 +47,7 @@ block content
                     label
                       input#mod-edit-type-slave(type='radio', name='type', value='SLAVE')
                       strong Slave
-                      span.help-block Retrive records from master, store in database.
+                      span.help-block Retrieve records from master, store in database.
                     label
                       input#mod-edit-type-native(type='radio', name='type', value='NATIVE')
                       strong Native

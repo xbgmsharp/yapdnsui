@@ -7,13 +7,13 @@ html(lang='en')
     meta(name='description', content='Yet Another PowerDNS web interface')
     meta(name='title', content='Yet Another PDNS UI')
     meta(name='author', content='Francois Lacroix')
-    meta(name='copyright', content='Copyright (c) 2014, Francois Lacroix')
+    meta(name='copyright', content='Copyright (c) 2014-2015, Francois Lacroix')
     title= settings.title
        | &nbsp; - &nbsp;
        = navmenu
     // Bootstrap core CSS
-    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
-    link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/bootstrap/dist/css/bootstrap-theme.min.css')
     link(rel='stylesheet', href='/stylesheets/gh-fork-ribbon.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
@@ -33,10 +33,10 @@ html(lang='en')
                     - each val, key in obj
                             - if ("/"+navmenu == key)
                                li.active
-                                 a.active(href="/servers/#{serverselected.id}#{key}"):= val
+                                 a.active(href="/servers/#{serverselected.id}#{key}"): = val
                             - else
                                li
-                                 a(href="/servers/#{serverselected.id}#{key}"):= val
+                                 a(href="/servers/#{serverselected.id}#{key}"): = val
 
                   - if ("/"+navmenu == 'about')
                       li.active
@@ -63,12 +63,12 @@ html(lang='en')
                            each item in serverlist
                             - if (serverselected && serverselected.id == item.id)
                                li.active
-                                 a.active(href="/servers/#{item.id}"):= item.name
+                                 a.active(href="/servers/#{item.id}"): = item.name
                                    | &nbsp;
                                    span.glyphicon.glyphicon-ok
                             - else
                                li
-                                 a(href="/servers/#{item.id}"):= item.name
+                                 a(href="/servers/#{item.id}"): = item.name
     - if (msg)
         div.alert(class="#{msg.class}")
          a.close(href="#", data-dismiss="alert" aria-hidden="true")
