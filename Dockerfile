@@ -40,14 +40,14 @@ RUN curl -sL https://deb.nodesource.com/setup_0.12 | bash -
 RUN apt-get -y install nodejs
 
 # Install nodejs dependencies
-RUN npm install -g bower grunt-cli
+RUN npm install -g bower grunt-cli npm-check-updates
 # Install my application dependencies
 RUN npm install -g express express-generator jade request sqlite3
 
 # Install my dependencies
 RUN apt-get -y install nano curl wget vim libsqlite3-0
 # Install Git
-RUN apt-get -y install git
+RUN apt-get -y install git-core
 
 # Install SSH
 RUN apt-get install -y openssh-server
@@ -58,12 +58,13 @@ RUN sed 's/PermitRootLogin without-password/PermitRootLogin yes/' -i /etc/ssh/ss
 RUN mkdir /var/run/sshd
 RUN echo 'root:admin' | chpasswd
 
-# Add app directory.
+# Add app directory
+RUN mkdir /app
 ADD startup.sh /app/startup.sh
 #ADD . /app
 
 # Install `yapdnsui` from git
-RUN mkdir -p /app && cd /app && \
+RUN cd /app && \
   git clone https://github.com/xbgmsharp/yapdnsui
 
 RUN \
