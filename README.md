@@ -48,7 +48,7 @@ You need to enable the [PowerDNS API](https://doc.powerdns.com/md/httpapi/README
 
 For an Authoritative instance, configure as follows:
 ```
-# Allow webserver 
+# Allow webserver
 webserver=yes
 # IP Address of web server to listen on
 webserver-address=127.0.0.1
@@ -119,13 +119,13 @@ Secure yapdnsui
 For security reasons, you may want to run a webserver (like Apache or Nginx) in front of your PowerDNS webserver as a reverse proxy using SSL.
 As a best pratice, it is recommended to apply use SSL for the traffic between the end-user and the application.
 
-You can read this [HOWTO](http://blog.nachtarbeiter.net/2010/02/16/monitoring-powerdns-via-the-internal-web-server/) to see how.
+You can read this [HOWTO Monitoring.md](Monitoring.md) for further details.
 
 For security reasons, you probably want to use the same webserver for authentication purpose.
 
 You can read this [mod_auth_ldap - Apache HTTP Server](httpd.apache.org/docs/2.0/mod/mod_auth_ldap.html)
 
-E.g. you might want use a SSL connection and authenticate your co-workers using the internal LDAP or database server of your company intranet.
+You might want to use a SSL connection and authenticate your co-workers using the internal LDAP or database server of your company intranet.
 
 Contributing to yapdnsui
 ------------------------
