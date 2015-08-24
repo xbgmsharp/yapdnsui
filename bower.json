@@ -6,7 +6,7 @@
     "jquery": "~1.11.3",
     "jqueryui": "~1.11.4",
     "highcharts-release": "~4.1.7",
-    "bootstrapvalidator": "~0.5.3",
+    "bootstrap-checkbox": "~1.2.8",
     "form.validation": "*"
   },
   "homepage": "https://github.com/xbgmsharp/yapdnsui",
