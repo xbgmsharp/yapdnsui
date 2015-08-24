@@ -59,7 +59,7 @@ exports.zonesdelete = function(req, res, callback){
                         dataType: 'json',
                         method: 'DELETE',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id,
-                        json: { "rrsets": [ { "name": req.params.zone_id, "changetype": "delete" , "changetype": "delete", "records": [] , "comments": [] } ] },
+                        json: { "rrsets": [ { "name": req.params.zone_id, "changetype": "DELETE", "records": [] , "comments": [] } ] },
 			headers: { "X-API-Key" : req.server.password }
                 },
                 function (error, response, body) {
@@ -69,14 +69,14 @@ exports.zonesdelete = function(req, res, callback){
 };
 
 // Handle Zones add
-exports.zonesadd = function(req, res, callback){
-        if (req.server.url && req.server.password && req.body.name) {
+exports.zoneadd = function(req, res, callback){
+        if (req.server.url && req.server.password && req.body.name && req.body.type) {
                 request(
                 {
                         dataType: 'json',
                         method: 'POST',
                         url: req.server.url+"/servers/localhost/zones",
-                        json: { "kind": req.body.type, "name": req.body.name, "masters": [], "nameservers": [], "records": []},
+                        json: { "kind": req.body.type, "name": req.body.name, "masters": [req.body.master], "nameservers": [], "records": []},
 			headers: { "X-API-Key" : req.server.password }
                 },
                 function (error, response, body) {
@@ -125,6 +125,8 @@ exports.recordsdelete = function(req, res, record, callback){
 // Handle records update/add
 exports.recordsupdate = function(req, res, record, callback){
         if (req.server.url && req.server.password && req.params.zone_id && record) {
+		json= { "rrsets": [ { "name": record.name, "type": record.type, "changetype": "REPLACE", "records": [ record ] } ] }
+		console.log(json);
                 request(
                 {
                         dataType: 'json',

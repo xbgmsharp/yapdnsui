@@ -17,7 +17,13 @@ router.param('id', function(req, res, next, id){
 				return next(new Error('failed to load server'));
 			}
 			req.server = server;
-			next();
+			database.list(req, res, function(req, res, rows) {
+				if (!rows) {
+					return next(new Error('failed to load servers'));
+				}
+				req.serverlist = rows;
+				next();
+			});
 		});
 	} else { next(); }
 });
@@ -25,7 +31,7 @@ router.param('id', function(req, res, next, id){
 /* GET servers page. */
 router.get('/', function(req, res) {
 	if (!req.db) { res.redirect('/'); }
-	database.list(req, res, null, function(req, res, json, rows) {
+	database.list(req, res, function(req, res, rows) {
 		res.render('servers', { 'serverlist': rows, 'navmenu': '' });
 	});
 });
@@ -44,37 +50,31 @@ router.post('/add', function(req, res) {
 });
 
 /* Now we have the servers set up, let use it as a middleware */
-/* all page below require a valide server and DB */
+/* All page below require a valid server and DB */
 
-/* GET pdns page. */
+/* GET servers page. */
 router.get('/:id', function(req, res) {
 	if (!req.db && !req.server) { res.redirect('/'); }
 	pdnsapi.servers(req, res, function (error, response, body) {
                               // If any error redirect to index
-                              if (!body) {				 
-					console.log(error);
+                              if (!response || response.statusCode != 200) {
+					console.log("Error: connection failed");
                                         res.msg = {};
                                         res.msg.class="alert-warning";
                                         res.msg.title="Error!";
-                                        res.msg.msg= "connect failed to "+ req.server.name;
-                                        database.list(req, res, json, function(req, res, json, rows) {
-                                                res.render('servers', { 'msg': res.msg,
-                                                                                'serverlist': rows,
-                                                                                'serverselected': req.server});
-                                        });
+                                        res.msg.msg= "Connection failed to "+ req.server.name;
                                }else {
                                         var json = JSON.parse(body);
                                         console.log(json[0].type);
-                                        res.json = json[0];
-                                        res.json.class="alert-success";
-                                        res.json.title="Success!";
-                                        res.json.msg = "Connected to "+ req.server.name +" "+ json[0].type +" "+ json[0].daemon_type +" Version "+ json[0].version;
-                                        database.list(req, res, json, function(req, res, json, rows) {
-                                                res.render('servers', { 'msg': res.json,
-                                                                                'serverlist': rows,
-                                                                                'serverselected': req.server});
-                                        });
-                                }
+                                        res.msg = json[0];
+                                        res.msg.class="alert-success";
+                                        res.msg.title="Success!";
+                                        res.msg.msg = "Connected to "+ req.server.name +" "+ json[0].type +" "+ json[0].daemon_type +" Version "+ json[0].version;
+				}
+
+                                res.render('servers', { 'msg': res.msg,
+                                                        'serverlist': req.serverlist,
+                                                        'serverselected': req.server});
                         });
 });
 
@@ -107,12 +107,10 @@ router.get('/:id/configuration', function(req, res) {
                                 else {
                                         var json = JSON.parse(body);
                                         console.log(json);
-                                        database.list(req, res, json, function(req, res, json, rows) {
-                                                res.render('configuration', { 'data': json,
-										'serverlist': rows, 
-										'navmenu': 'configuration', 
-										'serverselected': req.server});
-                                        });
+                                        res.render('configuration', { 'data': json,
+									'serverlist': req.serverlist,
+									'navmenu': 'configuration',
+									'serverselected': req.server});
                                 }
                         });
 });
@@ -122,7 +120,10 @@ router.get('/:id/configuration', function(req, res) {
 
 /* GET domains page. */
 router.get('/:id/domains', function(req, res) {
+        console.log("Get domains");
         console.log(req.db);
+        console.log(req.params.id);
+        console.log(req.server);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
                         pdnsapi.zoneslist(req, res, function (error, response, body) {
@@ -131,12 +132,10 @@ router.get('/:id/domains', function(req, res) {
                                 else {
                                         var json = JSON.parse(body);
                                         console.log(json);
-                                        database.list(req, res, json, function(req, res, json, rows) {
-                                                res.render('domains', { 'data': json, 
-									'serverlist': rows, 
-									'navmenu': 'domains', 
-									'serverselected': req.server});
-                                        });
+                                        res.render('domains', { 'data': json,
+								'serverlist': req.serverlist,
+								'navmenu': 'domains',
+								'serverselected': req.server});
                                 }
                         });
 });
@@ -165,6 +164,7 @@ router.post('/:id/domains/add', function(req, res) {
         console.log(req.params.id);
         console.log(req.body.name);
         console.log(req.body.type);
+        console.log(req.body.master);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
                         pdnsapi.zonesadd(req, res, function (error, response, body) {
@@ -175,7 +175,6 @@ router.post('/:id/domains/add', function(req, res) {
                                 }
                         });
 });
-
 
 /* -------------------------------------------------*/
 /* RECORDS */
@@ -197,12 +196,10 @@ router.get('/:id/domains/:zone_id', function(req, res) {
 					console.log(body);
                                         var json = JSON.parse(body);
                                         console.log(json);
-                                        database.list(req, res, json, function(req, res, json, rows) {
-                                                res.render('records', { 'data': json, 
-									'serverlist': rows, 
-									'navmenu': 'domains',
-									'serverselected': req.server});
-                                        });
+                                        res.render('records', { 'data': json,
+								'serverlist': req.serverlist,
+								'navmenu': 'domains',
+								'serverselected': req.server});
                                 }
                         });
 });
@@ -223,7 +220,7 @@ router.get('/:id/records/del/:zone_id/:record_name/:record_type', function(req, 
                                 if (error && response.statusCode != 200) { console.log(error); res.redirect('/'); }
                                 else {
 					// If app error see body.error
-					console.log("Error" + body.error);
+					if (body.error) { console.log("Error: " + body.error); }
 					res.redirect('/servers/'+ req.params.id +'/domains/'+ req.params.zone_id);
                                 }
                         });
@@ -231,12 +228,14 @@ router.get('/:id/records/del/:zone_id/:record_name/:record_type', function(req, 
 
 /* Add/Update a record */
 router.post('/:id/records/save/:zone_id', function(req, res) {
+        console.log("Add/Update a record");
         console.log(req.db);
         console.log(req.params.id);
         console.log(req.params.zone_id);
         console.log(req.body);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
+			// TODO Handle priority and disabled correctly
                         var record = { 'name': req.body['name'], 'type': req.body['type'],  'priority': 0, 'content': req.body['content'], 'ttl': req.body['ttl'], 'disabled': false };
 			console.log(record);
                         pdnsapi.recordsupdate(req, res, record, function (error, response, body) {
@@ -244,7 +243,17 @@ router.post('/:id/records/save/:zone_id', function(req, res) {
                                 if (error && response.statusCode != 200) { console.log(error); res.redirect('/'); }
                                 else {
 					// If app error see body.error
-					console.log("Error" + body.error);
+					if (body.error) {
+					console.log("Error: " + body.error);
+					console.log("Error: connection failed");
+                                        res.msg = {};
+                                        res.msg.class="alert-warning";
+                                        res.msg.title="Error!";
+                                        res.msg.msg= "Unable to add/update record. "+ body.error;
+                                        res.render('records', { 'msg': res.msg,
+                                                                                'serverlist': req.serverlist,
+                                                                                'serverselected': req.server});
+					}
 					res.redirect('/servers/'+ req.params.id +'/domains/'+ req.params.zone_id);
                                 }
                         });
@@ -256,9 +265,7 @@ router.post('/:id/records/save/:zone_id', function(req, res) {
 /* GET stats page. */
 router.get('/:id/statistics', function(req, res) {
   if (!req.db && !req.server) { res.render('', {}); }
-  database.list(req, res, null, function(req, res, json, rows) {
-           res.render('statistics', { 'serverlist': rows, 'navmenu': 'statistics', 'serverselected': req.server });
-     });
+  res.render('statistics', { 'serverlist': req.serverlist, 'navmenu': 'statistics', 'serverselected': req.server });
 });
 
 /* GET the statistics dump for graph */

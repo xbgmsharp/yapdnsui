@@ -26,12 +26,12 @@ exports.create = function(){
 	return db;
 };
 
-exports.list = function(req, res, json, callback){
+exports.list = function(req, res, callback){
 	if (req.db) {
 	        req.db.all("SELECT * FROM server",
 	        function (err, rows) {
 			console.log("db.list "+ JSON.stringify(rows));
-			callback(req, res, json, rows);
+			callback(req, res, rows);
 	        });
 	}
 };
