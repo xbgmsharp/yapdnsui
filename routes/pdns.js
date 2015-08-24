@@ -55,7 +55,7 @@ router.post('/add', function(req, res) {
 /* GET servers page. */
 router.get('/:id', function(req, res) {
 	if (!req.db && !req.server) { res.redirect('/'); }
-	pdnsapi.servers(req, res, function (error, response, body) {
+	pdnsapi.config.servers(req, res, function (error, response, body) {
                               // If any error redirect to index
                               if (!response || response.statusCode != 200) {
 					console.log("Error: connection failed");
@@ -101,7 +101,7 @@ router.get('/:id/configuration', function(req, res) {
         console.log(req.server);
         // Redirect to index if missing value
         if (!req.db && !req.server) { res.redirect('/'); } // TODO warm user if missing a DB or a valid server
-                        pdnsapi.config(req, res, function (error, response, body) {
+                        pdnsapi.config.list(req, res, function (error, response, body) {
 				// If any error redirect to index
                                 if (!body) { console.log(error); res.redirect('/'); }
                                 else {
@@ -126,7 +126,7 @@ router.get('/:id/domains', function(req, res) {
         console.log(req.server);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-                        pdnsapi.zoneslist(req, res, function (error, response, body) {
+                        pdnsapi.zones.list(req, res, function (error, response, body) {
 				// If any error redirect to index
                                 if (!body) { console.log(error); res.redirect('/'); }
                                 else {
@@ -148,7 +148,7 @@ router.get('/:id/domains/del/:zone_id', function(req, res) {
         console.log(req.params.zone_id);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-                        pdnsapi.zonesdelete(req, res, function (error, response, body) {
+                        pdnsapi.zones.delete(req, res, function (error, response, body) {
 				// If any error redirect to index
                                 if (error && response.statusCode != 204) { console.log(error); res.redirect('/servers'); }
                                 else {
@@ -167,7 +167,7 @@ router.post('/:id/domains/add', function(req, res) {
         console.log(req.body.master);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-                        pdnsapi.zonesadd(req, res, function (error, response, body) {
+                        pdnsapi.zones.add(req, res, function (error, response, body) {
 				// If any error redirect to index
                                 if (error && response.statusCode != 204) { console.log(error); res.redirect('/servers'); }
                                 else {
@@ -187,7 +187,7 @@ router.get('/:id/domains/:zone_id', function(req, res) {
         console.log(req.params.zone_id);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-                        pdnsapi.recordslist(req, res, function (error, response, body) {
+                        pdnsapi.records.list(req, res, function (error, response, body) {
 				if (error) { console.log("Error:"+ error); }
 				console.log(body);
 				// If any http error redirect to index
@@ -215,7 +215,7 @@ router.get('/:id/records/del/:zone_id/:record_name/:record_type', function(req, 
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
                         var record = { 'name': req.params.record_name, 'type': req.params.record_type };
-                        pdnsapi.recordsdelete(req, res, record, function (error, response, body) {
+                        pdnsapi.records.delete(req, res, record, function (error, response, body) {
 				// If any http error redirect to index
                                 if (error && response.statusCode != 200) { console.log(error); res.redirect('/'); }
                                 else {
@@ -236,9 +236,11 @@ router.post('/:id/records/save/:zone_id', function(req, res) {
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
 			// TODO Handle priority and disabled correctly
-                        var record = { 'name': req.body['name'], 'type': req.body['type'],  'priority': 0, 'content': req.body['content'], 'ttl': req.body['ttl'], 'disabled': false };
+                        var record = { 'name': req.body['name'], 'type': req.body['type'],
+					'priority': 0, 'content': req.body['content'],
+					'ttl': req.body['ttl'], 'disabled': false };
 			console.log(record);
-                        pdnsapi.recordsupdate(req, res, record, function (error, response, body) {
+                        pdnsapi.records.update(req, res, record, function (error, response, body) {
 				// If any http error redirect to index
                                 if (error && response.statusCode != 200) { console.log(error); res.redirect('/'); }
                                 else {
@@ -275,7 +277,7 @@ router.get('/:id/statistics/dump', function(req, res) {
         console.log(req.params.id);
         // If missing value redirect to index or to an error page!!!
         if (!req.db && !req.server) { res.redirect('/'); }
-        pdnsapi.statistics(req, res, function (error, response, body) {
+        pdnsapi.stats.statistics(req, res, function (error, response, body) {
 	       	if (!body) { console.log(error); res.send(myJsonString, {'Content-type': 'text/json'}, 200); }
                 else {
 	                // Do more stuff with 'body' here
