@@ -61,6 +61,22 @@ experimental-json-interface=yes
 experimental-api-key=changeme
 ```
 
+In addition, you might want to configure the default domain value:
+```
+# default-soa-mail      mail address to insert in the SOA record if none set in the backend
+default-soa-mail=
+# default-soa-name      name to insert in the SOA record if none set in the backend
+default-soa-name=a.misconfigured.powerdns.server
+# default-ttl   Seconds a result is valid if not set otherwise
+default-ttl=3600
+# soa-expire-default	Default SOA expire
+soa-expire-default=604800
+# soa-refresh-default	Default SOA refresh
+soa-refresh-default=10800
+# soa-retry-default	Default SOA retry
+soa-retry-default=3600
+```
+
 * Restart
 ```bash
 $ /etc/init.d/pdns restart
