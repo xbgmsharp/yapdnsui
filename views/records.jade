@@ -5,14 +5,18 @@ block content
        // Page header 
       .page-header
         h2
-          | Domains / #{data.name}
+          | Domain / #{data.name}
           | &nbsp;
           small= data.records.length
             | &nbsp; records
-        .btn-group.pull-right(style='margin-bottom: 10px;')
+        .btn-toolbar(style='margin-bottom: 10px;')
+          .btn-group.pull-right
+            button.btn.btn-default.add-record(id="add-record", data-toggle="modal",data-target="#add-record-modal")
+              span.glyphicon.glyphicon-plus
+              | &nbsp; Add record
             button.btn.btn-default.dropdown-toggle(href="#", data-toggle="dropdown", id="dropdownActions", aria-haspopup="true", aria-expanded="true")
-                | Actions
-                span.caret
+              | &nbsp; Zone actions &nbsp;
+              span.caret
             ul.dropdown-menu(role="menu")
                 li
                   a(href='#', rel="tooltip", title="Send a DNS NOTIFY to all slaves")
@@ -22,19 +26,23 @@ block content
                   a(href='#', rel="tooltip", title="Retrieves the zone from the master")
                    span.glyphicon.glyphicon-random
                    | &nbsp; Retrieve
-                 li
-                   a(href='#', rel="tooltip", title="Verify zone contents/configuration")
-                    span.glyphicon.glyphicon-ok
-                    | &nbsp; Verify
-                 li.divider
-                 li
-                   a(href='#', rel="tooltip", title="View metadata")
-                    span.glyphicon.glyphicon-eye-open
-                    | &nbsp; Zone Metadata
-                 li
-                   a(href='#', rel="tooltip", title="Manage Keys")
-                    span.glyphicon.glyphicon-asterisk
-                    | &nbsp; CryptoKeys
+                li
+                  a(href='#', rel="tooltip", title="Returns the zone in AXFR format")
+                   span.glyphicon.glyphicon-export
+                   | &nbsp; Export
+                li
+                  a(href='#', rel="tooltip", title="Verify zone contents/configuration")
+                   span.glyphicon.glyphicon-ok
+                   | &nbsp; Verify
+                li.divider
+                li
+                  a(href='#', rel="tooltip", title="View metadata")
+                   span.glyphicon.glyphicon-eye-open
+                   | &nbsp; Zone Metadata
+                li
+                  a(href='#', rel="tooltip", title="Manage Keys")
+                   span.glyphicon.glyphicon-lock
+                   | &nbsp; CryptoKeys
 
       .modal.fade.in(id="del-record-modal", tabindex="-1", role="dialog", aria-labelledby="del-record-label", aria-hidden="true")
           .modal-dialog
@@ -42,11 +50,11 @@ block content
               .modal-header
                  button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
                  h4(class="modal-title", id="del-record-label")
-                 #mod-delete-operation
+                   #mod-delete-operation
               .modal-body
                  .alert.alert-warning
                   p
-                  strong Warning!
+                    strong Warning!
                   | This operation will delete the 
                   strong#mod-delete-text-name 
                   | &nbsp; record.<br> Are you sure you want to do this ?
@@ -54,30 +62,45 @@ block content
                   a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
                   a.btn.btn-danger#mod-delete-submit(href='') Delete record
 
-      div
-       div.row
-       div.row
-        form.form(id="form-add-record", method='POST', enctype='application/json', action="/servers/#{serverselected.id}/records/save/#{data.id}", role="form")
-          fieldset
-            div.col-lg-2.form-group
-                input.form-control(name="name", id="mod-edit-recordname", type="text", placeholder="eg. www or leave empty")
-            div.col-xs-1.form-group
-                select.selectpicker(name="type", id="mod-edit-recordtype")
-                  - var DNSTYPE = ['A', 'AAAA', 'CERT', 'CNAME', 'HINFO', 'KEY', 'LOC', 'MX', 'NAPTR', 'NS', 'PTR', 'RP', 'SOA', 'SPF', 'SSHFP', 'SRV', 'TXT']
-                  - each item in DNSTYPE
-                     option(value="#{item}")= item
-            div.col-xs-1.form-group
-                input.form-control(name="priority", id="mod-edit-recordprio", type="text", placeholder="0", value="0")
-            div.col-lg-4.form-group
-                input.form-control(name="content", id="mod-edit-recordcontent", type="text", placeholder="eg. 192.0.43.10, web01.example.com")
-            div.col-sm-1.form-group
-                input.form-control(name="ttl", id="mod-edit-recordttl", type="text", placeholder="86400", value="3600")
-            div.col-sm-1.form-group
-                input.btn-small(name="disabled", id="mod-edit-recorddisabled", type="checkbox", value="false")
-            div.col-lg-2.btn-toolbar
-                div.btn-group.navbar-right
-                    button.btn.btn-default.btn-xs(type="reset", id="mod-edit-recordreset") Clear
-                    button.btn.btn-success.btn-xs(type="submit", id="mod-edit-recordsubmit") Save
+      .modal.fade.in(id="add-record-modal", tabindex="-1", role="dialog", aria-labelledby="add-record-label", aria-hidden="true")
+          .modal-dialog
+            .modal-content
+              .modal-header
+                 button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
+                 h4(class="modal-title", id="add-record-label")
+                   #mod-edit-operation
+              .modal-body
+                form.modal-form(id="form-add-record", method='POST', enctype='application/json', action="/servers/#{serverselected.id}/records/save/#{data.id}", role="form")
+                  fieldset
+                   .form-group
+                     label.control-label(for='name') Name:
+                     .controls
+                        input.form-control(name="name", id="mod-edit-record-name", type="text", placeholder="eg. full FQDN or leave empty")
+                   .form-group
+                     label.control-label(for='type') Type:
+                     select.form-control.selectpicker(name="type", id="mod-edit-record-type")
+                         - var DNSTYPE = ['A', 'AAAA', 'CERT', 'CNAME', 'HINFO', 'KEY', 'LOC', 'MX', 'NAPTR', 'NS', 'PTR', 'RP', 'SOA', 'SPF', 'SSHFP', 'SRV', 'TXT']
+                         - each item in DNSTYPE
+                             option(value="#{item}")= item
+                   .form-group
+                     label.control-label(for='priority') Priority:
+                     .controls
+                        input.form-control(name="priority", id="mod-edit-record-prio", type="text", placeholder="0", value="0")
+                   .form-group
+                     label.control-label(for='content') Content:
+                     .controls
+                        input.form-control(name="content", id="mod-edit-record-content", type="text", placeholder="eg. 192.0.43.10, web01.#{data.name}")
+                   .form-group
+                     label.control-label(for='ttl') TTL:
+                     .controls
+                        input.form-control(name="ttl", id="mod-edit-record-ttl", type="text", placeholder="86400", value="3600")
+                   .form-group
+                     label.control-label(for='disabled') Disabled:
+                     | &nbsp;
+                     input(name="disabled", id="mod-edit-record-disabled", type="checkbox", value="false", data-off-label="Visible", data-off-title="false", data-on-title="true", data-on-label="Hidden")
+                  .modal-footer
+                     a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
+                     button.btn.btn-success(href='', type="submit", id="mod-edit-submit") Add record
 
        table.table.table-striped.table-condensed.table-hover.records
         thead
@@ -102,12 +125,12 @@ block content
                    div.btn-toolbar
                      div.btn-group.navbar-right
                        -if (item.type == "A" || item.type == "AAAA")
-                          button.btn.btn-default.btn-xs(id="2ptr-record", href="#", rel="tooltip", title="Create PTR record from this")
+                          button.btn.btn-default.btn-xs.2ptr-record.disabled(id="2ptr-record", href="#", rel="tooltip", title="Create PTR record from this")
                             span.glyphicon.glyphicon-retweet
-                       button.btn.btn-default.btn-xs.edit-record(data-toggle="modal", data-target="#edit-record", rel="tooltip", title="Edit record", data-name="#{item.name}", data-type="#{item.type}", data-priority="#{item.priority}", data-content="#{item.content}", data-ttl="#{item.ttl}", data-disabled="#{item.disabled}")
-                         span.glyphicon.glyphicon-edit
-                       button.btn.btn-danger.btn-xs.del-record(data-toggle="modal", data-target="#del-record", rel="tooltip", title="Delete record", data-name="#{item.name}", data-content="#{item.content}", data-type="#{item.type}")
-                         span.glyphicon.glyphicon-remove
+                       button.btn.btn-default.btn-xs.edit-record(id="edit-record", data-toggle="modal", data-target="#add-record-modal", rel="tooltip", title="Edit record", data-name="#{item.name}", data-type="#{item.type}", data-priority="#{item.priority}", data-content="#{item.content}", data-ttl="#{item.ttl}", data-disabled="#{item.disabled}")
+                         span.glyphicon.glyphicon-pencil
+                       button.btn.btn-danger.btn-xs.del-record(id="del-record", data-toggle="modal", data-target="#del-record-modal", rel="tooltip", title="Delete record", data-name="#{item.name}", data-content="#{item.content}", data-type="#{item.type}")
+                         span.glyphicon.glyphicon-trash
 
   include inc/footer
 
@@ -115,35 +138,52 @@ block content
   link(rel='stylesheet', href='/stylesheets/bootstrap-select.min.css')
   script(src='/javascripts/bootstrap-select.min.js')
   // Bootstrap plugin checkbox
-  link(rel='stylesheet', href='/bootstrap-checkbox-master/css/bootstrap-checkbox.css')
-  script(src='/bootstrap-checkbox-master/js/bootstrap-checkbox.js')
-  // Bootstrap plugin form validator
-  link(rel='stylesheet', href='/bootstrapvalidator/dist/css/bootstrapValidator.min.css')
-  script(src='/bootstrapvalidator/dist/js/bootstrapValidator.min.js')
+  script(src='/bootstrap-checkbox/dist/js/bootstrap-checkbox.min.js')
+  // Bootstrap plugin form validation
+  link(rel='stylesheet', href='/form.validation/dist/css/formValidation.min.css')
+  script(src='/form.validation/dist/js/formValidation.min.js')
+  script(src='/form.validation/dist/js/framework/bootstrap.js')
   // records UI
   script(src='/javascripts/ui_records.js')
 
   | <script type="text/javascript">
   | $(document).ready(function() {
-  | // When click on edit record
-  |  $(document).on("click", ".edit-record", function () {
-  |      $('#mod-edit-recordname').val( $(this).data('name') );
-  |      $('.selectpicker').selectpicker('val', $(this).data('type') );
-  |      $('#mod-edit-recordprio').val( $(this).data('priority') );
-  |      $('#mod-edit-recordcontent').val( $(this).data('content') );
-  |      $('#mod-edit-recordttl').val( $(this).data('ttl') );
-  |      //$('#mod-edit-recorddisabled').prop('checked', true );
-  |      //$('#mod-edit-recorddisabled').checkbox()[0].checked;
-  |      //if ($(this).data('disabled')) { $('#mod-edit-recorddisabled').checkbox()[0].checked; }
-  |      //$('#mod-edit-recordsubmit').attr("href", "/servers/#{serverselected.id}/records/save/#{data.id}");
+  |  $(document).on("click", ".add-record", function () {
+  |      $('#mod-edit-operation').html("Add record");
+  |      $('#mod-edit-record-name').val("");
+  |      $('.selectpicker').selectpicker('val', "A" );
+  |      $('#mod-edit-record-prio').val("");
+  |      $('#mod-edit-record-content').val("");
+  |      $('#mod-edit-record-ttl').val("");
+  |      $('#mod-edit-record-disabled').prop('checked', false);
+  |      $('#mod-edit-submit').html("Add");
+  |      $('#mod-edit-submit').attr("href", "/servers/#{serverselected.id}/records/save/#{data.id}");
+  |      $('#add-record-modal').modal('show');
   |  });
-  |  // When click on delete record
+  |  $(document).on("click", ".edit-record", function () {
+  |      var RecordName = $(this).data('name'),
+  |          RecordType = $(this).data('type'),
+  |          RecordPrio = $(this).data('priority'),
+  |          recordContent = $(this).data('content'),
+  |          RecordTtl = $(this).data('ttl');
+  |      $('#mod-edit-operation').html("Edit record");
+  |      $('#mod-edit-record-name').val( $(this).data('name') );
+  |      $('.selectpicker').selectpicker('val', $(this).data('type') );
+  |      $('#mod-edit-record-prio').val("") ? $(this).data('priority') : $('#mod-edit-record-prio').val( $(this).data('priority') );
+  |      $('#mod-edit-record-content').val( $(this).data('content') );
+  |      $('#mod-edit-record-ttl').val( $(this).data('ttl') );
+  |      $('#mod-edit-record-disabled').prop('checked', false);
+  |      $('#mod-edit-submit').html("Update");
+  |      $('#mod-edit-submit').attr("href", "/servers/#{serverselected.id}/records/save/#{data.id}");
+  |      $('#add-record-modal').modal('show');
+  |  });
   |  $(document).on("click", ".del-record", function () {
   |      var RecordName = $(this).data('name');
   |      var RecordContent = $(this).data('content');
   |      var RecordType = $(this).data('type');
   |      $('#mod-delete-operation').html("Delete "+RecordName);
-  |      $('#mod-delete-text-name').html(RecordContent +" "+ RecordType);
+  |      $('#mod-delete-text-name').html(RecordContent +" "+ RecordType +" "+RecordName);
+  |      $('#mod-delete-submit').html("Delete");
   |      $('#mod-delete-submit').attr("href", "/servers/#{serverselected.id}/records/del/#{data.id}/"+RecordName+"/"+RecordType);
   |      $('#del-record-modal').modal('show');
   |  });

@@ -4,32 +4,44 @@ $(document).ready(function () {
     $('.selectpicker').selectpicker();
 
     // Init bootstrap checkbox plugin
-    $('input[type="checkbox"]').checkbox({
-        buttonStyle: 'btn-danger',
-        buttonStyleChecked: 'btn-success',
-        checkedClass: 'glyphicon glyphicon-check',
-        uncheckedClass: 'glyphicon glyphicon-unchecked'
-    });
+    $('#mod-edit-record-disabled').checkboxpicker();
 
-    // Init bootstrap validator plugin
+    // Init bootstrap form validation plugin
     $('#form-add-record')
-        .bootstrapValidator({
-        fields: {
+        .formValidation({
+         framework: 'bootstrap',
+         excluded: [':disabled', ':hidden', ':not(:visible)'],
+         icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+         },
+         fields: {
+            name: {
+                message: 'The record name is not valid',
+                validators: {
+                    regexp: {
+                        enabled: true,
+                        regexp: /^[a-zA-Z0-9 _\.-]+$/,
+                        message: 'A record name can only consist of alphabetical, numbers, underscore, dash, dot or space'
+                    },
+                }
+            },
             content: {
                 message: 'The content is not valid',
                 validators: {
                     notEmpty: {
-                        message: 'The content is required'
+                        message: 'The record content is required'
                     },
                     regexp: {
                         enabled: true,
                         regexp: /^[a-zA-Z0-9 _\.-]+$/,
-                        message: 'The content can only consist of alphabetical, numbers, underscore, dash, dot or space'
+                        message: 'A record content can only consist of alphabetical, numbers, underscore, dash, dot or space'
                     },
                     // Here are the validators need to be enabled/disabled dynamically
                     digits: {
                         enabled: false,
-                        message: 'The record can contain only digits'
+                        message: 'The record  can contain only digits'
                     },
                     ip: {
                         enabled: false,
@@ -42,14 +54,11 @@ $(document).ready(function () {
             priority: {
                 message: 'The priority is not valid',
                 validators: {
-                    notEmpty: {
-                        message: 'The priority is required'
-                    },
                     integer: {
                         message: 'The priority can contain only digits'
                     },
                     greaterThan: {
-                        message: 'The priority must be a positive  number',
+                        message: 'The priority must be a positive number',
                         value: 0
                     }
                 }
@@ -58,13 +67,13 @@ $(document).ready(function () {
                 message: 'The ttl is not valid',
                 validators: {
                     notEmpty: {
-                        message: 'The ttl is required'
+                        message: 'The TTL is required'
                     },
                     integer: {
-                        message: 'The ttl can contain only digits'
+                        message: 'The TTL can contain only digits'
                     },
                     greaterThan: {
-                        message: 'The ttl must be a positive  number',
+                        message: 'The TTL must be a positive number',
                         value: 0
                     }
                 }
@@ -79,61 +88,85 @@ $(document).ready(function () {
     });
 
     // On update select
-    $('#mod-edit-recordtype').change(function () {
+    $('#mod-edit-record-type').change(function () {
         var type = $(this).val();
         switch (type) {
             case 'A':
                 console.log('A');
                 $('#form-add-record')
                 // Disable all other validators
-                .bootstrapValidator('enableFieldValidators', 'content', false, 'regexp')
-                .bootstrapValidator('enableFieldValidators', 'content', false, 'digits')
+                .formValidation('enableFieldValidators', 'content', false, 'regexp')
+                .formValidation('enableFieldValidators', 'content', false, 'digits')
                 // Enable ip validator
-                .bootstrapValidator('enableFieldValidators', 'content', true, 'ip')
+                .formValidation('enableFieldValidators', 'content', true, 'ip')
                 // Enable ipv4 for the ip validator
-                .bootstrapValidator('updateOption', 'content', 'ip', 'ipv6', false)
+                .formValidation('updateOption', 'content', 'ip', 'ipv6', false)
                 // Disable ipv6 for the ip validator
-                .bootstrapValidator('updateOption', 'content', 'ip', 'ipv4', true)
+                .formValidation('updateOption', 'content', 'ip', 'ipv4', true)
                 // Update the message for ip validator
-                .bootstrapValidator('updateMessage', 'content', 'ip', 'Please enter a valid IPv4 address');
+                .formValidation('updateMessage', 'content', 'ip', 'Please enter a valid IPv4 address');
+                $('#mod-edit-record-content').focus();
                 break;
             case 'AAAA':
                 console.log('AAAA');
                 $('#form-add-record')
                 // Disable all other validators
-                .bootstrapValidator('enableFieldValidators', 'content', false, 'regexp')
-                .bootstrapValidator('enableFieldValidators', 'content', false, 'digits')
+                .formValidation('enableFieldValidators', 'content', false, 'regexp')
+                .formValidation('enableFieldValidators', 'content', false, 'digits')
                 // Enable ip validator
-                .bootstrapValidator('enableFieldValidators', 'content', true, 'ip')
+                .formValidation('enableFieldValidators', 'content', true, 'ip')
                 // Enable ipv6 for the ip validator
-                .bootstrapValidator('updateOption', 'content', 'ip', 'ipv6', true)
+                .formValidation('updateOption', 'content', 'ip', 'ipv6', true)
                 // Disable ipv4 for the ip validator
-                .bootstrapValidator('updateOption', 'content', 'ip', 'ipv4', false)
+                .formValidation('updateOption', 'content', 'ip', 'ipv4', false)
                 // Update the message for ip validator
-                .bootstrapValidator('updateMessage', 'content', 'ip', 'Please enter a valid IPv6 address');
+                .formValidation('updateMessage', 'content', 'ip', 'Please enter a valid IPv6 address');
+                $('#mod-edit-record-content').focus();
                 break;
             case 'SRV':
                 console.log('SRV');
                 $('#form-add-record')
                 // Disable all other validators
-                .bootstrapValidator('enableFieldValidators', 'content', false, 'ip')
-                .bootstrapValidator('enableFieldValidators', 'content', false, 'digits')
+                .formValidation('enableFieldValidators', 'content', false, 'ip')
+                .formValidation('enableFieldValidators', 'content', false, 'digits')
                 // Enable regexp validator
-                .bootstrapValidator('enableFieldValidators', 'content', true, 'regexp')
+                .formValidation('enableFieldValidators', 'content', true, 'regexp')
                 // Update the regexp for the regexp validator
-                .bootstrapValidator('updateOption', 'content', 'regexp', 'regexp', /^[a-zA-Z0-9 _\.-]+$/)
+                .formValidation('updateOption', 'content', 'regexp', 'regexp', /^[a-zA-Z0-9 _\.-]+$/)
                 // Update the message for regexp validator
-                .bootstrapValidator('updateMessage', 'content', 'regexp', 'Please enter a valid SRV record');
+                .formValidation('updateMessage', 'content', 'regexp', 'Please enter a valid SRV record');
+                $('#mod-edit-record-content').focus();
                 break;
-                // other cases
+            // other cases
             default:
                 $('#form-add-record')
                 // Disable all other validators
-                .bootstrapValidator('enableFieldValidators', 'content', false, 'digits')
-                .bootstrapValidator('enableFieldValidators', 'content', false, 'ip')
+                .formValidation('enableFieldValidators', 'content', false, 'digits')
+                .formValidation('enableFieldValidators', 'content', false, 'ip')
                 // Enable regexp validator
-                .bootstrapValidator('enableFieldValidators', 'content', true, 'regexp');
+                .formValidation('enableFieldValidators', 'content', true, 'regexp');
+                $('#mod-edit-record-content').focus();
                 break;
         }
     });
+
+    // Reset all given fields. It hides the error messages and feedback icons.
+    $('#add-record-modal').on('hidden.bs.modal', function() {
+      // Not working as expected
+      $('#form-add-record').formValidation('resetForm', true);
+      // So let's do it manually, foreach input group
+      $('.form-group').each(function(i, obj) {
+         $(this).removeClass('has-error');
+         $(this).removeClass('has-error');
+         $(this).removeClass('has-success');
+      });
+      // foreach icon result
+      $('.form-control-feedback').each(function(i, obj) {
+         $(this).css("display" ,"none");
+         $(this).removeClass('glyphicon');
+         $(this).removeClass('glyphicon-remove');
+         $(this).removeClass('glyphicon-ok');
+      });
+    });
+
 });

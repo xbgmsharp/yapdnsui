@@ -240,3 +240,16 @@ td.records-value-disabled {
   width:60px;
   text-align:center !important;
 }
+
+
+/* Form Validation */
+#form-add-domain .form-control-feedback {
+  right: 10px !important;
+  top: 25px !important;
+}
+
+#form-add-record .form-control-feedback {
+  right: 10px !important;
+  top: 25px !important;
+}
+

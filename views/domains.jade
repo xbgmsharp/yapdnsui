@@ -11,13 +11,12 @@ block content
             | &nbsp;domains in backend
         .btn-toolbar(style='margin-bottom: 10px;')
           .btn-group.pull-right
-            button.btn.btn-default.add-domain(data-toggle="modal",data-target="#add-domain-modal")
+            button.btn.btn-default.add-domain(id="add-domain", data-toggle="modal", data-target="#add-domain-modal")
               span.glyphicon.glyphicon-plus
               | &nbsp;Add domain
-          //.btn-group.pull-right
-          //  button.btn.btn-default.disable(href='#')
-          //    span.glyphicon.glyphicon-refresh
-          //    | Notify slaves
+            button.btn.btn-default.import-zone.disabled(id="import-zone", data-toggle="modal", data-target="#import-zone-modal")
+              span.glyphicon.glyphicon-import
+              | &nbsp;Import zone
 
       .modal.fade.in(id="add-domain-modal", tabindex="-1", role="dialog", aria-labelledby="add-domain-label", aria-hidden="true")
        .modal-dialog
@@ -27,19 +26,15 @@ block content
           h4(class="modal-title", id="add-domain-label")
             #mod-edit-operation
          .modal-body
-          form.form.form-horizontal.modal-form(method='POST', action='/servers/#{serverselected.id}/domains/add')
+          form.modal-form(id="form-add-domain", method='POST', action='/servers/#{serverselected.id}/domains/add')
             fieldset
-              // Domain Name
-              .control-group
-                label.control-label(for='name') Domain Name
+              .form-group
+                label.control-label(for='name') Zone/Domain name:
                 .controls
-                  .input-append
-                    input#mod-edit-name(name='name', size='16', type='text', placeholder='example.com')
-              // Zone/Repliction Type 
-              .control-group
-                label.control-label(for='type') Zone Type
+                    input.form-control(id='mod-edit-name', name='name', type='text', placeholder='eg: example.com')
+              .form-group
+                label.control-label(for='type') Zone Type:
                 .controls
-                  .input-append.mod-edit-type
                     label
                       input#mod-edit-type-master(type='radio', name='type', value='MASTER')
                       strong Master
@@ -52,17 +47,15 @@ block content
                       input#mod-edit-type-native(type='radio', name='type', value='NATIVE')
                       strong Native
                       span.help-block Rely on database replication, don't replicate via DNS.
-              // Zone master (if needed)
-              #mod-edit-master-box.control-group.hide
-                label.control-label(for='mod-edit-master') Zone master
-                .controls
-                  .input-append
-                    input#mod-edit-master(name='master', size='16', type='text', placeholder='1.2.3.4')
-                  span.help-inline Ip Address of the master host, which PDNS should replicate with.
-            // modal body
+              .form-group
+                #mod-edit-master-box.hide
+                  label.control-label(for='mod-edit-master') Zone master:
+                  .controls
+                    input.form-control(id='mod-edit-master', name='master', type='text', placeholder='1.2.3.4,9.8.7.6')
+                    span.help-block IP Address of the master host, which PDNS should replicate with.
             .modal-footer
               a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
-              button.btn.btn-success(href='', type="submit", id="mod-add-submit") Add domain
+              button.btn.btn-success(href='', type="submit", id="mod-edit-submit") Add domain
 
       .modal.fade.in(id="del-domain-modal", tabindex="-1", role="dialog", aria-labelledby="del-domain-label", aria-hidden="true")
        .modal-dialog
@@ -91,7 +84,6 @@ block content
               th Masters
               th DNSSEC
               th Serial
-              th Notified Serial
               th
           tbody
            each item in data
@@ -100,38 +92,66 @@ block content
                 a(href='/servers/#{serverselected.id}/domains/#{item.id}')= item.name
               td(style='vertical-align: middle;')= item.kind
               td(style='vertical-align: middle;')= item.masters
-              td(style='vertical-align: middle;')= item.dnssec
+              td(style='vertical-align: middle;')
+                -if (item.dnssec == false)
+                   span.glyphicon.glyphicon-lock= item.dnssec
+                -else
+                   span.glyphicon.glyphicon-unlock= item.dnssec
               td(style='vertical-align: middle;')= item.serial
-              td(style='vertical-align: middle;')= item.notified_serial
               td(style='vertical-align: middle; text-align: right;')
                 // row button group to spin up modal or delete domain 
                 .btn-group
-                  btn.btn.btn-default.btn-xs.edit-domain(data-toggle="modal", href="#add-domain-modal", data-id="#{item.id}", data-name="#{item.name}", data-kind="#{item.kind}", rel="tooltip", title="Edit domain")
-                    span.glyphicon.glyphicon-edit
-                    | Settings
-                  btn.btn.btn-danger.btn-xs.del-domain(data-toggle="modal", href="#del-domain-modal", data-id="#{item.id}", data-name="#{item.name}", rel="tooltip", title="Delete domain")
-                    span.glyphicon.glyphicon-remove
+                  a.btn.btn.btn-default.btn-xs.disabled.export-zone(id="export-zone", rel="tooltip", title="Export Zone", href="#")
+                    span.glyphicon.glyphicon-export
+                  a.btn.btn.btn-default.btn-xs.view-domain(id="view-domain", rel="tooltip", title="View domain", href="/servers/#{serverselected.id}/domains/#{item.id}")
+                    span.glyphicon.glyphicon-eye-open
+                  btn.btn.btn-default.btn-xs.edit-domain(id="edit-domain", data-toggle="modal", href="#add-domain-modal", data-id="#{item.id}", data-name="#{item.name}", data-kind="#{item.kind}", data-masters="#{item.masters}", rel="tooltip", title="Edit domain")
+                    span.glyphicon.glyphicon-pencil
+                  btn.btn.btn-danger.btn-xs.del-domain(id="del-domain", data-toggle="modal", href="#del-domain-modal", data-id="#{item.id}", data-name="#{item.name}", rel="tooltip", title="Delete domain")
+                    span.glyphicon.glyphicon-trash
                 // row button end 
 
   include inc/footer
 
+  // Bootstrap plugin form validation
+  link(rel='stylesheet', href='/form.validation/dist/css/formValidation.min.css')
+  script(src='/form.validation/dist/js/formValidation.min.js')
+  script(src='/form.validation/dist/js/framework/bootstrap.js')
+  // domains UI
+  script(src='/javascripts/ui_domains.js')
+
   | <script type="text/javascript">
+  | $(document).ready(function() {
   |  $(document).on("click", ".add-domain", function () {
-  |      $('#mod-edit-operation').html("Add a domain");
-  |      $("#mod-edit-name").val("");
-  |      $('#mod-edit-text-name').html("");
-  |      $('#mod-add-submit').attr("href", "/servers/#{serverselected.id}/domains/add");
+  |      $('#form-add-domain').formValidation('resetForm', true);
+  |      $('#mod-edit-operation').html("Add domain");
+  |      $('#mod-edit-name').val("");
+  |      $('#mod-edit-type-master').prop('checked', true);
+  |      $('#mod-edit-master-box').attr("class", "hide");
+  |      $('#mod-edit-master').val("");
+  |      $('#mod-edit-submit').html("Add");
+  |      $('#mod-edit-submit').attr("href", "/servers/#{serverselected.id}/domains/add");
   |      $('#add-domain-modal').modal('show');
   |  });
   |  $(document).on("click", ".edit-domain", function () {
-  |      var DomainId = $(this).data('id');
-  |      var DomainName = $(this).data('name');
-  |      var DomainKind = $(this).data('kind');
+  |      var DomainId = $(this).data('id'),
+  |          DomainName = $(this).data('name'),
+  |          DomainKind = $(this).data('kind').toLowerCase(),
+  |          DomainKindId = "#mod-edit-type-"+DomainKind,
+  |          DomainMasters = $(this).data('masters');
+  |      $('#form-add-domain').formValidation('resetForm', true);
   |      $('#mod-edit-operation').html("Edit "+DomainName);
-  |      $("#mod-edit-name").val( DomainName );
-  |      $('#mod-edit-text-name').html(DomainName);
-  |      $("input:radio[value='MASTER']").attr("checked", true);
-  |      $('#mod-add-submit').attr("href", "/servers/#{serverselected.id}/domains/edit/"+DomainId);
+  |      $('#mod-edit-name').val( DomainName );
+  |      $(DomainKindId).prop('checked', true );
+  |      if (DomainKind == 'native') {
+  |          $('#mod-edit-master-box').attr("class", "");
+  |          $('#mod-edit-master').val( DomainMasters );
+  |      } else {
+  |          $('#mod-edit-master-box').attr("class", "hide");
+  |          $('#mod-edit-master').val("");
+  |      }
+  |      $('#mod-edit-submit').html("Update");
+  |      $('#mod-edit-submit').attr("href", "/servers/#{serverselected.id}/domains/edit/"+DomainId);
   |      $('#add-domain-modal').modal('show');
   |  });
   |  $(document).on("click", ".del-domain", function () {
@@ -139,7 +159,17 @@ block content
   |      var DomainName = $(this).data('name');
   |      $('#mod-delete-operation').html("Delete "+DomainName);
   |      $('#mod-delete-text-name').html(DomainName);
+  |      $('#mod-delete-submit').html("Delete");
   |      $('#mod-delete-submit').attr("href", "/servers/#{serverselected.id}/domains/del/"+DomainId);
   |      $('#del-domain-modal').modal('show');
   |  });
+  |  // On update radio type
+  |  $('input[type=radio][name=type]').change(function() {
+  |     if (this.value == 'NATIVE') {
+  |          $('#mod-edit-master-box').attr("class", "");
+  |     } else {
+  |          $('#mod-edit-master-box').attr("class", "hide");
+  |     }
+  |  });
+  | });
   | </script>
