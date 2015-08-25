@@ -7,7 +7,9 @@
     "jqueryui": "~1.11.4",
     "highcharts-release": "~4.1.7",
     "bootstrap-checkbox": "~1.2.8",
-    "form.validation": "*"
+    "form.validation": "*",
+    "datatables": "~1.10.8",
+    "font-awesome": "~4.3.0"
   },
   "homepage": "https://github.com/xbgmsharp/yapdnsui",
   "description": "Yet Another PowerDNS web interface",
