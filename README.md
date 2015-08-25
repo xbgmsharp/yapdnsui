@@ -164,16 +164,14 @@ This program comes without any warranty.
 Credits
 -------
 
-* yaPDNSui is built with the awesome [NodeJS](http://nodejs.org) and [Express](http://expressjs.com).
+* yaPDNSui is built with the awesome [NodeJS](http://nodejs.org) and [Express](http://expressjs.com) and [Bower](http://bower.io/).
 
-* Charts: [http://www.highcharts.com/](http://www.highcharts.com/)
+* PowerDNS [http://www.powerdns.com/](http://www.powerdns.com/)
 
 * Layout & CSS: [http://twitter.github.com/bootstrap/](http://twitter.github.com/bootstrap/)
 
-* Favicon from: [http://glyphicons.com/](http://glyphicons.com/)
+* Tables: [http://datatables.net/](http://datatables.net/)
 
-* Apple touch icon from: [http://findicons.com/search/leaf](http://findicons.com/search/leaf)
-
-* PowerDNS [http://www.powerdns.com/](http://www.powerdns.com/)
+* Charts: [http://www.highcharts.com/](http://www.highcharts.com/)
 
 * Thanks to PDNSui [https://github.com/leucos/pdnsui/](https://github.com/leucos/pdnsui/)
