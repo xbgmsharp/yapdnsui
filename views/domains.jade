@@ -108,7 +108,7 @@ block content
                     span.glyphicon.glyphicon-retweet
                   a.btn.btn.btn-default.btn-xs.disabled.retrieve-zone(id="retrieve-zone", rel="tooltip", title="Retrieves the zone from the master", href="#")
                     span.glyphicon.glyphicon-random
-                  a.btn.btn.btn-default.btn-xs.disabled.export-zone(id="export-zone", rel="tooltip", title="Returns the zone in AXFR format", href="#")
+                  a.btn.btn.btn-default.btn-xs.export-zone(id="export-zone", rel="tooltip", title="Returns the zone in AXFR format", href="/servers/#{serverselected.id}/domains/export/#{item.id}")
                     span.glyphicon.glyphicon-export
                   a.btn.btn.btn-default.btn-xs.disabled.verify-zone(id="verify-zone", rel="tooltip", title="Verify zone contents/configuration", href="#")
                     span.glyphicon.glyphicon-ok

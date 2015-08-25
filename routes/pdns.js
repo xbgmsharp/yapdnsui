@@ -176,6 +176,27 @@ router.post('/:id/domains/add', function(req, res) {
                         });
 });
 
+/* Export a domain */
+router.get('/:id/domains/export/:zone_id', function(req, res) {
+        console.log("Export a domain");
+        console.log(req.db);
+        console.log(req.params.id);
+        console.log(req.params.zone_id);
+        // If missing value redirect to index or to an error page!!!
+        if (!req.db && !req.server) { res.redirect('/'); }
+                        pdnsapi.zones.export(req, res, function (error, response, body) {
+				console.log(body);
+				// If any error redirect to index
+                                if (error && response.statusCode != 200) { console.log(error); res.redirect('/servers'); }
+                                else {
+                                        res.setHeader('Content-disposition', 'attachment; filename='+req.params.zone_id+'axfr');
+                                        res.setHeader('Content-type', 'text/plain');
+                                        res.send(body);
+                                }
+                        });
+});
+
+
 /* -------------------------------------------------*/
 /* RECORDS */
 

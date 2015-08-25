@@ -25,9 +25,9 @@ block content
                 li
                   a(href='#', rel="tooltip", title="Retrieves the zone from the master")
                    span.glyphicon.glyphicon-random
-                   | &nbsp; Retrieve
+                   | &nbsp; AXFR Retrieve
                 li
-                  a(href='#', rel="tooltip", title="Returns the zone in AXFR format")
+                  a(href='/servers/#{serverselected.id}/domains/export/#{data.id}', rel="tooltip", title="Returns the zone in AXFR format")
                    span.glyphicon.glyphicon-export
                    | &nbsp; Export
                 li
