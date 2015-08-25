@@ -3,28 +3,34 @@ extends layout
 block content
   div.container
     div.jumbotron
-      h2= settings.title
-       | &nbsp; - 
-       = settings.package.name
-      p Welcome to #{settings.package.description} v#{settings.package.version}
-      p(style="text-align: center")
-  div.bs-callout.bs-callout-info
-      h4 License
+      h1= settings.title
+      p #{settings.package.description}
+      p Version #{settings.package.version}
+      p
+       a.btn.btn-primary.btn-large(href="https://github.com/xbgmsharp/yapdnsui") Documentation on GitHub
+  div.container
+    div.jumbotron
+      h2 License
       p
       | Copyright &copy; 2014-2015 Francois Lacroix. All Rights Reserved.
       br
       | This program is free software; you can redistribute it and/or modify it under the terms of the 
       a(href="http://www.gnu.org/licenses/gpl.html") GNU General Public License 
       | as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-    div.bs-callout.bs-callout-danger
-        h4 Notes
-        p
-        | #{settings.title} is in alpha stage and the PowerDNS API is experimental. It might break your server, your zones, this application, whatever.
-    div.bs-callout.bs-callout-warning
-        h4 Next Steps: <br/>
-           | 1. Add a PDNS server <br/>
-           | 2. See the configuration <br/>
-           | 3. Check the live statistics <br/>
-           | 3. Manage your domain <br/>
+  div.container
+    div.jumbotron
+      h2 Notes
+      p
+      | #{settings.title} is in alpha stage as weel as the PowerDNS API and might break your server, your zones, this application, whatever.
+      p
+      | This is built using 
+      a(href="http://nodejs.org") NodeJS 
+      | and 
+      a(href="http://expressjs.com") Express
+      p
+      | yaPDNSui powered by 
+      a(href="http://nodejs.org") NodeJS 
+      | - Layout and CSS from 
+      a(href="http://twitter.github.com") Twitter Bootstrap 
 
   include inc/footer
