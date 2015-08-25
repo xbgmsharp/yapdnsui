@@ -102,25 +102,25 @@ block content
                      a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
                      button.btn.btn-success(href='', type="submit", id="mod-edit-submit") Add record
 
-       table.table.table-striped.table-condensed.table-hover.records
+       table.table.table-striped.table-condensed.table-hover.records#records-table(width="100%", name="records-table")
         thead
           tr
-            th.records-head-name Name
-            th.records-head-type Type
-            th.records-head-prio Prio
-            th.records-head-content Content
-            th.records-head-ttl TTL
-            th.records-head-disable Disabled
-            th.records-head-action
+            th Name
+            th Type
+            th Prio
+            th Content
+            th TTL
+            th Disabled
+            th
         tbody
           each item in data.records
             tr
-                  td.records-value-name= item.name
-                  td.records-value-type= item.type
-                  td.records-value-prio= item.priority
-                  td.records-value-content= item.content
-                  td.records-value-ttl= item.ttl
-                  td.records-value-disabled= item.disabled
+                  td= item.name
+                  td= item.type
+                  td= item.priority
+                  td= item.content
+                  td= item.ttl
+                  td= item.disabled
                   td.records-value-action
                    div.btn-toolbar
                      div.btn-group.navbar-right
@@ -143,11 +143,15 @@ block content
   link(rel='stylesheet', href='/form.validation/dist/css/formValidation.min.css')
   script(src='/form.validation/dist/js/formValidation.min.js')
   script(src='/form.validation/dist/js/framework/bootstrap.js')
+  // datatables
+  script(src='/datatables/media/js/jquery.dataTables.min.js')
+  script(src='/datatables/media/js/dataTables.bootstrap.min.js')
   // records UI
   script(src='/javascripts/ui_records.js')
 
   | <script type="text/javascript">
   | $(document).ready(function() {
+  |  $('#records-table').dataTable();
   |  $(document).on("click", ".add-record", function () {
   |      $('#mod-edit-operation').html("Add record");
   |      $('#mod-edit-record-name').val("");

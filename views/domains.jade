@@ -76,7 +76,7 @@ block content
           a.btn.btn-danger#mod-delete-submit(href='') Delete domain
 
       div
-        table.table.table-striped.table-condensed
+        table.table.table-striped.table-condensed.table-hover#domains-table(width="100%", name="domains-table")
           thead
             tr
               th Name
@@ -88,22 +88,31 @@ block content
           tbody
            each item in data
             tr
-              td(style='vertical-align: middle;')
+              td
                 a(href='/servers/#{serverselected.id}/domains/#{item.id}')= item.name
-              td(style='vertical-align: middle;')= item.kind
-              td(style='vertical-align: middle;')= item.masters
-              td(style='vertical-align: middle;')
-                -if (item.dnssec == false)
-                   span.glyphicon.glyphicon-lock= item.dnssec
+              td= item.kind
+              td= item.masters
+              td
+                -if (item.dnssec == true)
+                   span.fa.fa-lock.fa-lg
                 -else
-                   span.glyphicon.glyphicon-unlock= item.dnssec
-              td(style='vertical-align: middle;')= item.serial
-              td(style='vertical-align: middle; text-align: right;')
+                   span.fa.fa-unlock.fa-lg
+
+                   | &nbsp;
+                   = item.dnssec
+              td= item.serial
+              td.domains-value-action
                 // row button group to spin up modal or delete domain 
                 .btn-group
-                  a.btn.btn.btn-default.btn-xs.disabled.export-zone(id="export-zone", rel="tooltip", title="Export Zone", href="#")
+                  a.btn.btn.btn-default.btn-xs.disabled.notify-zone(id="notify-zone", rel="tooltip", title="Send a DNS NOTIFY to all slaves", href="#")
+                    span.glyphicon.glyphicon-retweet
+                  a.btn.btn.btn-default.btn-xs.disabled.retrieve-zone(id="retrieve-zone", rel="tooltip", title="Retrieves the zone from the master", href="#")
+                    span.glyphicon.glyphicon-random
+                  a.btn.btn.btn-default.btn-xs.disabled.export-zone(id="export-zone", rel="tooltip", title="Returns the zone in AXFR format", href="#")
                     span.glyphicon.glyphicon-export
-                  a.btn.btn.btn-default.btn-xs.view-domain(id="view-domain", rel="tooltip", title="View domain", href="/servers/#{serverselected.id}/domains/#{item.id}")
+                  a.btn.btn.btn-default.btn-xs.disabled.verify-zone(id="verify-zone", rel="tooltip", title="Verify zone contents/configuration", href="#")
+                    span.glyphicon.glyphicon-ok
+                  a.btn.btn.btn-default.btn-xs.view-domain(id="view-domain", rel="tooltip", title="View records in zone", href="/servers/#{serverselected.id}/domains/#{item.id}")
                     span.glyphicon.glyphicon-eye-open
                   btn.btn.btn-default.btn-xs.edit-domain(id="edit-domain", data-toggle="modal", href="#add-domain-modal", data-id="#{item.id}", data-name="#{item.name}", data-kind="#{item.kind}", data-masters="#{item.masters}", rel="tooltip", title="Edit domain")
                     span.glyphicon.glyphicon-pencil
@@ -117,11 +126,15 @@ block content
   link(rel='stylesheet', href='/form.validation/dist/css/formValidation.min.css')
   script(src='/form.validation/dist/js/formValidation.min.js')
   script(src='/form.validation/dist/js/framework/bootstrap.js')
+  // datatables
+  script(src='/datatables/media/js/jquery.dataTables.min.js')
+  script(src='/datatables/media/js/dataTables.bootstrap.min.js')
   // domains UI
   script(src='/javascripts/ui_domains.js')
 
   | <script type="text/javascript">
   | $(document).ready(function() {
+  |  $('#domains-table').dataTable();
   |  $(document).on("click", ".add-domain", function () {
   |      $('#form-add-domain').formValidation('resetForm', true);
   |      $('#mod-edit-operation').html("Add domain");
