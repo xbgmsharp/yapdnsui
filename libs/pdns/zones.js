@@ -7,6 +7,13 @@ var request = require('request');
 *
 */
 
+function getHeaders(req) {
+        return {
+                "Content-Type": "application/json",
+                "X-API-Key": req.server.password
+        };
+}
+
 // Handle Zones listing
 exports.list= function(req, res, callback){
         if (req.server.url && req.server.password) {
@@ -15,7 +22,7 @@ exports.list= function(req, res, callback){
                         dataType: 'json',
                         method: 'GET',
                         url: req.server.url+"/servers/localhost/zones",
-			headers: { "X-API-Key" : req.server.password }
+                        headers: getHeaders(req)
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -32,7 +39,7 @@ exports.delete = function(req, res, callback){
                         method: 'DELETE',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id,
                         json: { "rrsets": [ { "name": req.params.zone_id, "changetype": "DELETE", "records": [] , "comments": [] } ] },
-			headers: { "X-API-Key" : req.server.password }
+                        headers: getHeaders(req)
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -49,7 +56,7 @@ exports.add = function(req, res, callback){
                         method: 'POST',
                         url: req.server.url+"/servers/localhost/zones",
                         json: { "kind": req.body.type, "name": req.body.name, "masters": [req.body.master], "nameservers": [], "records": []},
-			headers: { "X-API-Key" : req.server.password }
+                        headers: getHeaders(req)
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -59,14 +66,14 @@ exports.add = function(req, res, callback){
 
 // Handle Zones import
 exports.import = function(req, res, callback){
-        if (req.server.url && req.server.password && req.params.zone_id && req.body.zone) {
+        if (req.server.url && req.server.password && req.params.zone_id && req.body.name && req.body.type && req.body.zone) {
                 request(
                 {
                         dataType: 'json',
-                        method: 'PUT',
-                        url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id+"/import",
-                        json: { "zone": req.body.zone},
-                        headers: { "X-API-Key" : req.server.password }
+                        method: 'POST',
+                        url: req.server.url+"/servers/localhost/zones",
+                        json: { "kind": req.body.type, "name": req.body.name, "masters": [req.body.master], "nameservers": [], "zone": req.body.zone},
+                        headers: getHeaders(req)
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -82,7 +89,7 @@ exports.export = function(req, res, callback){
                         dataType: 'json',
                         method: 'GET',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id+"/export",
-                        headers: { "X-API-Key" : req.server.password }
+                        headers: getHeaders(req)
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -98,7 +105,7 @@ exports.notify = function(req, res, callback){
                         dataType: 'json',
                         method: 'PUT',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id+"/notify",
-                        headers: { "X-API-Key" : req.server.password }
+                        headers: getHeaders(req)
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -114,7 +121,7 @@ exports.retrieve = function(req, res, callback){
                         dataType: 'json',
                         method: 'PUT',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id+"/axfr-retrieve",
-                        headers: { "X-API-Key" : req.server.password }
+                        headers: getHeaders(req)
                 },
                 function (error, response, body) {
                         callback(error, response, body);
@@ -130,7 +137,7 @@ exports.check = function(req, res, callback){
                         dataType: 'json',
                         method: 'PUT',
                         url: req.server.url+"/servers/localhost/zones/"+req.params.zone_id+"/check",
-                        headers: { "X-API-Key" : req.server.password }
+                        headers: getHeaders(req)
                 },
                 function (error, response, body) {
                         callback(error, response, body);
