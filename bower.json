@@ -9,7 +9,8 @@
     "bootstrap-checkbox": "~1.2.8",
     "form.validation": "*",
     "datatables": "~1.10.8",
-    "font-awesome": "~4.3.0"
+    "font-awesome": "~4.3.0",
+    "pnotify": "~2.0.1"
   },
   "homepage": "https://github.com/xbgmsharp/yapdnsui",
   "description": "Yet Another PowerDNS web interface",
