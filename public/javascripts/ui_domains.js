@@ -1,5 +1,56 @@
 $(document).ready(function () {
 
+    PNotify.prototype.options.styling = "bootstrap3";
+    PNotify.prototype.options.delay = 5000;
+    PNotify.prototype.options.width = "350px";
+    function mymessage(mytype, mytitle, mytext) {
+        new PNotify({
+            type: mytype,
+            title: mytitle,
+            text: mytext,
+            styling: 'bootstrap3'
+        });
+    }
+
+    $(document).on("click", ".notify-zone", function () {
+       console.log("notify-zone");
+       var zone = $(this).data('id');
+       $.ajax({
+              'url' : '/servers/'+$(this).data('server')+'/domains/notify/'+zone,
+              'type' : 'GET',
+              'cache' : false,
+              'dataType' : 'json',
+              'success' : function(data) {
+                      if(data.result) {
+                        mymessage("success", "Notify Zone", data.result +" for "+ zone);
+                      }
+                      if(data.error) {
+                        mymessage("error", "Notify Zone", data.error);
+                      }
+              }
+       });
+    });
+
+    $(document).on("click", ".retrieve-zone", function () {
+       console.log("retrieve-zone");
+       var zone = $(this).data('id');
+       $.ajax({
+              'url' : '/servers/'+$(this).data('server')+'/domains/retrieve/'+zone,
+              'type' : 'GET',
+              'cache' : false,
+              'dataType' : 'json',
+              'success' : function(data) {
+                      console.log(data);
+                      if(data.result) {
+                        mymessage("success", "axfr-retrieve zone", data.result + " for "+ zone);
+                      }
+                      if(data.error) {
+                        mymessage("error", "axfr-retrieve zone", data.error);
+                      }
+              }
+       });
+    });
+
     // Init bootstrap form validatoin plugin
     $('#form-add-domain')
       .formValidation({

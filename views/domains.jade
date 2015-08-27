@@ -104,10 +104,11 @@ block content
               td.domains-value-action
                 // row button group to spin up modal or delete domain 
                 .btn-group
-                  a.btn.btn.btn-default.btn-xs.disabled.notify-zone(id="notify-zone", rel="tooltip", title="Send a DNS NOTIFY to all slaves", href="#")
-                    span.glyphicon.glyphicon-retweet
-                  a.btn.btn.btn-default.btn-xs.disabled.retrieve-zone(id="retrieve-zone", rel="tooltip", title="Retrieves the zone from the master", href="#")
-                    span.glyphicon.glyphicon-random
+                  -if (item.kind == "slave" || item.kind == "Slave")
+                     btn.btn.btn-default.btn-xs.notify-zone(id="notify-zone", rel="tooltip", title="Send a DNS NOTIFY to all slaves", data-id="#{item.id}", data-server="#{serverselected.id}", href="#")
+                       span.glyphicon.glyphicon-retweet
+                     btn.btn.btn-default.btn-xs.retrieve-zone(id="retrieve-zone", rel="tooltip", title="Retrieves the zone from the master", data-id="#{item.id}", data-server="#{serverselected.id}", href="#")
+                       span.glyphicon.glyphicon-random
                   a.btn.btn.btn-default.btn-xs.export-zone(id="export-zone", rel="tooltip", title="Returns the zone in AXFR format", href="/servers/#{serverselected.id}/domains/export/#{item.id}")
                     span.glyphicon.glyphicon-export
                   a.btn.btn.btn-default.btn-xs.disabled.verify-zone(id="verify-zone", rel="tooltip", title="Verify zone contents/configuration", href="#")
@@ -129,6 +130,8 @@ block content
   // datatables
   script(src='/datatables/media/js/jquery.dataTables.min.js')
   script(src='/datatables/media/js/dataTables.bootstrap.min.js')
+  // PNotify
+  script(src='/pnotify/pnotify.core.js')
   // domains UI
   script(src='/javascripts/ui_domains.js')
 
