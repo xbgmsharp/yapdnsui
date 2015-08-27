@@ -176,6 +176,26 @@ router.post('/:id/domains/add', function(req, res) {
                         });
 });
 
+/* Import a domain */
+router.post('/:id/domains/import', function(req, res) {
+        console.log("Add a domain");
+        console.log(req.db);
+        console.log(req.params.id);
+        console.log(req.body.name);
+        console.log(req.body.type);
+        console.log(req.body.master);
+        console.log(req.body.zone);
+        // If missing value redirect to index or to an error page!!!
+        if (!req.db && !req.server) { res.redirect('/'); }
+                        pdnsapi.zones.import(req, res, function (error, response, body) {
+				// If any error redirect to index
+                                if (error && response.statusCode != 204) { console.log(error); res.redirect('/servers'); }
+                                else {
+                                        res.redirect('/servers/'+req.server.id+'/domains');
+                                }
+                        });
+});
+
 /* Export a domain */
 router.get('/:id/domains/export/:zone_id', function(req, res) {
         console.log("Export a domain");
@@ -196,6 +216,43 @@ router.get('/:id/domains/export/:zone_id', function(req, res) {
                         });
 });
 
+/* Notify a domain */
+router.get('/:id/domains/notify/:zone_id', function(req, res) {
+        console.log("Notify a domain");
+        console.log(req.db);
+        console.log(req.params.id);
+        console.log(req.params.zone_id);
+        // If missing value redirect to index or to an error page!!!
+        if (!req.db && !req.server) { res.redirect('/'); }
+                        pdnsapi.zones.notify(req, res, function (error, response, body) {
+				console.log(body);
+				// If any error redirect to index
+                                if (error && response.statusCode != 200) {
+                                        console.log(error); res.send(error);
+                                } else {
+                                        res.send(body);
+                                }
+                        });
+});
+
+/* Retrieve a domain */
+router.get('/:id/domains/retrieve/:zone_id', function(req, res) {
+        console.log("Retrieve a domain");
+        console.log(req.db);
+        console.log(req.params.id);
+        console.log(req.params.zone_id);
+        // If missing value redirect to index or to an error page!!!
+        if (!req.db && !req.server) { res.redirect('/'); }
+                        pdnsapi.zones.retrieve(req, res, function (error, response, body) {
+				console.log(body);
+				// If any error redirect to index
+                                if (error && response.statusCode != 200) {
+                                        console.log(error); res.send(error);
+                                } else {
+                                        res.send(body);
+                                }
+                        });
+});
 
 /* -------------------------------------------------*/
 /* RECORDS */
