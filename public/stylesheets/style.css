@@ -105,6 +105,10 @@ a {
 
 /* Domains/Records */
 
+#servers-table td.servers-value-action {
+  text-align:right !important;
+}
+
 #domains-table td.domains-value-action {
   text-align: right !important;
 }
