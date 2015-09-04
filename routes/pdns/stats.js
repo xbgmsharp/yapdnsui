@@ -32,13 +32,13 @@ router.param('id', function(req, res, next, id){
 /* STATS */
 
 /* GET stats page. */
-router.get('/:id/statistics', function(req, res) {
+router.get('/servers/:id/statistics', function(req, res) {
   if (!req.db && !req.server) { res.render('', {}); }
   res.render('statistics', { 'serverlist': req.serverlist, 'navmenu': 'statistics', 'serverselected': req.server });
 });
 
 /* GET the statistics dump for graph */
-router.get('/:id/statistics/dump', function(req, res) {
+router.get('/servers/:id/statistics/dump', function(req, res) {
         console.log(req.db);
         console.log(req.params);
         console.log(req.params.id);

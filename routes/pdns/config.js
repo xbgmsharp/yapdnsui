@@ -30,7 +30,7 @@ router.param('id', function(req, res, next, id){
 
 /* -------------------------------------------------*/
 /* GET configuration page. */
-router.get('/:id/configuration', function(req, res) {
+router.get('/servers/:id/configuration', function(req, res) {
         console.log(req.db);
         console.log(req.params.id);
         console.log(req.server);
