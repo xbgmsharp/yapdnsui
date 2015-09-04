@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/xbgmsharp/yapdnsui/issues"
   },
-  "version": "0.0.6-3d97b8c",
+  "version": "0.0.7-ca5ad22",
   "license": "GPL-3.0+",
   "private": true,
   "scripts": {

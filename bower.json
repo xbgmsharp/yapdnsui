@@ -1,6 +1,6 @@
 {
   "name": "yapdnsui",
-  "version": "0.0.6-3d97b8c",
+  "version": "0.0.7-ca5ad22",
   "dependencies": {
     "bootstrap": "~3.3.5",
     "jquery": "~1.11.3",
