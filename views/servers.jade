@@ -2,30 +2,131 @@ extends layout
 
 block content
   div.container
-     // Page header
     .page-header
         h2
           | Servers
+          | &nbsp;
+        .btn-toolbar(style='margin-bottom: 10px;')
+          .btn-group.pull-right
+            button.btn.btn-default.add-server(id="add-server", data-toggle="modal", data-target="#add-server-modal")
+              span.glyphicon.glyphicon-plus
+              | &nbsp;Add server
+
+    .modal.fade.in(id="del-server-modal", tabindex="-1", role="dialog", aria-labelledby="del-server-label", aria-hidden="true")
+       .modal-dialog
+        .modal-content
+         .modal-header
+          button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
+          h4(class="modal-title", id="del-server-label")
+            #mod-delete-operation
+         .modal-body
+          .alert.alert-warning
+            p
+              strong Warning!
+            | This operation will delete the server 
+            strong#mod-delete-text-name
+            | &nbsp; <br>Are you sure you want to do this ?
+         .modal-footer
+          a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
+          a.btn.btn-danger#mod-delete-submit(href='') Delete server
+
+    .modal.fade.in(id="add-server-modal", tabindex="-1", role="dialog", aria-labelledby="add-server-label", aria-hidden="true")
+       .modal-dialog
+        .modal-content
+         .modal-header
+          button(type="button", class="close", data-dismiss="modal", aria-hidden="true") &times;
+          h4(class="modal-title", id="add-server-label")
+            #mod-edit-operation
+         .modal-body
+          form.modal-form(id="form-add-server", method='POST', action='/servers/add')
+            fieldset
+              .form-group
+                label.control-label(for='mod-edit-url') URL:
+                .controls
+                    input.form-control(id="mod-edit-url", type="text", placeholder="http://localhost:8053", name="url")
+              .form-group
+                label.control-label(for='mod-edit-api-key') API-Key:
+                .controls
+                    input.form-control(id="mod-edit-api-key", type="text", placeholder="changeme", name="password")
+            .modal-footer
+              a.btn.btn-default(href='#', data-dismiss='modal', aria-hidden="true") Cancel
+              button.btn.btn-success(href='', type="submit", id="mod-edit-submit") Add server
+
     div
-     form.form.form-inline#formAddServer(name="addserver", method="post", action="/servers/add", role="form")
-       div.form-group
-         label.col-lg-2.control-label URL:
-         div.col-lg-4
-            input.form-control#inputUserName(type="url", placeholder="http://localhost:8053", name="url")
-       div.form-group
-         label.col-lg-3.control-label Password:
-         div.col-lg-4
-            input.form-control#inputUserEmail(type="text", placeholder="changeme", name="password")
-       button.btn.btn-default#btnSubmit(type="submit") submit
-    p
-    div.list-group
-      - if (serverlist)
-       each item in serverlist
-          - if (serverselected && serverselected.name == item.name)
-            a.list-group-item.active(href="/servers/#{item.id}")= item.name
-              h4.list-group-item-text= item.url
-                 span.glyphicon.glyphicon-ok
-          - else            
-            a.list-group-item(href="/servers/#{item.id}")= item.name
-              h4.list-group-item-heading= item.url
+      table.table.table-striped.table-condensed.table-hover#servers-table(width="100%", name="servers-table")
+        thead
+          tr
+            th Name
+            th URL
+            th Daemon Type
+            th Version
+            th
+        tbody
+         each item in serverlist
+            tr
+              td
+                a(href='/servers/#{item.id}')= item.name
+              td= item.url
+              td= item.pdns_daemon_type
+              td= item.pdns_version
+              td.servers-value-action
+                .btn-group
+                  a.btn.btn-default.btn-xs.view-domain(id="view-domain", rel="tooltip", title="View zones for server", href="/servers/#{item.id}/domains")
+                    span.glyphicon.glyphicon-eye-open
+                  a.btn.btn.btn-default.btn-xs.refresh-server(id="refresh-server", data-id="#{item.id}", data-name="#{item.name}", rel="tooltip", title="Refresh server information", href="/servers/#{item.id}/refresh")
+                    span.glyphicon.glyphicon-retweet
+                  btn.btn.btn-default.btn-xs.edit-server(id="edit-server", data-toggle="modal", href="#add-server-modal", data-id="#{item.id}", data-name="#{item.name}", data-url="#{item.url}", data-apikey="#{item.password}", rel="tooltip", title="Edit server")
+                    span.glyphicon.glyphicon-pencil
+                  btn.btn.btn-danger.btn-xs.del-server(id="del-server", data-toggle="modal", href="#del-server-modal", data-id="#{item.id}", data-name="#{item.name}", rel="tooltip", title="Delete server")
+                    span.glyphicon.glyphicon-trash
+
   include inc/footer
+
+  // Bootstrap plugin form validation
+  //link(rel='stylesheet', href='/form.validation/dist/css/formValidation.min.css')
+  //script(src='/form.validation/dist/js/formValidation.min.js')
+  //script(src='/form.validation/dist/js/framework/bootstrap.js')
+  // datatables
+  script(src='/datatables/media/js/jquery.dataTables.min.js')
+  script(src='/datatables/media/js/dataTables.bootstrap.min.js')
+  // PNotify
+  script(src='/pnotify/pnotify.core.js')
+  // domains UI
+  //script(src='/javascripts/ui_servers.js')
+
+  | <script type="text/javascript">
+  | $(document).ready(function() {
+  |  $('#servers-table').dataTable();
+  |  $(document).on("click", ".add-server", function () {
+  |      $('#mod-edit-operation').html("Add server");
+  |      $('#mod-edit-url').val("");
+  |      $('#mod-edit-api-key').val("");
+  |      $('#mod-edit-submit').html("Add");
+  |      $('#mod-edit-submit').attr("href", "/servers/add");
+  |      $('#add-domain-modal').modal('show');
+  |  });
+  |  $(document).on("click", ".edit-server", function () {
+  |      var ServerId = $(this).data('id');
+  |      var ServerURL = $(this).data('url');
+  |      var ServerName = $(this).data('name');
+  |      var ServerAPIKey = $(this).data('apikey');
+  |      $('#mod-edit-operation').html("Edit "+ServerName);
+  |      $('#mod-edit-url').val(ServerURL);
+  |      $('#mod-edit-api-key').val(ServerAPIKey);
+  |      $('#mod-edit-submit').html("Update");
+  |      $('#mod-edit-submit').attr("href", "/servers/"+ServerId+"/update");
+  |      $('#form-add-server').attr("action", "/servers/"+ServerId+"/update");
+  |      $('#add-domain-modal').modal('show');
+  |  });
+  |  $(document).on("click", ".del-server", function () {
+  |      var ServerId = $(this).data('id');
+  |      var ServerName = $(this).data('name');
+  |      $('#mod-delete-operation').html("Delete "+ServerName);
+  |      $('#mod-delete-text-name').html(ServerName);
+  |      $('#mod-delete-submit').html("Delete");
+  |      $('#mod-delete-submit').attr("href", "/servers/"+ServerId+"/del");
+  |      $('#del-server-modal').modal('show');
+  |  });
+  | });
+  | </script>
+
