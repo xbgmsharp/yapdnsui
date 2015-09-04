@@ -19,6 +19,10 @@ block content
               span.caret
             ul.dropdown-menu(role="menu")
                 li
+                  a(href='/servers/#{serverselected.id}/domains/del/#{data.id}', rel="tooltip", title="Delete zone")
+                   span.glyphicon.glyphicon-trash
+                   | &nbsp; Delete
+                li
                   a(href='#', rel="tooltip", title="Send a DNS NOTIFY to all slaves")
                    span.glyphicon.glyphicon-retweet
                    | &nbsp; Notify
@@ -122,8 +126,7 @@ block content
                   td= item.ttl
                   td= item.disabled
                   td.records-value-action
-                   div.btn-toolbar
-                     div.btn-group.navbar-right
+                     .btn-group
                        -if (item.type == "A" || item.type == "AAAA")
                           button.btn.btn-default.btn-xs.2ptr-record.disabled(id="2ptr-record", href="#", rel="tooltip", title="Create PTR record from this")
                             span.glyphicon.glyphicon-retweet
