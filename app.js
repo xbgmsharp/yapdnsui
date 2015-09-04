@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var about = require('./routes/about');
 var pdns = require('./routes/pdns');
+var servers = require('./routes/servers');
 
 // Load our DB library
 var database = require('./libs/db');
@@ -47,7 +48,11 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 // Route the page
 app.use('/', index);
 app.use('/about', about);
-app.use('/servers', pdns);
+app.use('/servers', servers);
+app.use('/', pdns.config);
+app.use('/', pdns.domains);
+app.use('/', pdns.records);
+app.use('/', pdns.stats);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
