@@ -51,7 +51,7 @@ $(document).ready(function () {
        });
     });
 
-    // Init bootstrap form validatoin plugin
+    // Init bootstrap form validation plugin
     $('#form-add-domain')
       .formValidation({
          framework: 'bootstrap',
@@ -101,16 +101,12 @@ $(document).ready(function () {
       $('#form-add-domain').formValidation('resetForm', true);
       // So let's do it manually, foreach input group
       $('.form-group').each(function(i, obj) {
-         $(this).removeClass('has-error');
-         $(this).removeClass('has-error');
-         $(this).removeClass('has-success');
+         $(this).removeClass('has-error has-success');
       });
       // foreach icon result
       $('.form-control-feedback').each(function(i, obj) {
          $(this).css("display" ,"none");
-         $(this).removeClass('glyphicon');
-         $(this).removeClass('glyphicon-remove');
-         $(this).removeClass('glyphicon-ok');
+         $(this).removeClass('glyphicon glyphicon-remove glyphicon-ok');
       });
     });
 
